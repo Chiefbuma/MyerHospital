@@ -6,38 +6,35 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     $db = new db_class();
 
-    // Check if call_id, call_results, and call_date are set
-    if (isset($_POST['call_id'], $_POST['call_results'], $_POST['call_date'])) {
+    // Check if Call_results_id and Call_result are set
+    if (isset($_POST['Call_results_id'], $_POST['Call_result'])) {
         // Get values from the POST request
-        $callId = $_POST['call_id'];
-        $callResults = $_POST['call_results'];
-        $callDate = $_POST['call_date'];
-
-        // Format the date to YYYY-MM-DD
-        $date = new DateTime($callDate);
-        $formattedDate = $date->format('Y-m-d'); // Format to YYYY-MM-DD for database consistency
+        $Call_results_id = $_POST['Call_results_id'];
+        $Call_result = $_POST['Call_result'];
 
         // Use prepared statements to prevent SQL injection
-        $sql = "UPDATE calls SET call_results = ?, call_date = ? WHERE call_id = ?";
+        $sql = "UPDATE call_results SET Call_result = ? WHERE Call_results_id = ?";
 
         // Prepare the statement
-        $stmt = $db->conn->prepare($sql);
+        if ($stmt = $db->conn->prepare($sql)) {
+            // Bind parameters: "si" means string (for Call_result) and integer (for Call_results_id)
+            $stmt->bind_param("si", $Call_result, $Call_results_id);
 
-        // Bind parameters: "si" means string (for call_results and call_date), integer (for call_id)
-        $stmt->bind_param("ssi", $callResults, $formattedDate, $callId);
+            // Execute the statement and check for success
+            if ($stmt->execute()) {
+                // Display success message and redirect
+                echo "<script>alert('Call result updated successfully.');</script>";
+                echo "<script>window.location='addcallresults.php';</script>"; // Redirect to the call results page (adjust the filename as needed)
+            } else {
+                // Display an error if the query failed
+                echo "Error: " . $stmt->error;
+            }
 
-        // Execute the statement and check for success
-        if ($stmt->execute()) {
-            // Display success message and redirect
-            echo "<script>alert('Call updated successfully.');</script>";
-            echo "<script>window.location='addcalls.php';</script>"; // Redirect to the calls list page (adjust the filename as needed)
+            // Close the prepared statement
+            $stmt->close();
         } else {
-            // Display an error if the query failed
-            echo "Error: " . $stmt->error;
+            echo "Error preparing the SQL query.";
         }
-
-        // Close the prepared statement
-        $stmt->close();
     } else {
         echo "Error: Missing required fields.";
     }

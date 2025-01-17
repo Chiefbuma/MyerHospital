@@ -8,17 +8,19 @@ if (isset($_GET['id'])) {
 	// Create a new instance of the db_class
 	$db = new db_class();
 
-	$userId = $_GET['id'];  // Get the user ID from the URL parameter
+	$callResultsId = $_GET['id'];  // Get the Call_results_id from the URL parameter
 
 	// Use prepared statements to prevent SQL injection
-	$sql = "DELETE FROM calls WHERE call_id = ?";  // Adjust the table name if needed
+	$sql = "DELETE FROM call_results WHERE Call_results_id = ?";  // Adjusted to the correct table name
 	$stmt = $db->conn->prepare($sql);
-	$stmt->bind_param("i", $userId);  // Bind the user ID as an integer
+
+	// Bind the Call_results_id as an integer
+	$stmt->bind_param("i", $callResultsId);
 
 	if ($stmt->execute()) {
 		// Redirect or display a success message
-		echo "<script>alert('User successfully deleted.');</script>";
-		echo "<script>window.location='addcalls.php';</script>";  // Redirect to the users management page
+		echo "<script>alert('Call result successfully deleted.');</script>";
+		echo "<script>window.location='addcallresults.php';</script>";  // Redirect to the call results management page
 	} else {
 		// Display an error if the query failed
 		echo "Error: " . $stmt->error;
@@ -27,7 +29,7 @@ if (isset($_GET['id'])) {
 	// Close the prepared statement
 	$stmt->close();
 } else {
-	echo "Error: User ID not provided.";
+	echo "Error: Call result ID not provided.";
 }
 
 // Close the database connection

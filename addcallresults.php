@@ -531,11 +531,11 @@ $db = new db_class();
                                                 <div class="modal-body">
                                                     <div class="rounded-container">
                                                         <input type="hidden" name="Call_results_id" value="<?php echo $scheme['Call_results_id']; ?>">
-                                                        <h5>Edit Scheme Details</h5>
+                                                        <h5>Edit Call results</h5>
                                                         <div class="row">
                                                             <div class="col-md-6">
                                                                 <div class="form-group d-flex">
-                                                                    <label for="call_result<?php echo $scheme['Call_results_id']; ?>">Scheme Name</label>
+                                                                    <label for="call_result<?php echo $scheme['Call_results_id']; ?>">Call results</label>
                                                                     <input type="text" class="form-control" id="Call_result<?php echo $scheme['Call_results_id']; ?>" name="Call_result" value="<?php echo htmlspecialchars($scheme['Call_result']); ?>" required>
                                                                 </div>
                                                             </div>
@@ -559,11 +559,11 @@ $db = new db_class();
                                     <div class="modal-dialog">
                                         <div class="modal-content">
                                             <div class="modal-header">
-                                                <h5 class="modal-title">Delete Scheme</h5>
+                                                <h5 class="modal-title">Delete Call results</h5>
                                                 <button type="button" class="close" data-dismiss="modal">&times;</button>
                                             </div>
                                             <div class="modal-body">
-                                                <p>Are you sure you want to delete this scheme?</p>
+                                                <p>Are you sure you want to delete this call results?</p>
                                             </div>
                                             <div class="modal-footer">
                                                 <a href="deletecallresults.php?id=<?php echo $scheme['Call_results_id']; ?>" class="btn btn-danger" style="background-color: red; color: white;">Delete</a>
@@ -586,11 +586,11 @@ $db = new db_class();
                                     <div class="modal-body">
                                         <div class="rounded-container">
                                             <input type="hidden" name="Call_results_id" value="<?php echo $scheme['Call_results_id']; ?>">
-                                            <h5>Edit Scheme Details</h5>
+                                            <h5>New Call results</h5>
                                             <div class="row">
                                                 <div class="col-md-6">
                                                     <div class="form-group d-flex">
-                                                        <label for="Call_result<?php echo $scheme['Call_results_id']; ?>">Scheme Name</label>
+                                                        <label for="Call_result<?php echo $scheme['Call_results_id']; ?>">Call result</label>
                                                         <input type="text" class="form-control" id="Call_result<?php echo $scheme['Call_results_id']; ?>" name="Call_result" required>
                                                     </div>
                                                 </div>
@@ -598,7 +598,7 @@ $db = new db_class();
 
                                                 <div class="modal-footer">
                                                     <div class="col-12 text-center">
-                                                        <input type="submit" name="update" class="btn btn-info btn-large" value="Submit" style="background-color: black; color: white;">
+                                                        <input type="submit" name="submit" class="btn btn-info btn-large" value="Submit" style="background-color: black; color: white;">
                                                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
                                                     </div>
                                                 </div>
@@ -609,33 +609,7 @@ $db = new db_class();
                         </div>
                     </div>
 
-                    <!-- New Scheme Modal -->
-                    <div class="modal fade" id="newSchemeModal" tabindex="-1" aria-hidden="true">
-                        <div class="modal-dialog">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <h5 class="modal-title">Add New Scheme</h5>
-                                    <button type="button" class="close" data-dismiss="modal">&times;</button>
-                                </div>
-                                <form action="newscheme.php" method="POST">
-                                    <div class="modal-body">
-                                        <div class="form-group">
-                                            <label for="new_scheme_name">Scheme Name</label>
-                                            <input type="text" class="form-control" id="new_scheme_name" name="scheme_name" required>
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="new_payment_method">Payment Method</label>
-                                            <input type="text" class="form-control" id="new_payment_method" name="payment_method" required>
-                                        </div>
-                                    </div>
-                                    <div class="modal-footer">
-                                        <button type="submit" class="btn btn-info" style="background-color: black; color: white;">Submit</button>
-                                        <button type="button" class="btn btn-default" data-dismiss="modal" style="background-color: grey; color: white;">Close</button>
-                                    </div>
-                                </form>
-                            </div>
-                        </div>
-                    </div>
+
                     <script>
                         $(document).ready(function() {
                             $('#schemeTable').DataTable({
