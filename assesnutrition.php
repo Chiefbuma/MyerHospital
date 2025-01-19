@@ -1004,7 +1004,7 @@ if ($branch_result && $branch_row = $branch_result->fetch_assoc()) {
                                                                         </div>
                                                                         <div class="form-group d-flex">
                                                                             <label class="w-50">Weight</label>
-                                                                            <input type="text" class="form-control w-50" name="weight" required>
+                                                                            <input type="number" class="form-control w-50" name="weight" min="1" max="100" required>
                                                                         </div>
                                                                         <div class="form-group d-flex">
                                                                             <label class="w-50">BMI</label>
