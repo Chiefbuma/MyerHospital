@@ -1115,12 +1115,15 @@ if ($branch_result && $branch_row = $branch_result->fetch_assoc()) {
 
 
                                                                     <!-- Other Dropdowns -->
+
                                                                     <?php
                                                                     $dropdownFields = [
-                                                                        ['id' => 'exercise', 'label' => 'Exercise', 'options' => ['regular' => 'Regular', 'irregular' => 'Irregular']],
-                                                                        ['id' => 'clinical_goals', 'label' => 'Clinical Goals', 'options' => ['active' => 'Active', 'mildly_active' => 'Mildly Active', 'inactive' => 'Inactive']],
+                                                                        ['id' => 'exercise', 'label' => 'Exercise', 'options' => ['active' => 'Active', 'mildly active' => 'Mildly active', 'inactive' => 'Inactive']],
+                                                                        ['id' => 'clinical_goals', 'label' => 'Clinical Goals', 'options' => ['on track' => 'On track', 'defaulted' => 'Defaulted', 'achieved' => 'Achieved']],
                                                                         ['id' => 'vitals_monitoring', 'label' => 'Vitals Monitoring', 'options' => ['stable' => 'Stable', 'uncontrolled' => 'Uncontrolled']],
-                                                                        ['id' => 'vital_signs_monitor', 'label' => 'Vital Signs Monitor', 'options' => ['monitored' => 'Monitored', 'not_monitored' => 'Not Monitored']],
+                                                                        ['id' => 'vital_signs_monitor', 'label' => 'Vital monitor Equipment', 'options' => ['available' => 'Available', 'not available' => 'Not available']],
+
+
                                                                     ];
                                                                     foreach ($dropdownFields as $field) {
                                                                         echo '<div class="col-6 form-group d-flex">
