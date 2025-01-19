@@ -856,6 +856,220 @@ if ($branch_result && $branch_row = $branch_result->fetch_assoc()) {
                 });
             </script>
             </div>
+            <!-- View Psychosocial Modal -->
+            <div class="modal fade" id="viewPsychosocialModal" tabindex="-1" role="dialog" aria-labelledby="viewPsychosocialModalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-xl" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="PsychosocialModal">View Psychosocial Report</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <div class="container">
+                                <!-- Date Filter Form -->
+                                <div class="container">
+                                    <div style="display: flex; justify-content: space-between; align-items: flex-start; gap: 20px;">
+                                        <form id="psychosocialDateFilterForm" class="form-inline" method="GET">
+                                            <label for="psychosocial_from_date" class="mr-2">From:</label>
+                                            <input type="date" name="psychosocial_from_date" id="psychosocial_from_date" class="form-control mr-2"
+                                                value="<?= isset($_GET['psychosocial_from_date']) ? $_GET['psychosocial_from_date'] : '' ?>">
+
+                                            <label for="psychosocial_to_date" class="mr-2">To:</label>
+                                            <input type="date" name="psychosocial_to_date" id="psychosocial_to_date" class="form-control mr-2"
+                                                value="<?= isset($_GET['psychosocial_to_date']) ? $_GET['psychosocial_to_date'] : '' ?>">
+                                        </form>
+
+                                        <div style="display: flex; flex-direction: column; gap: 10px;">
+                                            <a id="downloadPsychosocial" href="downloadPsychosocial.php" style="text-decoration: underline; color: blue; display: inline-flex; align-items: center;">
+                                                <i class="fa fa-download" style="margin-right: 5px;"></i> Daily Psychosocial
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <script>
+                                    $(document).ready(function() {
+                                        function updateDownloadLink() {
+                                            const fromDate = $('#psychosocial_from_date').val();
+                                            const toDate = $('#psychosocial_to_date').val();
+                                            const baseUrl = "downloadPsychosocial.php";
+                                            const url = `${baseUrl}?from=${fromDate}&to=${toDate}`;
+                                            $('#downloadPsychosocial').attr('href', url);
+                                        }
+
+                                        // Update the link on form input change
+                                        $('#psychosocial_from_date, #psychosocial_to_date').on('change', function() {
+                                            updateDownloadLink();
+                                        });
+
+                                        // Initialize the link on page load
+                                        updateDownloadLink();
+                                    });
+                                </script>
+
+                                <!-- Report Table -->
+                                <table class="table table-bordered table-striped table-hover" id="psychosocialSummaryTable">
+                                    <thead>
+                                        <tr>
+                                            <th>Visit Date</th>
+                                            <th>Patient Name</th>
+                                            <th>Patient No</th>
+                                            <th>Patient Status</th>
+                                            <th>Branch</th>
+                                            <th>Cohort</th>
+                                            <th>Revenue</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <!-- Placeholder for dynamic data -->
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <script>
+                    $(document).ready(function() {
+                        // Handle date filter changes
+                        $('#psychosocial_from_date, #psychosocial_to_date').on('change', function() {
+                            // Serialize form data
+                            const formData = $('#psychosocialDateFilterForm').serialize();
+
+                            // Send AJAX request
+                            $.ajax({
+                                url: 'fetchPsychosocial.php', // Replace with your PHP script URL to fetch filtered data
+                                type: 'GET',
+                                data: formData,
+                                success: function(response) {
+                                    // Replace the table body with the new data
+                                    $('#psychosocialSummaryTable tbody').html(response);
+
+                                    // Keep the modal open
+                                    $('#viewPsychosocialModal').modal('show');
+                                },
+                                error: function() {
+                                    alert('Error fetching filtered data. Please try again.');
+                                }
+                            });
+                        });
+
+                        // Ensure the modal remains open when triggered
+                        $('#viewPsychosocialModal').on('shown.bs.modal', function() {
+                            $(this).find('.modal-body').scrollTop(0); // Optional: Scroll to top
+                        });
+                    });
+                </script>
+            </div>
+            <!-- View Medication Modal -->
+            <div class="modal fade" id="viewMedicationModal" tabindex="-1" role="dialog" aria-labelledby="viewMedicationModalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-xl" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="MedicationModal">View Medication Report</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <div class="container">
+                                <!-- Date Filter Form -->
+                                <div class="container">
+                                    <div style="display: flex; justify-content: space-between; align-items: flex-start; gap: 20px;">
+                                        <form id="medicationDateFilterForm" class="form-inline" method="GET">
+                                            <label for="medication_from_date" class="mr-2">From:</label>
+                                            <input type="date" name="medication_from_date" id="medication_from_date" class="form-control mr-2"
+                                                value="<?= isset($_GET['medication_from_date']) ? $_GET['medication_from_date'] : '' ?>">
+
+                                            <label for="medication_to_date" class="mr-2">To:</label>
+                                            <input type="date" name="medication_to_date" id="medication_to_date" class="form-control mr-2"
+                                                value="<?= isset($_GET['medication_to_date']) ? $_GET['medication_to_date'] : '' ?>">
+                                        </form>
+
+                                        <div style="display: flex; flex-direction: column; gap: 10px;">
+                                            <a id="downloadMedication" href="downloadMedication.php" style="text-decoration: underline; color: blue; display: inline-flex; align-items: center;">
+                                                <i class="fa fa-download" style="margin-right: 5px;"></i> Daily Medication Report
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <script>
+                                    $(document).ready(function() {
+                                        function updateDownloadLink() {
+                                            const fromDate = $('#medication_from_date').val();
+                                            const toDate = $('#medication_to_date').val();
+                                            const baseUrl = "downloadMedication.php";
+                                            const url = `${baseUrl}?from=${fromDate}&to=${toDate}`;
+                                            $('#downloadMedication').attr('href', url);
+                                        }
+
+                                        // Update the link on form input change
+                                        $('#medication_from_date, #medication_to_date').on('change', function() {
+                                            updateDownloadLink();
+                                        });
+
+                                        // Initialize the link on page load
+                                        updateDownloadLink();
+                                    });
+                                </script>
+
+                                <!-- Report Table -->
+                                <table class="table table-bordered table-striped table-hover" id="medicationSummaryTable">
+                                    <thead>
+                                        <tr>
+                                            <th>Visit Date</th>
+                                            <th>Patient Name</th>
+                                            <th>Patient No</th>
+                                            <th>Medication Name</th>
+                                            <th>Cohort</th>
+                                            <th>No.of pills</th>
+                                            <th>Revenue</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <!-- Placeholder for dynamic data -->
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <script>
+                    $(document).ready(function() {
+                        // Handle date filter changes
+                        $('#medication_from_date, #medication_to_date').on('change', function() {
+                            // Serialize form data
+                            const formData = $('#medicationDateFilterForm').serialize();
+
+                            // Send AJAX request
+                            $.ajax({
+                                url: 'fetchMedication.php', // Replace with your PHP script URL to fetch filtered data
+                                type: 'GET',
+                                data: formData,
+                                success: function(response) {
+                                    // Replace the table body with the new data
+                                    $('#medicationSummaryTable tbody').html(response);
+
+                                    // Keep the modal open
+                                    $('#viewMedicationModal').modal('show');
+                                },
+                                error: function() {
+                                    alert('Error fetching filtered data. Please try again.');
+                                }
+                            });
+                        });
+
+                        // Ensure the modal remains open when triggered
+                        $('#viewMedicationModal').on('shown.bs.modal', function() {
+                            $(this).find('.modal-body').scrollTop(0); // Optional: Scroll to top
+                        });
+                    });
+                </script>
+            </div>
 
 
             <div class="table-data" style="width: 100%;">
