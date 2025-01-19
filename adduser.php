@@ -6,6 +6,42 @@ session_start();
 require_once 'class.php';
 
 $db = new db_class();
+
+
+
+// Get the logged-in user's ID
+$user_id = $_SESSION['user_id'];
+
+// Fetch the role and cohort
+$query = "SELECT branch_id,email, role,cohort_id FROM users WHERE id = '$user_id'";
+
+
+$result = $db->conn->query($query);
+
+if ($result && $row = mysqli_fetch_assoc($result)) {
+    $user_location = $row['branch_id'];
+    $user_role = $row['role'];
+    $user_cohort = $row['cohort_id'];
+    $user_email = $row['email'];
+} else {
+    echo "Error fetching location_id: " . mysqli_error($con);
+    exit;
+}
+
+// Query to fetch branch name based on branch_id
+$branch_query = "SELECT branch_name FROM branch WHERE branch_id = ?";
+$stmt = $db->conn->prepare($branch_query);
+$stmt->bind_param("i", $user_location);
+$stmt->execute();
+$branch_result = $stmt->get_result();
+
+if ($branch_result && $branch_row = $branch_result->fetch_assoc()) {
+    $branch_name = $branch_row['branch_name'];
+} else {
+    $branch_name = "No branch"; // Default if no branch found
+}
+
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -60,15 +96,13 @@ $db = new db_class();
 <!-- Include DataTables CSS -->
 <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css">
 
-<!-- Include DataTables JS -->
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
-<!-- Include jQuery (required for DataTables) -->
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-
-<!-- Include DataTables JS -->
-<script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
-
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Monthly Reports</title>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/1.11.5/js/dataTables.bootstrap4.min.js"></script>
 
 
 <!-- My CSS -->
@@ -235,7 +269,7 @@ $db = new db_class();
 
         <a href="#" class="brand">
             <i class='bx bxs-smile'></i>
-            <span class="text">Menu</span>
+
         </a>
 
         <li class="has-submenu">
@@ -304,114 +338,116 @@ $db = new db_class();
                 </li>
             </ul>
         </li>
-        <li class="has-submenu">
-            <a href="#" class="submenu-toggle">
-                <i class='bx bxs-dashboard'></i>
+        <?php if ($user_role == 'admin'): ?>
+            <li class="has-submenu">
+                <a href="#" class="submenu-toggle">
+                    <i class='bx bxs-dashboard'></i>
 
 
-                <span class="text">Settings</span>
-                <i class='bx bx-chevron-down dropdown-icon'></i>
-            </a>
-            <ul class="submenu">
-                <li>
-                    <a href="addbranch.php">
-                        <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e8eaed">
-                            <path d="m221-313 142-142q12-12 28-11.5t28 12.5q11 12 11 28t-11 28L250-228q-12 12-28 12t-28-12l-86-86q-11-11-11-28t11-28q11-11 28-11t28 11l57 57Zm0-320 142-142q12-12 28-11.5t28 12.5q11 12 11 28t-11 28L250-548q-12 12-28 12t-28-12l-86-86q-11-11-11-28t11-28q11-11 28-11t28 11l57 57Zm339 353q-17 0-28.5-11.5T520-320q0-17 11.5-28.5T560-360h280q17 0 28.5 11.5T880-320q0 17-11.5 28.5T840-280H560Zm0-320q-17 0-28.5-11.5T520-640q0-17 11.5-28.5T560-680h280q17 0 28.5 11.5T880-640q0 17-11.5 28.5T840-600H560Z" />
-                        </svg>
+                    <span class="text">Settings</span>
+                    <i class='bx bx-chevron-down dropdown-icon'></i>
+                </a>
+                <ul class="submenu">
+                    <li>
+                        <a href="addbranch.php">
+                            <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e8eaed">
+                                <path d="m221-313 142-142q12-12 28-11.5t28 12.5q11 12 11 28t-11 28L250-228q-12 12-28 12t-28-12l-86-86q-11-11-11-28t11-28q11-11 28-11t28 11l57 57Zm0-320 142-142q12-12 28-11.5t28 12.5q11 12 11 28t-11 28L250-548q-12 12-28 12t-28-12l-86-86q-11-11-11-28t11-28q11-11 28-11t28 11l57 57Zm339 353q-17 0-28.5-11.5T520-320q0-17 11.5-28.5T560-360h280q17 0 28.5 11.5T880-320q0 17-11.5 28.5T840-280H560Zm0-320q-17 0-28.5-11.5T520-640q0-17 11.5-28.5T560-680h280q17 0 28.5 11.5T880-640q0 17-11.5 28.5T840-600H560Z" />
+                            </svg>
 
-                        <span class="text">Branch</span>
-                    </a>
-                </li>
-                <li>
-                    <a href="addscheme.php">
-                        <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e8eaed">
-                            <path d="m221-313 142-142q12-12 28-11.5t28 12.5q11 12 11 28t-11 28L250-228q-12 12-28 12t-28-12l-86-86q-11-11-11-28t11-28q11-11 28-11t28 11l57 57Zm0-320 142-142q12-12 28-11.5t28 12.5q11 12 11 28t-11 28L250-548q-12 12-28 12t-28-12l-86-86q-11-11-11-28t11-28q11-11 28-11t28 11l57 57Zm339 353q-17 0-28.5-11.5T520-320q0-17 11.5-28.5T560-360h280q17 0 28.5 11.5T880-320q0 17-11.5 28.5T840-280H560Zm0-320q-17 0-28.5-11.5T520-640q0-17 11.5-28.5T560-680h280q17 0 28.5 11.5T880-640q0 17-11.5 28.5T840-600H560Z" />
-                        </svg>
+                            <span class="text">Branch</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="addscheme.php">
+                            <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e8eaed">
+                                <path d="m221-313 142-142q12-12 28-11.5t28 12.5q11 12 11 28t-11 28L250-228q-12 12-28 12t-28-12l-86-86q-11-11-11-28t11-28q11-11 28-11t28 11l57 57Zm0-320 142-142q12-12 28-11.5t28 12.5q11 12 11 28t-11 28L250-548q-12 12-28 12t-28-12l-86-86q-11-11-11-28t11-28q11-11 28-11t28 11l57 57Zm339 353q-17 0-28.5-11.5T520-320q0-17 11.5-28.5T560-360h280q17 0 28.5 11.5T880-320q0 17-11.5 28.5T840-280H560Zm0-320q-17 0-28.5-11.5T520-640q0-17 11.5-28.5T560-680h280q17 0 28.5 11.5T880-640q0 17-11.5 28.5T840-600H560Z" />
+                            </svg>
 
-                        <span class="text">schemes</span>
-                    </a>
-                </li>
-                <li>
-                    <a href="addroutes.php">
-                        <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e8eaed">
-                            <path d="m221-313 142-142q12-12 28-11.5t28 12.5q11 12 11 28t-11 28L250-228q-12 12-28 12t-28-12l-86-86q-11-11-11-28t11-28q11-11 28-11t28 11l57 57Zm0-320 142-142q12-12 28-11.5t28 12.5q11 12 11 28t-11 28L250-548q-12 12-28 12t-28-12l-86-86q-11-11-11-28t11-28q11-11 28-11t28 11l57 57Zm339 353q-17 0-28.5-11.5T520-320q0-17 11.5-28.5T560-360h280q17 0 28.5 11.5T880-320q0 17-11.5 28.5T840-280H560Zm0-320q-17 0-28.5-11.5T520-640q0-17 11.5-28.5T560-680h280q17 0 28.5 11.5T880-640q0 17-11.5 28.5T840-600H560Z" />
-                        </svg>
+                            <span class="text">schemes</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="addroutes.php">
+                            <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e8eaed">
+                                <path d="m221-313 142-142q12-12 28-11.5t28 12.5q11 12 11 28t-11 28L250-228q-12 12-28 12t-28-12l-86-86q-11-11-11-28t11-28q11-11 28-11t28 11l57 57Zm0-320 142-142q12-12 28-11.5t28 12.5q11 12 11 28t-11 28L250-548q-12 12-28 12t-28-12l-86-86q-11-11-11-28t11-28q11-11 28-11t28 11l57 57Zm339 353q-17 0-28.5-11.5T520-320q0-17 11.5-28.5T560-360h280q17 0 28.5 11.5T880-320q0 17-11.5 28.5T840-280H560Zm0-320q-17 0-28.5-11.5T520-640q0-17 11.5-28.5T560-680h280q17 0 28.5 11.5T880-640q0 17-11.5 28.5T840-600H560Z" />
+                            </svg>
 
-                        <span class="text">routes</span>
-                    </a>
-                </li>
-                <li>
-                    <a href="addmedication.php">
-                        <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e8eaed">
-                            <path d="m221-313 142-142q12-12 28-11.5t28 12.5q11 12 11 28t-11 28L250-228q-12 12-28 12t-28-12l-86-86q-11-11-11-28t11-28q11-11 28-11t28 11l57 57Zm0-320 142-142q12-12 28-11.5t28 12.5q11 12 11 28t-11 28L250-548q-12 12-28 12t-28-12l-86-86q-11-11-11-28t11-28q11-11 28-11t28 11l57 57Zm339 353q-17 0-28.5-11.5T520-320q0-17 11.5-28.5T560-360h280q17 0 28.5 11.5T880-320q0 17-11.5 28.5T840-280H560Zm0-320q-17 0-28.5-11.5T520-640q0-17 11.5-28.5T560-680h280q17 0 28.5 11.5T880-640q0 17-11.5 28.5T840-600H560Z" />
-                        </svg>
+                            <span class="text">routes</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="addmedication.php">
+                            <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e8eaed">
+                                <path d="m221-313 142-142q12-12 28-11.5t28 12.5q11 12 11 28t-11 28L250-228q-12 12-28 12t-28-12l-86-86q-11-11-11-28t11-28q11-11 28-11t28 11l57 57Zm0-320 142-142q12-12 28-11.5t28 12.5q11 12 11 28t-11 28L250-548q-12 12-28 12t-28-12l-86-86q-11-11-11-28t11-28q11-11 28-11t28 11l57 57Zm339 353q-17 0-28.5-11.5T520-320q0-17 11.5-28.5T560-360h280q17 0 28.5 11.5T880-320q0 17-11.5 28.5T840-280H560Zm0-320q-17 0-28.5-11.5T520-640q0-17 11.5-28.5T560-680h280q17 0 28.5 11.5T880-640q0 17-11.5 28.5T840-600H560Z" />
+                            </svg>
 
-                        <span class="text">Medications</span>
-                    </a>
-                </li>
-                <li>
-                    <a href="addspecialist.php">
-                        <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e8eaed">
-                            <path d="m221-313 142-142q12-12 28-11.5t28 12.5q11 12 11 28t-11 28L250-228q-12 12-28 12t-28-12l-86-86q-11-11-11-28t11-28q11-11 28-11t28 11l57 57Zm0-320 142-142q12-12 28-11.5t28 12.5q11 12 11 28t-11 28L250-548q-12 12-28 12t-28-12l-86-86q-11-11-11-28t11-28q11-11 28-11t28 11l57 57Zm339 353q-17 0-28.5-11.5T520-320q0-17 11.5-28.5T560-360h280q17 0 28.5 11.5T880-320q0 17-11.5 28.5T840-280H560Zm0-320q-17 0-28.5-11.5T520-640q0-17 11.5-28.5T560-680h280q17 0 28.5 11.5T880-640q0 17-11.5 28.5T840-600H560Z" />
-                        </svg>
+                            <span class="text">Medications</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="addspecialist.php">
+                            <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e8eaed">
+                                <path d="m221-313 142-142q12-12 28-11.5t28 12.5q11 12 11 28t-11 28L250-228q-12 12-28 12t-28-12l-86-86q-11-11-11-28t11-28q11-11 28-11t28 11l57 57Zm0-320 142-142q12-12 28-11.5t28 12.5q11 12 11 28t-11 28L250-548q-12 12-28 12t-28-12l-86-86q-11-11-11-28t11-28q11-11 28-11t28 11l57 57Zm339 353q-17 0-28.5-11.5T520-320q0-17 11.5-28.5T560-360h280q17 0 28.5 11.5T880-320q0 17-11.5 28.5T840-280H560Zm0-320q-17 0-28.5-11.5T520-640q0-17 11.5-28.5T560-680h280q17 0 28.5 11.5T880-640q0 17-11.5 28.5T840-600H560Z" />
+                            </svg>
 
-                        <span class="text">specialists</span>
-                    </a>
-                </li>
-                <li>
-                    <a href="addprocedure.php">
-                        <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e8eaed">
-                            <path d="m221-313 142-142q12-12 28-11.5t28 12.5q11 12 11 28t-11 28L250-228q-12 12-28 12t-28-12l-86-86q-11-11-11-28t11-28q11-11 28-11t28 11l57 57Zm0-320 142-142q12-12 28-11.5t28 12.5q11 12 11 28t-11 28L250-548q-12 12-28 12t-28-12l-86-86q-11-11-11-28t11-28q11-11 28-11t28 11l57 57Zm339 353q-17 0-28.5-11.5T520-320q0-17 11.5-28.5T560-360h280q17 0 28.5 11.5T880-320q0 17-11.5 28.5T840-280H560Zm0-320q-17 0-28.5-11.5T520-640q0-17 11.5-28.5T560-680h280q17 0 28.5 11.5T880-640q0 17-11.5 28.5T840-600H560Z" />
-                        </svg>
+                            <span class="text">specialists</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="addprocedure.php">
+                            <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e8eaed">
+                                <path d="m221-313 142-142q12-12 28-11.5t28 12.5q11 12 11 28t-11 28L250-228q-12 12-28 12t-28-12l-86-86q-11-11-11-28t11-28q11-11 28-11t28 11l57 57Zm0-320 142-142q12-12 28-11.5t28 12.5q11 12 11 28t-11 28L250-548q-12 12-28 12t-28-12l-86-86q-11-11-11-28t11-28q11-11 28-11t28 11l57 57Zm339 353q-17 0-28.5-11.5T520-320q0-17 11.5-28.5T560-360h280q17 0 28.5 11.5T880-320q0 17-11.5 28.5T840-280H560Zm0-320q-17 0-28.5-11.5T520-640q0-17 11.5-28.5T560-680h280q17 0 28.5 11.5T880-640q0 17-11.5 28.5T840-600H560Z" />
+                            </svg>
 
-                        <span class="text">procedures</span>
-                    </a>
-                </li>
-                <li>
-                    <a href="addcohort.php">
-                        <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e8eaed">
-                            <path d="m221-313 142-142q12-12 28-11.5t28 12.5q11 12 11 28t-11 28L250-228q-12 12-28 12t-28-12l-86-86q-11-11-11-28t11-28q11-11 28-11t28 11l57 57Zm0-320 142-142q12-12 28-11.5t28 12.5q11 12 11 28t-11 28L250-548q-12 12-28 12t-28-12l-86-86q-11-11-11-28t11-28q11-11 28-11t28 11l57 57Zm339 353q-17 0-28.5-11.5T520-320q0-17 11.5-28.5T560-360h280q17 0 28.5 11.5T880-320q0 17-11.5 28.5T840-280H560Zm0-320q-17 0-28.5-11.5T520-640q0-17 11.5-28.5T560-680h280q17 0 28.5 11.5T880-640q0 17-11.5 28.5T840-600H560Z" />
-                        </svg>
+                            <span class="text">procedures</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="addcohort.php">
+                            <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e8eaed">
+                                <path d="m221-313 142-142q12-12 28-11.5t28 12.5q11 12 11 28t-11 28L250-228q-12 12-28 12t-28-12l-86-86q-11-11-11-28t11-28q11-11 28-11t28 11l57 57Zm0-320 142-142q12-12 28-11.5t28 12.5q11 12 11 28t-11 28L250-548q-12 12-28 12t-28-12l-86-86q-11-11-11-28t11-28q11-11 28-11t28 11l57 57Zm339 353q-17 0-28.5-11.5T520-320q0-17 11.5-28.5T560-360h280q17 0 28.5 11.5T880-320q0 17-11.5 28.5T840-280H560Zm0-320q-17 0-28.5-11.5T520-640q0-17 11.5-28.5T560-680h280q17 0 28.5 11.5T880-640q0 17-11.5 28.5T840-600H560Z" />
+                            </svg>
 
-                        <span class="text">cohorts</span>
-                    </a>
-                </li>
-                <li>
-                    <a href="adduser.php">
-                        <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e8eaed">
-                            <path d="m221-313 142-142q12-12 28-11.5t28 12.5q11 12 11 28t-11 28L250-228q-12 12-28 12t-28-12l-86-86q-11-11-11-28t11-28q11-11 28-11t28 11l57 57Zm0-320 142-142q12-12 28-11.5t28 12.5q11 12 11 28t-11 28L250-548q-12 12-28 12t-28-12l-86-86q-11-11-11-28t11-28q11-11 28-11t28 11l57 57Zm339 353q-17 0-28.5-11.5T520-320q0-17 11.5-28.5T560-360h280q17 0 28.5 11.5T880-320q0 17-11.5 28.5T840-280H560Zm0-320q-17 0-28.5-11.5T520-640q0-17 11.5-28.5T560-680h280q17 0 28.5 11.5T880-640q0 17-11.5 28.5T840-600H560Z" />
-                        </svg>
+                            <span class="text">cohorts</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="adduser.php">
+                            <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e8eaed">
+                                <path d="m221-313 142-142q12-12 28-11.5t28 12.5q11 12 11 28t-11 28L250-228q-12 12-28 12t-28-12l-86-86q-11-11-11-28t11-28q11-11 28-11t28 11l57 57Zm0-320 142-142q12-12 28-11.5t28 12.5q11 12 11 28t-11 28L250-548q-12 12-28 12t-28-12l-86-86q-11-11-11-28t11-28q11-11 28-11t28 11l57 57Zm339 353q-17 0-28.5-11.5T520-320q0-17 11.5-28.5T560-360h280q17 0 28.5 11.5T880-320q0 17-11.5 28.5T840-280H560Zm0-320q-17 0-28.5-11.5T520-640q0-17 11.5-28.5T560-680h280q17 0 28.5 11.5T880-640q0 17-11.5 28.5T840-600H560Z" />
+                            </svg>
 
-                        <span class="text">users</span>
-                    </a>
-                </li>
-                <li>
-                    <a href="adddiagnosis.php"><svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e8eaed">
-                            <path d="m221-313 142-142q12-12 28-11.5t28 12.5q11 12 11 28t-11 28L250-228q-12 12-28 12t-28-12l-86-86q-11-11-11-28t11-28q11-11 28-11t28 11l57 57Zm0-320 142-142q12-12 28-11.5t28 12.5q11 12 11 28t-11 28L250-548q-12 12-28 12t-28-12l-86-86q-11-11-11-28t11-28q11-11 28-11t28 11l57 57Zm339 353q-17 0-28.5-11.5T520-320q0-17 11.5-28.5T560-360h280q17 0 28.5 11.5T880-320q0 17-11.5 28.5T840-280H560Zm0-320q-17 0-28.5-11.5T520-640q0-17 11.5-28.5T560-680h280q17 0 28.5 11.5T880-640q0 17-11.5 28.5T840-600H560Z" />
-                        </svg>
+                            <span class="text">users</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="adddiagnosis.php"><svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e8eaed">
+                                <path d="m221-313 142-142q12-12 28-11.5t28 12.5q11 12 11 28t-11 28L250-228q-12 12-28 12t-28-12l-86-86q-11-11-11-28t11-28q11-11 28-11t28 11l57 57Zm0-320 142-142q12-12 28-11.5t28 12.5q11 12 11 28t-11 28L250-548q-12 12-28 12t-28-12l-86-86q-11-11-11-28t11-28q11-11 28-11t28 11l57 57Zm339 353q-17 0-28.5-11.5T520-320q0-17 11.5-28.5T560-360h280q17 0 28.5 11.5T880-320q0 17-11.5 28.5T840-280H560Zm0-320q-17 0-28.5-11.5T520-640q0-17 11.5-28.5T560-680h280q17 0 28.5 11.5T880-640q0 17-11.5 28.5T840-600H560Z" />
+                            </svg>
 
-                        <span class="text">diagnosis</span>
-                    </a>
-                </li>
-                <li>
-                    <a href="addcallresults.php"><svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e8eaed">
-                            <path d="m221-313 142-142q12-12 28-11.5t28 12.5q11 12 11 28t-11 28L250-228q-12 12-28 12t-28-12l-86-86q-11-11-11-28t11-28q11-11 28-11t28 11l57 57Zm0-320 142-142q12-12 28-11.5t28 12.5q11 12 11 28t-11 28L250-548q-12 12-28 12t-28-12l-86-86q-11-11-11-28t11-28q11-11 28-11t28 11l57 57Zm339 353q-17 0-28.5-11.5T520-320q0-17 11.5-28.5T560-360h280q17 0 28.5 11.5T880-320q0 17-11.5 28.5T840-280H560Zm0-320q-17 0-28.5-11.5T520-640q0-17 11.5-28.5T560-680h280q17 0 28.5 11.5T880-640q0 17-11.5 28.5T840-600H560Z" />
-                        </svg>
+                            <span class="text">diagnosis</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="addcallresults.php"><svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e8eaed">
+                                <path d="m221-313 142-142q12-12 28-11.5t28 12.5q11 12 11 28t-11 28L250-228q-12 12-28 12t-28-12l-86-86q-11-11-11-28t11-28q11-11 28-11t28 11l57 57Zm0-320 142-142q12-12 28-11.5t28 12.5q11 12 11 28t-11 28L250-548q-12 12-28 12t-28-12l-86-86q-11-11-11-28t11-28q11-11 28-11t28 11l57 57Zm339 353q-17 0-28.5-11.5T520-320q0-17 11.5-28.5T560-360h280q17 0 28.5 11.5T880-320q0 17-11.5 28.5T840-280H560Zm0-320q-17 0-28.5-11.5T520-640q0-17 11.5-28.5T560-680h280q17 0 28.5 11.5T880-640q0 17-11.5 28.5T840-600H560Z" />
+                            </svg>
 
-                        <span class="text">Call Results</span>
-                    </a>
-                </li>
-            </ul>
-        <li class="has-submenu">
-            <a href="summary.php">
-                <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e8eaed">
-                    <path d="M480-480q-66 0-113-47t-47-113q0-66 47-113t113-47q66 0 113 47t47 113q0 66-47 113t-113 47ZM160-240v-32q0-34 17.5-62.5T224-378q62-31 126-46.5T480-440q66 0 130 15.5T736-378q29 15 46.5 43.5T800-272v32q0 33-23.5 56.5T720-160H240q-33 0-56.5-23.5T160-240Zm80 0h480v-32q0-11-5.5-20T700-306q-54-27-109-40.5T480-360q-56 0-111 13.5T260-306q-9 5-14.5 14t-5.5 20v32Zm240-320q33 0 56.5-23.5T560-640q0-33-23.5-56.5T480-720q-33 0-56.5 23.5T400-640q0 33 23.5 56.5T480-560Zm0-80Zm0 400Z" />
-                </svg>
-                <span class="text">Summary</span>
-            </a>
-        </li>
+                            <span class="text">Call Results</span>
+                        </a>
+                    </li>
+                </ul>
+            <?php endif; ?>
 
-        </li>
+            </li>
+            <li class="has-submenu">
+                <a href="summary.php">
+                    <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e8eaed">
+                        <path d="M480-480q-66 0-113-47t-47-113q0-66 47-113t113-47q66 0 113 47t47 113q0 66-47 113t-113 47ZM160-240v-32q0-34 17.5-62.5T224-378q62-31 126-46.5T480-440q66 0 130 15.5T736-378q29 15 46.5 43.5T800-272v32q0 33-23.5 56.5T720-160H240q-33 0-56.5-23.5T160-240Zm80 0h480v-32q0-11-5.5-20T700-306q-54-27-109-40.5T480-360q-56 0-111 13.5T260-306q-9 5-14.5 14t-5.5 20v32Zm240-320q33 0 56.5-23.5T560-640q0-33-23.5-56.5T480-720q-33 0-56.5 23.5T400-640q0 33 23.5 56.5T480-560Zm0-80Zm0 400Z" />
+                    </svg>
+                    <span class="text">Summary</span>
+                </a>
+            </li>
 
 
 
@@ -455,27 +491,72 @@ $db = new db_class();
     </script>
 
 
-
     <!-- CONTENT -->
     <section id="content">
         <!-- NAVBAR -->
         <nav>
-            <i class='bx bx-menu'></i>
-            <a href="#" class="nav-link">Categories</a>
+
+            <a href="#" class="nav-link">Branch</a>
+            <span class="text">
+                <?php echo htmlspecialchars($branch_name); ?>
+            </span>
             <form action="#">
                 <div class="form-input">
 
                 </div>
             </form>
-            <input type="checkbox" id="switch-mode" hidden>
-            <label for="switch-mode" class="switch-mode"></label>
+
             <a href="#" class="notification">
                 <i class='bx bxs-bell'></i>
-                <span class="num">8</span>
+
             </a>
             <a href="#" class="profile">
                 <img src="img/people.png">
+                <span class="text">
+                    <?php echo htmlspecialchars($user_email); ?>
+                </span>
             </a>
+            <div class="logout-container">
+
+                <label>Log Out</label>
+                <label for="switch-mode" class="switch-mode" onclick="logout()"></label>
+            </div>
+
+            <script>
+                function logout() {
+                    // Redirect to the logout page
+                    window.location.href = "login.php";
+                }
+            </script>
+
+            <style>
+                .logout-container {
+                    display: flex;
+                    /* Use flexbox for layout */
+                    align-items: center;
+                    /* Align items vertically */
+                    gap: 15px;
+                    /* Add space between widgets */
+
+                }
+
+                #switch-mode {
+                    display: inline-block;
+                    width: 20px;
+                    height: 20px;
+                    margin-right: 10px;
+                }
+
+                .switch-mode {
+                    cursor: pointer;
+                    font-size: 16px;
+                    color: #333;
+                }
+
+                .switch-mode:hover {
+                    text-decoration: underline;
+                }
+            </style>
         </nav>
         <!-- NAVBAR -->
 
@@ -526,6 +607,17 @@ $db = new db_class();
                                         </div>
                                     </td>
                                 </tr>
+                                <?php
+                                // Fetch user details using the function
+                                $userDetails = $db->user_details($user['id']);
+                                if ($userDetails) {
+                                    $selectedRole = htmlspecialchars($userDetails['role']);
+                                    $selectedCohort = $userDetails['cohort_id'];
+                                } else {
+                                    $selectedRole = '';
+                                    $selectedCohort = '';
+                                }
+                                ?>
 
                                 <!-- Modal for editing the patient details -->
                                 <div class="modal fade" id="editUserModal<?php echo $user['id']; ?>" tabindex="-1" aria-hidden="true">
@@ -535,6 +627,7 @@ $db = new db_class();
                                                 <form action="updateuser.php" method="POST">
                                                     <div class="modal-body">
                                                         <div class="form-group">
+
                                                             <label for="username<?php echo $user['id']; ?>">Username</label>
                                                             <input type="text" class="form-control" id="username<?php echo $user['id']; ?>" name="username" value="<?php echo htmlspecialchars($user['username']); ?>">
                                                             <input type="hidden" name="user_id" value="<?php echo $user['id']; ?>">
@@ -545,16 +638,21 @@ $db = new db_class();
                                                         </div>
                                                         <div class="form-group">
                                                             <label for="role<?php echo $user['id']; ?>">Role</label>
-                                                            <input type="text" class="form-control" id="role<?php echo $user['id']; ?>" name="role" value="<?php echo htmlspecialchars($user['role']); ?>">
+                                                            <select class="form-control" id="role<?php echo $user['id']; ?>" name="role">
+                                                                <option value="admin" <?php echo ($selectedRole === 'admin') ? 'selected' : ''; ?>>Admin</option>
+                                                                <option value="guest" <?php echo ($selectedRole === 'guest') ? 'selected' : ''; ?>>Guest</option>
+                                                                <option value="staff" <?php echo ($selectedRole === 'staff') ? 'selected' : ''; ?>>Staff</option>
+                                                            </select>
                                                         </div>
+
                                                         <div class="form-group">
                                                             <label for="cohort_id<?php echo $user['id']; ?>">Cohort</label>
                                                             <select class="form-control" id="cohort_id<?php echo $user['id']; ?>" name="cohort_id">
                                                                 <?php
                                                                 // Fetch cohorts from the cohort table
-                                                                $cohorts = $db->display_cohort();  // Assuming fetch_cohorts() fetches all cohorts
+                                                                $cohorts = $db->display_cohort();
                                                                 foreach ($cohorts as $cohort) {
-                                                                    $selected = $cohort['id'] == $user['cohort_id'] ? 'selected' : '';
+                                                                    $selected = $cohort['cohort_id'] == $selectedCohort ? 'selected' : '';
                                                                     echo "<option value='" . $cohort['cohort_id'] . "' $selected>" . htmlspecialchars($cohort['cohort_name']) . "</option>";
                                                                 }
                                                                 ?>
@@ -565,9 +663,9 @@ $db = new db_class();
                                                             <select class="form-control" id="branch_id<?php echo $user['id']; ?>" name="branch_id">
                                                                 <?php
                                                                 // Fetch branches from the branch table
-                                                                $branches = $db->display_branch();  // Assuming fetch_branches() fetches all branches
+                                                                $branches = $db->display_branch();
                                                                 foreach ($branches as $branch) {
-                                                                    $selected = $branch['id'] == $user['branch_id'] ? 'selected' : '';
+                                                                    $selected = $branch['branch_id'] == $user['branch_id'] ? 'selected' : '';
                                                                     echo "<option value='" . $branch['branch_id'] . "' $selected>" . htmlspecialchars($branch['branch_name']) . "</option>";
                                                                 }
                                                                 ?>
@@ -629,8 +727,13 @@ $db = new db_class();
                                             <input type="email" class="form-control" id="new_email" name="email" required>
                                         </div>
                                         <div class="form-group">
-                                            <label for="new_role">Role</label>
-                                            <input type="text" class="form-control" id="new_role" name="role" required>
+                                            <label for="role<?php echo $user['id']; ?>">Role</label>
+                                            <select class="form-control" id="role<?php echo $user['id']; ?>" name="role">
+                                                <option value=""></option>
+                                                <option value="admin" <?php echo ($user['role'] === 'admin') ? 'selected' : ''; ?>>Admin</option>
+                                                <option value="Staff" <?php echo ($user['role'] === 'staff') ? 'selected' : ''; ?>>Staff</option>
+                                                <option value="guest" <?php echo ($user['role'] === 'guest') ? 'selected' : ''; ?>>Guest</option>
+                                            </select>
                                         </div>
                                         <div class="form-group">
                                             <label for="new_cohort_id">Cohort</label>

@@ -321,7 +321,7 @@ debar ul {
   padding: 36px 24px;
   font-family: var(--poppins);
   max-height: calc(100vh - 56px);
-  overflow-y: auto;
+  overflow-y: hidden; /* Prevents scrolling */
 }
 #content main .head-title {
   display: flex;

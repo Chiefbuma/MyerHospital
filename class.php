@@ -158,6 +158,48 @@ class db_class extends db_connect
 			return false; // Or you can handle errors accordingly
 		}
 	}
+	/* Display User Function */
+	public function user_details($user_id)
+	{
+		// Prepare the SQL query to fetch role, branch_id, and cohort_id for the given user_id
+		$query = $this->conn->prepare("
+        SELECT 
+            users.role, 
+            users.branch_id, 
+            users.cohort_id,
+            branch.branch_name, 
+            cohort.cohort_name
+        FROM `users`
+        LEFT JOIN `branch` ON users.branch_id = branch.branch_id
+        LEFT JOIN `cohort` ON users.cohort_id = cohort.cohort_id
+        WHERE users.id = ?
+    ") or die($this->conn->error);
+
+		// Bind the user_id to the query
+		$query->bind_param("i", $user_id);
+
+		// Execute the query
+		if ($query->execute()) {
+			// Get the result of the query
+			$result = $query->get_result();
+
+			// Fetch the row from the result set
+			$user = $result->fetch_assoc();
+
+			// Free the result set to free up memory
+			$result->free();
+
+			// Close the query
+			$query->close();
+
+			// Return the user details
+			return $user;
+		} else {
+			// Close the query if it fails
+			$query->close();
+			return false; // Or you can handle errors accordingly
+		}
+	}
 
 
 

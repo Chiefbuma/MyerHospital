@@ -6,6 +6,42 @@ session_start();
 require_once 'class.php';
 
 $db = new db_class();
+
+
+
+// Get the logged-in user's ID
+$user_id = $_SESSION['user_id'];
+
+// Fetch the role and cohort
+$query = "SELECT branch_id,email, role,cohort_id FROM users WHERE id = '$user_id'";
+
+
+$result = $db->conn->query($query);
+
+if ($result && $row = mysqli_fetch_assoc($result)) {
+    $user_location = $row['branch_id'];
+    $user_role = $row['role'];
+    $user_cohort = $row['cohort_id'];
+    $user_email = $row['email'];
+} else {
+    echo "Error fetching location_id: " . mysqli_error($con);
+    exit;
+}
+
+// Query to fetch branch name based on branch_id
+$branch_query = "SELECT branch_name FROM branch WHERE branch_id = ?";
+$stmt = $db->conn->prepare($branch_query);
+$stmt->bind_param("i", $user_location);
+$stmt->execute();
+$branch_result = $stmt->get_result();
+
+if ($branch_result && $branch_row = $branch_result->fetch_assoc()) {
+    $branch_name = $branch_row['branch_name'];
+} else {
+    $branch_name = "No branch"; // Default if no branch found
+}
+
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -60,15 +96,13 @@ $db = new db_class();
 <!-- Include DataTables CSS -->
 <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css">
 
-<!-- Include DataTables JS -->
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
-<!-- Include jQuery (required for DataTables) -->
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-
-<!-- Include DataTables JS -->
-<script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
-
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Monthly Reports</title>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/1.11.5/js/dataTables.bootstrap4.min.js"></script>
 
 
 <!-- My CSS -->
@@ -235,7 +269,7 @@ $db = new db_class();
 
         <a href="#" class="brand">
             <i class='bx bxs-smile'></i>
-            <span class="text">Menu</span>
+
         </a>
 
         <li class="has-submenu">
@@ -304,113 +338,116 @@ $db = new db_class();
                 </li>
             </ul>
         </li>
-        <li class="has-submenu">
-            <a href="#" class="submenu-toggle">
-                <i class='bx bxs-dashboard'></i>
+        <?php if ($user_role == 'admin'): ?>
+            <li class="has-submenu">
+                <a href="#" class="submenu-toggle">
+                    <i class='bx bxs-dashboard'></i>
 
 
-                <span class="text">Settings</span>
-                <i class='bx bx-chevron-down dropdown-icon'></i>
-            </a>
-            <ul class="submenu">
-                <li>
-                    <a href="addbranch.php">
-                        <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e8eaed">
-                            <path d="m221-313 142-142q12-12 28-11.5t28 12.5q11 12 11 28t-11 28L250-228q-12 12-28 12t-28-12l-86-86q-11-11-11-28t11-28q11-11 28-11t28 11l57 57Zm0-320 142-142q12-12 28-11.5t28 12.5q11 12 11 28t-11 28L250-548q-12 12-28 12t-28-12l-86-86q-11-11-11-28t11-28q11-11 28-11t28 11l57 57Zm339 353q-17 0-28.5-11.5T520-320q0-17 11.5-28.5T560-360h280q17 0 28.5 11.5T880-320q0 17-11.5 28.5T840-280H560Zm0-320q-17 0-28.5-11.5T520-640q0-17 11.5-28.5T560-680h280q17 0 28.5 11.5T880-640q0 17-11.5 28.5T840-600H560Z" />
-                        </svg>
+                    <span class="text">Settings</span>
+                    <i class='bx bx-chevron-down dropdown-icon'></i>
+                </a>
+                <ul class="submenu">
+                    <li>
+                        <a href="addbranch.php">
+                            <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e8eaed">
+                                <path d="m221-313 142-142q12-12 28-11.5t28 12.5q11 12 11 28t-11 28L250-228q-12 12-28 12t-28-12l-86-86q-11-11-11-28t11-28q11-11 28-11t28 11l57 57Zm0-320 142-142q12-12 28-11.5t28 12.5q11 12 11 28t-11 28L250-548q-12 12-28 12t-28-12l-86-86q-11-11-11-28t11-28q11-11 28-11t28 11l57 57Zm339 353q-17 0-28.5-11.5T520-320q0-17 11.5-28.5T560-360h280q17 0 28.5 11.5T880-320q0 17-11.5 28.5T840-280H560Zm0-320q-17 0-28.5-11.5T520-640q0-17 11.5-28.5T560-680h280q17 0 28.5 11.5T880-640q0 17-11.5 28.5T840-600H560Z" />
+                            </svg>
 
-                        <span class="text">Branch</span>
-                    </a>
-                </li>
-                <li>
-                    <a href="addscheme.php">
-                        <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e8eaed">
-                            <path d="m221-313 142-142q12-12 28-11.5t28 12.5q11 12 11 28t-11 28L250-228q-12 12-28 12t-28-12l-86-86q-11-11-11-28t11-28q11-11 28-11t28 11l57 57Zm0-320 142-142q12-12 28-11.5t28 12.5q11 12 11 28t-11 28L250-548q-12 12-28 12t-28-12l-86-86q-11-11-11-28t11-28q11-11 28-11t28 11l57 57Zm339 353q-17 0-28.5-11.5T520-320q0-17 11.5-28.5T560-360h280q17 0 28.5 11.5T880-320q0 17-11.5 28.5T840-280H560Zm0-320q-17 0-28.5-11.5T520-640q0-17 11.5-28.5T560-680h280q17 0 28.5 11.5T880-640q0 17-11.5 28.5T840-600H560Z" />
-                        </svg>
+                            <span class="text">Branch</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="addscheme.php">
+                            <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e8eaed">
+                                <path d="m221-313 142-142q12-12 28-11.5t28 12.5q11 12 11 28t-11 28L250-228q-12 12-28 12t-28-12l-86-86q-11-11-11-28t11-28q11-11 28-11t28 11l57 57Zm0-320 142-142q12-12 28-11.5t28 12.5q11 12 11 28t-11 28L250-548q-12 12-28 12t-28-12l-86-86q-11-11-11-28t11-28q11-11 28-11t28 11l57 57Zm339 353q-17 0-28.5-11.5T520-320q0-17 11.5-28.5T560-360h280q17 0 28.5 11.5T880-320q0 17-11.5 28.5T840-280H560Zm0-320q-17 0-28.5-11.5T520-640q0-17 11.5-28.5T560-680h280q17 0 28.5 11.5T880-640q0 17-11.5 28.5T840-600H560Z" />
+                            </svg>
 
-                        <span class="text">schemes</span>
-                    </a>
-                </li>
-                <li>
-                    <a href="addroutes.php">
-                        <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e8eaed">
-                            <path d="m221-313 142-142q12-12 28-11.5t28 12.5q11 12 11 28t-11 28L250-228q-12 12-28 12t-28-12l-86-86q-11-11-11-28t11-28q11-11 28-11t28 11l57 57Zm0-320 142-142q12-12 28-11.5t28 12.5q11 12 11 28t-11 28L250-548q-12 12-28 12t-28-12l-86-86q-11-11-11-28t11-28q11-11 28-11t28 11l57 57Zm339 353q-17 0-28.5-11.5T520-320q0-17 11.5-28.5T560-360h280q17 0 28.5 11.5T880-320q0 17-11.5 28.5T840-280H560Zm0-320q-17 0-28.5-11.5T520-640q0-17 11.5-28.5T560-680h280q17 0 28.5 11.5T880-640q0 17-11.5 28.5T840-600H560Z" />
-                        </svg>
+                            <span class="text">schemes</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="addroutes.php">
+                            <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e8eaed">
+                                <path d="m221-313 142-142q12-12 28-11.5t28 12.5q11 12 11 28t-11 28L250-228q-12 12-28 12t-28-12l-86-86q-11-11-11-28t11-28q11-11 28-11t28 11l57 57Zm0-320 142-142q12-12 28-11.5t28 12.5q11 12 11 28t-11 28L250-548q-12 12-28 12t-28-12l-86-86q-11-11-11-28t11-28q11-11 28-11t28 11l57 57Zm339 353q-17 0-28.5-11.5T520-320q0-17 11.5-28.5T560-360h280q17 0 28.5 11.5T880-320q0 17-11.5 28.5T840-280H560Zm0-320q-17 0-28.5-11.5T520-640q0-17 11.5-28.5T560-680h280q17 0 28.5 11.5T880-640q0 17-11.5 28.5T840-600H560Z" />
+                            </svg>
 
-                        <span class="text">routes</span>
-                    </a>
-                </li>
-                <li>
-                    <a href="addmedication.php">
-                        <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e8eaed">
-                            <path d="m221-313 142-142q12-12 28-11.5t28 12.5q11 12 11 28t-11 28L250-228q-12 12-28 12t-28-12l-86-86q-11-11-11-28t11-28q11-11 28-11t28 11l57 57Zm0-320 142-142q12-12 28-11.5t28 12.5q11 12 11 28t-11 28L250-548q-12 12-28 12t-28-12l-86-86q-11-11-11-28t11-28q11-11 28-11t28 11l57 57Zm339 353q-17 0-28.5-11.5T520-320q0-17 11.5-28.5T560-360h280q17 0 28.5 11.5T880-320q0 17-11.5 28.5T840-280H560Zm0-320q-17 0-28.5-11.5T520-640q0-17 11.5-28.5T560-680h280q17 0 28.5 11.5T880-640q0 17-11.5 28.5T840-600H560Z" />
-                        </svg>
+                            <span class="text">routes</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="addmedication.php">
+                            <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e8eaed">
+                                <path d="m221-313 142-142q12-12 28-11.5t28 12.5q11 12 11 28t-11 28L250-228q-12 12-28 12t-28-12l-86-86q-11-11-11-28t11-28q11-11 28-11t28 11l57 57Zm0-320 142-142q12-12 28-11.5t28 12.5q11 12 11 28t-11 28L250-548q-12 12-28 12t-28-12l-86-86q-11-11-11-28t11-28q11-11 28-11t28 11l57 57Zm339 353q-17 0-28.5-11.5T520-320q0-17 11.5-28.5T560-360h280q17 0 28.5 11.5T880-320q0 17-11.5 28.5T840-280H560Zm0-320q-17 0-28.5-11.5T520-640q0-17 11.5-28.5T560-680h280q17 0 28.5 11.5T880-640q0 17-11.5 28.5T840-600H560Z" />
+                            </svg>
 
-                        <span class="text">Medications</span>
-                    </a>
-                </li>
-                <li>
-                    <a href="addspecialist.php">
-                        <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e8eaed">
-                            <path d="m221-313 142-142q12-12 28-11.5t28 12.5q11 12 11 28t-11 28L250-228q-12 12-28 12t-28-12l-86-86q-11-11-11-28t11-28q11-11 28-11t28 11l57 57Zm0-320 142-142q12-12 28-11.5t28 12.5q11 12 11 28t-11 28L250-548q-12 12-28 12t-28-12l-86-86q-11-11-11-28t11-28q11-11 28-11t28 11l57 57Zm339 353q-17 0-28.5-11.5T520-320q0-17 11.5-28.5T560-360h280q17 0 28.5 11.5T880-320q0 17-11.5 28.5T840-280H560Zm0-320q-17 0-28.5-11.5T520-640q0-17 11.5-28.5T560-680h280q17 0 28.5 11.5T880-640q0 17-11.5 28.5T840-600H560Z" />
-                        </svg>
+                            <span class="text">Medications</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="addspecialist.php">
+                            <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e8eaed">
+                                <path d="m221-313 142-142q12-12 28-11.5t28 12.5q11 12 11 28t-11 28L250-228q-12 12-28 12t-28-12l-86-86q-11-11-11-28t11-28q11-11 28-11t28 11l57 57Zm0-320 142-142q12-12 28-11.5t28 12.5q11 12 11 28t-11 28L250-548q-12 12-28 12t-28-12l-86-86q-11-11-11-28t11-28q11-11 28-11t28 11l57 57Zm339 353q-17 0-28.5-11.5T520-320q0-17 11.5-28.5T560-360h280q17 0 28.5 11.5T880-320q0 17-11.5 28.5T840-280H560Zm0-320q-17 0-28.5-11.5T520-640q0-17 11.5-28.5T560-680h280q17 0 28.5 11.5T880-640q0 17-11.5 28.5T840-600H560Z" />
+                            </svg>
 
-                        <span class="text">specialists</span>
-                    </a>
-                </li>
-                <li>
-                    <a href="addprocedure.php">
-                        <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e8eaed">
-                            <path d="m221-313 142-142q12-12 28-11.5t28 12.5q11 12 11 28t-11 28L250-228q-12 12-28 12t-28-12l-86-86q-11-11-11-28t11-28q11-11 28-11t28 11l57 57Zm0-320 142-142q12-12 28-11.5t28 12.5q11 12 11 28t-11 28L250-548q-12 12-28 12t-28-12l-86-86q-11-11-11-28t11-28q11-11 28-11t28 11l57 57Zm339 353q-17 0-28.5-11.5T520-320q0-17 11.5-28.5T560-360h280q17 0 28.5 11.5T880-320q0 17-11.5 28.5T840-280H560Zm0-320q-17 0-28.5-11.5T520-640q0-17 11.5-28.5T560-680h280q17 0 28.5 11.5T880-640q0 17-11.5 28.5T840-600H560Z" />
-                        </svg>
+                            <span class="text">specialists</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="addprocedure.php">
+                            <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e8eaed">
+                                <path d="m221-313 142-142q12-12 28-11.5t28 12.5q11 12 11 28t-11 28L250-228q-12 12-28 12t-28-12l-86-86q-11-11-11-28t11-28q11-11 28-11t28 11l57 57Zm0-320 142-142q12-12 28-11.5t28 12.5q11 12 11 28t-11 28L250-548q-12 12-28 12t-28-12l-86-86q-11-11-11-28t11-28q11-11 28-11t28 11l57 57Zm339 353q-17 0-28.5-11.5T520-320q0-17 11.5-28.5T560-360h280q17 0 28.5 11.5T880-320q0 17-11.5 28.5T840-280H560Zm0-320q-17 0-28.5-11.5T520-640q0-17 11.5-28.5T560-680h280q17 0 28.5 11.5T880-640q0 17-11.5 28.5T840-600H560Z" />
+                            </svg>
 
-                        <span class="text">procedures</span>
-                    </a>
-                </li>
-                <li>
-                    <a href="addcohort.php">
-                        <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e8eaed">
-                            <path d="m221-313 142-142q12-12 28-11.5t28 12.5q11 12 11 28t-11 28L250-228q-12 12-28 12t-28-12l-86-86q-11-11-11-28t11-28q11-11 28-11t28 11l57 57Zm0-320 142-142q12-12 28-11.5t28 12.5q11 12 11 28t-11 28L250-548q-12 12-28 12t-28-12l-86-86q-11-11-11-28t11-28q11-11 28-11t28 11l57 57Zm339 353q-17 0-28.5-11.5T520-320q0-17 11.5-28.5T560-360h280q17 0 28.5 11.5T880-320q0 17-11.5 28.5T840-280H560Zm0-320q-17 0-28.5-11.5T520-640q0-17 11.5-28.5T560-680h280q17 0 28.5 11.5T880-640q0 17-11.5 28.5T840-600H560Z" />
-                        </svg>
+                            <span class="text">procedures</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="addcohort.php">
+                            <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e8eaed">
+                                <path d="m221-313 142-142q12-12 28-11.5t28 12.5q11 12 11 28t-11 28L250-228q-12 12-28 12t-28-12l-86-86q-11-11-11-28t11-28q11-11 28-11t28 11l57 57Zm0-320 142-142q12-12 28-11.5t28 12.5q11 12 11 28t-11 28L250-548q-12 12-28 12t-28-12l-86-86q-11-11-11-28t11-28q11-11 28-11t28 11l57 57Zm339 353q-17 0-28.5-11.5T520-320q0-17 11.5-28.5T560-360h280q17 0 28.5 11.5T880-320q0 17-11.5 28.5T840-280H560Zm0-320q-17 0-28.5-11.5T520-640q0-17 11.5-28.5T560-680h280q17 0 28.5 11.5T880-640q0 17-11.5 28.5T840-600H560Z" />
+                            </svg>
 
-                        <span class="text">cohorts</span>
-                    </a>
-                </li>
-                <li>
-                    <a href="adduser.php">
-                        <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e8eaed">
-                            <path d="m221-313 142-142q12-12 28-11.5t28 12.5q11 12 11 28t-11 28L250-228q-12 12-28 12t-28-12l-86-86q-11-11-11-28t11-28q11-11 28-11t28 11l57 57Zm0-320 142-142q12-12 28-11.5t28 12.5q11 12 11 28t-11 28L250-548q-12 12-28 12t-28-12l-86-86q-11-11-11-28t11-28q11-11 28-11t28 11l57 57Zm339 353q-17 0-28.5-11.5T520-320q0-17 11.5-28.5T560-360h280q17 0 28.5 11.5T880-320q0 17-11.5 28.5T840-280H560Zm0-320q-17 0-28.5-11.5T520-640q0-17 11.5-28.5T560-680h280q17 0 28.5 11.5T880-640q0 17-11.5 28.5T840-600H560Z" />
-                        </svg>
+                            <span class="text">cohorts</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="adduser.php">
+                            <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e8eaed">
+                                <path d="m221-313 142-142q12-12 28-11.5t28 12.5q11 12 11 28t-11 28L250-228q-12 12-28 12t-28-12l-86-86q-11-11-11-28t11-28q11-11 28-11t28 11l57 57Zm0-320 142-142q12-12 28-11.5t28 12.5q11 12 11 28t-11 28L250-548q-12 12-28 12t-28-12l-86-86q-11-11-11-28t11-28q11-11 28-11t28 11l57 57Zm339 353q-17 0-28.5-11.5T520-320q0-17 11.5-28.5T560-360h280q17 0 28.5 11.5T880-320q0 17-11.5 28.5T840-280H560Zm0-320q-17 0-28.5-11.5T520-640q0-17 11.5-28.5T560-680h280q17 0 28.5 11.5T880-640q0 17-11.5 28.5T840-600H560Z" />
+                            </svg>
 
-                        <span class="text">users</span>
-                    </a>
-                </li>
-                <li>
-                    <a href="adddiagnosis.php"><svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e8eaed">
-                            <path d="m221-313 142-142q12-12 28-11.5t28 12.5q11 12 11 28t-11 28L250-228q-12 12-28 12t-28-12l-86-86q-11-11-11-28t11-28q11-11 28-11t28 11l57 57Zm0-320 142-142q12-12 28-11.5t28 12.5q11 12 11 28t-11 28L250-548q-12 12-28 12t-28-12l-86-86q-11-11-11-28t11-28q11-11 28-11t28 11l57 57Zm339 353q-17 0-28.5-11.5T520-320q0-17 11.5-28.5T560-360h280q17 0 28.5 11.5T880-320q0 17-11.5 28.5T840-280H560Zm0-320q-17 0-28.5-11.5T520-640q0-17 11.5-28.5T560-680h280q17 0 28.5 11.5T880-640q0 17-11.5 28.5T840-600H560Z" />
-                        </svg>
+                            <span class="text">users</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="adddiagnosis.php"><svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e8eaed">
+                                <path d="m221-313 142-142q12-12 28-11.5t28 12.5q11 12 11 28t-11 28L250-228q-12 12-28 12t-28-12l-86-86q-11-11-11-28t11-28q11-11 28-11t28 11l57 57Zm0-320 142-142q12-12 28-11.5t28 12.5q11 12 11 28t-11 28L250-548q-12 12-28 12t-28-12l-86-86q-11-11-11-28t11-28q11-11 28-11t28 11l57 57Zm339 353q-17 0-28.5-11.5T520-320q0-17 11.5-28.5T560-360h280q17 0 28.5 11.5T880-320q0 17-11.5 28.5T840-280H560Zm0-320q-17 0-28.5-11.5T520-640q0-17 11.5-28.5T560-680h280q17 0 28.5 11.5T880-640q0 17-11.5 28.5T840-600H560Z" />
+                            </svg>
 
-                        <span class="text">diagnosis</span>
-                    </a>
-                </li>
-                <li>
-                    <a href="addcallresults.php"><svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e8eaed">
-                            <path d="m221-313 142-142q12-12 28-11.5t28 12.5q11 12 11 28t-11 28L250-228q-12 12-28 12t-28-12l-86-86q-11-11-11-28t11-28q11-11 28-11t28 11l57 57Zm0-320 142-142q12-12 28-11.5t28 12.5q11 12 11 28t-11 28L250-548q-12 12-28 12t-28-12l-86-86q-11-11-11-28t11-28q11-11 28-11t28 11l57 57Zm339 353q-17 0-28.5-11.5T520-320q0-17 11.5-28.5T560-360h280q17 0 28.5 11.5T880-320q0 17-11.5 28.5T840-280H560Zm0-320q-17 0-28.5-11.5T520-640q0-17 11.5-28.5T560-680h280q17 0 28.5 11.5T880-640q0 17-11.5 28.5T840-600H560Z" />
-                        </svg>
+                            <span class="text">diagnosis</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="addcallresults.php"><svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e8eaed">
+                                <path d="m221-313 142-142q12-12 28-11.5t28 12.5q11 12 11 28t-11 28L250-228q-12 12-28 12t-28-12l-86-86q-11-11-11-28t11-28q11-11 28-11t28 11l57 57Zm0-320 142-142q12-12 28-11.5t28 12.5q11 12 11 28t-11 28L250-548q-12 12-28 12t-28-12l-86-86q-11-11-11-28t11-28q11-11 28-11t28 11l57 57Zm339 353q-17 0-28.5-11.5T520-320q0-17 11.5-28.5T560-360h280q17 0 28.5 11.5T880-320q0 17-11.5 28.5T840-280H560Zm0-320q-17 0-28.5-11.5T520-640q0-17 11.5-28.5T560-680h280q17 0 28.5 11.5T880-640q0 17-11.5 28.5T840-600H560Z" />
+                            </svg>
 
-                        <span class="text">Call Results</span>
-                    </a>
-                </li>
-            </ul>
-        </li>
-        <li class="has-submenu">
-            <a href="summary.php">
-                <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e8eaed">
-                    <path d="M480-480q-66 0-113-47t-47-113q0-66 47-113t113-47q66 0 113 47t47 113q0 66-47 113t-113 47ZM160-240v-32q0-34 17.5-62.5T224-378q62-31 126-46.5T480-440q66 0 130 15.5T736-378q29 15 46.5 43.5T800-272v32q0 33-23.5 56.5T720-160H240q-33 0-56.5-23.5T160-240Zm80 0h480v-32q0-11-5.5-20T700-306q-54-27-109-40.5T480-360q-56 0-111 13.5T260-306q-9 5-14.5 14t-5.5 20v32Zm240-320q33 0 56.5-23.5T560-640q0-33-23.5-56.5T480-720q-33 0-56.5 23.5T400-640q0 33 23.5 56.5T480-560Zm0-80Zm0 400Z" />
-                </svg>
-                <span class="text">Summary</span>
-            </a>
-        </li>
+                            <span class="text">Call Results</span>
+                        </a>
+                    </li>
+                </ul>
+            <?php endif; ?>
+
+            </li>
+            <li class="has-submenu">
+                <a href="summary.php">
+                    <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e8eaed">
+                        <path d="M480-480q-66 0-113-47t-47-113q0-66 47-113t113-47q66 0 113 47t47 113q0 66-47 113t-113 47ZM160-240v-32q0-34 17.5-62.5T224-378q62-31 126-46.5T480-440q66 0 130 15.5T736-378q29 15 46.5 43.5T800-272v32q0 33-23.5 56.5T720-160H240q-33 0-56.5-23.5T160-240Zm80 0h480v-32q0-11-5.5-20T700-306q-54-27-109-40.5T480-360q-56 0-111 13.5T260-306q-9 5-14.5 14t-5.5 20v32Zm240-320q33 0 56.5-23.5T560-640q0-33-23.5-56.5T480-720q-33 0-56.5 23.5T400-640q0 33 23.5 56.5T480-560Zm0-80Zm0 400Z" />
+                    </svg>
+                    <span class="text">Summary</span>
+                </a>
+            </li>
 
 
 
@@ -453,215 +490,321 @@ $db = new db_class();
         });
     </script>
 
+
     <!-- CONTENT -->
     <section id="content">
         <!-- NAVBAR -->
         <nav>
-            <i class='bx bx-menu'></i>
-            <a href="#" class="nav-link">Categories</a>
+
+            <a href="#" class="nav-link">Branch</a>
+            <span class="text">
+                <?php echo htmlspecialchars($branch_name); ?>
+            </span>
             <form action="#">
                 <div class="form-input">
 
                 </div>
             </form>
-            <input type="checkbox" id="switch-mode" hidden>
-            <label for="switch-mode" class="switch-mode"></label>
+
             <a href="#" class="notification">
                 <i class='bx bxs-bell'></i>
-                <span class="num">8</span>
+
             </a>
             <a href="#" class="profile">
                 <img src="img/people.png">
+                <span class="text">
+                    <?php echo htmlspecialchars($user_email); ?>
+                </span>
             </a>
+            <div class="logout-container">
+
+                <label>Log Out</label>
+                <label for="switch-mode" class="switch-mode" onclick="logout()"></label>
+            </div>
+
+            <script>
+                function logout() {
+                    // Redirect to the logout page
+                    window.location.href = "login.php";
+                }
+            </script>
+
+            <style>
+                .logout-container {
+                    display: flex;
+                    /* Use flexbox for layout */
+                    align-items: center;
+                    /* Align items vertically */
+                    gap: 15px;
+                    /* Add space between widgets */
+
+                }
+
+                #switch-mode {
+                    display: inline-block;
+                    width: 20px;
+                    height: 20px;
+                    margin-right: 10px;
+                }
+
+                .switch-mode {
+                    cursor: pointer;
+                    font-size: 16px;
+                    color: #333;
+                }
+
+                .switch-mode:hover {
+                    text-decoration: underline;
+                }
+            </style>
         </nav>
         <!-- NAVBAR -->
 
-        <!-- MAIN -->
-        <main>
+        <!-- Add the following CSS and JavaScript for submenu toggle functionality -->
+        <style>
+            .has-submenu .submenu {
+                display: none;
+                list-style: none;
+                padding-left: 20px;
+            }
 
-            <div class="table-data" style="width: 50%;">
+            .has-submenu .submenu li a {
+                font-size: 0.9rem;
+            }
 
-                <div class="order">
-                    <div class="head">
-                        <h3>Cohorts</h3>
-                        <i class='bx bx-search'></i>
-                        <i class='bx bx-filter'></i>
-                        <button type="button" style="border: none; background: none; cursor: pointer;" data-toggle="modal" data-target="#patientModal" aria-label="Add Branch">
-                            <i class='bx bx-plus'></i>
-                        </button>
-                    </div>
-                    <table id="patientTable" class="table table-bordered">
-                        <thead>
-                            <tr>
-                                <th>#</th>
-                                <th>Cohort Name</th>
-                                <th>Team lead</th>
-                                <th>Action</th>
+            .has-submenu.active .submenu {
+                display: block;
+            }
 
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <?php
-                            // Fetch branch records from the database
-                            $patients = $db->display_cohort();
-                            $rowNumber = 1; // Initialize row number
-                            foreach ($patients as $fetch) {
-                            ?>
-                                <tr>
-                                    <td><?php echo $rowNumber++; ?></td>
-                                    <td><?php echo $fetch['cohort_name']; ?></td>
-                                    <td><?php echo $fetch['team_lead']; ?></td>
-                                    <td>
-                                        <div class="d-flex justify-content-between">
-                                            <button type="button" class="btn btn-info" data-toggle="modal" data-target="#editModal<?php echo $fetch['cohort_id']; ?>" style="background-color: black; color: white;">Edit</button>
-                                            <button class="btn btn-danger" data-toggle="modal" data-target="#deleteModal<?php echo $fetch['cohort_id']; ?>">Delete</button>
-                                        </div>
-                                    </td>
-                                </tr>
+            .dropdown-icon {
+                margin-left: auto;
+                transition: transform 0.3s ease;
+            }
 
-                                <!-- Delete Modal -->
-                                <div class="modal fade" id="deleteModal<?php echo $fetch['cohort_id']; ?>" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
-                                    <div class="modal-dialog">
-                                        <div class="modal-content">
-                                            <div class="modal-header">
-                                                <h5 class="modal-title">Delete Patient Record</h5>
+            .has-submenu.active .dropdown-icon {
+                transform: rotate(180deg);
+            }
+        </style>
 
-                                            </div>
-                                            <div class="modal-body">
-                                                <p>Are you sure you want to delete this patient record?</p>
-                                            </div>
-                                            <div class="modal-footer">
-                                                <a href="deletecohort.php?id=<?php echo $fetch['cohort_id']; ?>" class="btn btn-danger">Delete</a>
-                                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <!-- Edit Modal -->
-                                <div class="modal fade" id="editModal<?php echo $fetch['cohort_id']; ?>" tabindex="-1" aria-hidden="true">
-                                    <div class="modal-dialog modal-lg">
-                                        <div class="modal-content">
-                                            <div class="modal-header">
-                                                <button type="button" class="close" data-dismiss="modal">&times;</button>
-                                            </div>
-                                            <form action="updatecohort.php" method="POST">
-                                                <div class="modal-body">
-                                                    <div class="rounded-container">
-                                                        <input type="hidden" name="cohort_id" value="<?php echo $fetch['cohort_id']; ?>">
-
-                                                        <div class="row">
-                                                            <div class="col-md-6">
-                                                                <div class="form-group d-flex">
-                                                                    <label for="cohort_name<?php echo $fetch['cohort_name']; ?>">Cohort Name</label>
-                                                                    <input
-                                                                        type="text"
-                                                                        class="form-control"
-                                                                        id="cohort_name<?php echo $fetch['cohort_name']; ?>"
-                                                                        name="cohort_name"
-                                                                        value="<?php echo htmlspecialchars($fetch['cohort_name']); ?>"
-                                                                        required>
-                                                                    <!-- Hidden input for cohort_id -->
-                                                                    <input type="hidden" name="cohort_id" value="<?php echo $fetch['cohort_id']; ?>">
-                                                                </div>
-                                                            </div>
-                                                            <div class="col-md-6">
-                                                                <div class="form-group d-flex">
-                                                                    <label for="team_lead<?php echo $fetch['team_lead']; ?>">Team Lead</label>
-                                                                    <input
-                                                                        type="text"
-                                                                        class="form-control"
-                                                                        id="team_lead<?php echo $fetch['team_lead']; ?>"
-                                                                        name="team_lead"
-                                                                        value="<?php echo htmlspecialchars($fetch['team_lead']); ?>"
-                                                                        required>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <div class="modal-footer">
-                                                        <div class="col-12 text-center">
-                                                            <input type="submit" name="update" class="btn btn-info btn-large" value="Submit" style="background-color: black; color: white;">
-                                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </form>
-                                        </div>
-                                    </div>
-                                </div>
-
-                            <?php } ?>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-            <!-- New Modal -->
-            <div class="modal fade" id="patientModal" tabindex="-1" aria-hidden="true">
-                <div class="modal-dialog modal-lg">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <button type="button" class="close" data-dismiss="modal">&times;</button>
-                        </div>
-                        <form action="newcohort.php" method="POST">
-                            <div class="modal-body">
-                                <div class="rounded-container">
-
-
-                                    <div class="row">
-                                        <div class="col-md-6">
-                                            <div class="form-group d-flex">
-                                                <label for="cohort_name<?php echo $fetch['cohort_name']; ?>">Cohort Name</label>
-                                                <input
-                                                    type="text"
-                                                    class="form-control"
-                                                    id="cohort_name"
-                                                    name="cohort_name"
-
-                                                    required>
-
-                                            </div>
-                                        </div>
-                                        <div class="col-md-6">
-                                            <div class="form-group d-flex">
-                                                <label for="team_lead">Team Lead</label>
-                                                <input
-                                                    type="text"
-                                                    class="form-control"
-                                                    id="team_lead"
-                                                    name="team_lead"
-
-                                                    required>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="modal-footer">
-                                    <div class="col-12 text-center">
-                                        <input type="submit" name="submit" class="btn btn-info btn-large" value="Submit" style="background-color: black; color: white;">
-                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-                                    </div>
-                                </div>
-                            </div>
-                        </form>
-                    </div>
-                </div>
-            </div>
-            <script>
-                $(document).ready(function() {
-                    $('#patientTable').DataTable({
-                        "searching": true,
-                        "paging": true,
-                        "ordering": true,
-                        "info": true,
-                        "language": {
-                            "emptyTable": "",
-                            "zeroRecords": ""
-                        },
-                        "pageLength": 5 // Set the number of entries to 5
-                    });
+        <script>
+            document.querySelectorAll('.submenu-toggle').forEach(item => {
+                item.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const parent = this.parentElement;
+                    parent.classList.toggle('active');
                 });
-            </script>
+            });
+        </script>
+
+        <!-- CONTENT -->
+        <section id="content">
+            <!-- NAVBAR -->
+            <nav>
+                <i class='bx bx-menu'></i>
+                <a href="#" class="nav-link">Categories</a>
+                <form action="#">
+                    <div class="form-input">
+
+                    </div>
+                </form>
+                <input type="checkbox" id="switch-mode" hidden>
+                <label for="switch-mode" class="switch-mode"></label>
+                <a href="#" class="notification">
+                    <i class='bx bxs-bell'></i>
+                    <span class="num">8</span>
+                </a>
+                <a href="#" class="profile">
+                    <img src="img/people.png">
+                </a>
+            </nav>
+            <!-- NAVBAR -->
+
+            <!-- MAIN -->
+            <main>
+
+                <div class="table-data" style="width: 50%;">
+
+                    <div class="order">
+                        <div class="head">
+                            <h3>Cohorts</h3>
+                            <i class='bx bx-search'></i>
+                            <i class='bx bx-filter'></i>
+                            <button type="button" style="border: none; background: none; cursor: pointer;" data-toggle="modal" data-target="#patientModal" aria-label="Add Branch">
+                                <i class='bx bx-plus'></i>
+                            </button>
+                        </div>
+                        <table id="patientTable" class="table table-bordered">
+                            <thead>
+                                <tr>
+                                    <th>#</th>
+                                    <th>Cohort Name</th>
+                                    <th>Team lead</th>
+                                    <th>Action</th>
+
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <?php
+                                // Fetch branch records from the database
+                                $patients = $db->display_cohort();
+                                $rowNumber = 1; // Initialize row number
+                                foreach ($patients as $fetch) {
+                                ?>
+                                    <tr>
+                                        <td><?php echo $rowNumber++; ?></td>
+                                        <td><?php echo $fetch['cohort_name']; ?></td>
+                                        <td><?php echo $fetch['team_lead']; ?></td>
+                                        <td>
+                                            <div class="d-flex justify-content-between">
+                                                <button type="button" class="btn btn-info" data-toggle="modal" data-target="#editModal<?php echo $fetch['cohort_id']; ?>" style="background-color: black; color: white;">Edit</button>
+                                                <button class="btn btn-danger" data-toggle="modal" data-target="#deleteModal<?php echo $fetch['cohort_id']; ?>">Delete</button>
+                                            </div>
+                                        </td>
+                                    </tr>
+
+                                    <!-- Delete Modal -->
+                                    <div class="modal fade" id="deleteModal<?php echo $fetch['cohort_id']; ?>" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
+                                        <div class="modal-dialog">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h5 class="modal-title">Delete Patient Record</h5>
+
+                                                </div>
+                                                <div class="modal-body">
+                                                    <p>Are you sure you want to delete this patient record?</p>
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <a href="deletecohort.php?id=<?php echo $fetch['cohort_id']; ?>" class="btn btn-danger">Delete</a>
+                                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- Edit Modal -->
+                                    <div class="modal fade" id="editModal<?php echo $fetch['cohort_id']; ?>" tabindex="-1" aria-hidden="true">
+                                        <div class="modal-dialog modal-lg">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                                </div>
+                                                <form action="updatecohort.php" method="POST">
+                                                    <div class="modal-body">
+                                                        <div class="rounded-container">
+                                                            <input type="hidden" name="cohort_id" value="<?php echo $fetch['cohort_id']; ?>">
+
+                                                            <div class="row">
+                                                                <div class="col-md-6">
+                                                                    <div class="form-group d-flex">
+                                                                        <label for="cohort_name<?php echo $fetch['cohort_name']; ?>">Cohort Name</label>
+                                                                        <input
+                                                                            type="text"
+                                                                            class="form-control"
+                                                                            id="cohort_name<?php echo $fetch['cohort_name']; ?>"
+                                                                            name="cohort_name"
+                                                                            value="<?php echo htmlspecialchars($fetch['cohort_name']); ?>"
+                                                                            required>
+                                                                        <!-- Hidden input for cohort_id -->
+                                                                        <input type="hidden" name="cohort_id" value="<?php echo $fetch['cohort_id']; ?>">
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-md-6">
+                                                                    <div class="form-group d-flex">
+                                                                        <label for="team_lead<?php echo $fetch['team_lead']; ?>">Team Lead</label>
+                                                                        <input
+                                                                            type="text"
+                                                                            class="form-control"
+                                                                            id="team_lead<?php echo $fetch['team_lead']; ?>"
+                                                                            name="team_lead"
+                                                                            value="<?php echo htmlspecialchars($fetch['team_lead']); ?>"
+                                                                            required>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="modal-footer">
+                                                            <div class="col-12 text-center">
+                                                                <input type="submit" name="update" class="btn btn-info btn-large" value="Submit" style="background-color: black; color: white;">
+                                                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                <?php } ?>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <!-- New Modal -->
+                <div class="modal fade" id="patientModal" tabindex="-1" aria-hidden="true">
+                    <div class="modal-dialog modal-lg">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                            </div>
+                            <form action="newcohort.php" method="POST">
+                                <div class="modal-body">
+                                    <div class="rounded-container">
+
+
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <div class="form-group d-flex">
+                                                    <label for="cohort_name<?php echo $fetch['cohort_name']; ?>">Cohort Name</label>
+                                                    <input
+                                                        type="text"
+                                                        class="form-control"
+                                                        id="cohort_name"
+                                                        name="cohort_name"
+
+                                                        required>
+
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div class="form-group d-flex">
+                                                    <label for="team_lead">Team Lead</label>
+                                                    <input
+                                                        type="text"
+                                                        class="form-control"
+                                                        id="team_lead"
+                                                        name="team_lead"
+
+                                                        required>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <div class="col-12 text-center">
+                                            <input type="submit" name="submit" class="btn btn-info btn-large" value="Submit" style="background-color: black; color: white;">
+                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                <script>
+                    $(document).ready(function() {
+                        $('#patientTable').DataTable({
+                            "searching": true,
+                            "paging": true,
+                            "ordering": true,
+                            "info": true,
+                            "language": {
+                                "emptyTable": "",
+                                "zeroRecords": ""
+                            },
+                            "pageLength": 5 // Set the number of entries to 5
+                        });
+                    });
+                </script>
 
 
 
