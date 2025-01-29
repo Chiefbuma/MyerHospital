@@ -258,532 +258,531 @@ if ($branch_result && $branch_row = $branch_result->fetch_assoc()) {
 </head>
 
 <body>
+    <div class="wrapper">
 
-    <script src="script.js"></script>
+        <script src="script.js"></script>
 
-    <!-- SIDEBAR -->
-    <section id="sidebar">
-        <h1></h1>
-        <h1></h1>
-        <h1></h1>
+        <!-- SIDEBAR -->
+        <section id="sidebar">
+            <h1></h1>
+            <h1></h1>
+            <h1></h1>
 
-        <a href="#" class="brand">
-            <i class='bx bxs-smile'></i>
+            <a href="#" class="brand">
+                <i class='bx bxs-smile'></i>
 
-        </a>
-
-        <li class="has-submenu">
-            <a href="patients.php">
-                <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e8eaed">
-                    <path d="M480-480q-66 0-113-47t-47-113q0-66 47-113t113-47q66 0 113 47t47 113q0 66-47 113t-113 47ZM160-240v-32q0-34 17.5-62.5T224-378q62-31 126-46.5T480-440q66 0 130 15.5T736-378q29 15 46.5 43.5T800-272v32q0 33-23.5 56.5T720-160H240q-33 0-56.5-23.5T160-240Zm80 0h480v-32q0-11-5.5-20T700-306q-54-27-109-40.5T480-360q-56 0-111 13.5T260-306q-9 5-14.5 14t-5.5 20v32Zm240-320q33 0 56.5-23.5T560-640q0-33-23.5-56.5T480-720q-33 0-56.5 23.5T400-640q0 33 23.5 56.5T480-560Zm0-80Zm0 400Z" />
-                </svg>
-                <span class="text">Registration</span>
             </a>
-        </li>
 
-        <li class="has-submenu">
-            <a href="addcalls.php">
-                <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e8eaed">
-                    <path d="M160-160q-33 0-56.5-23.5T80-240v-480q0-33 23.5-56.5T160-800h207q16 0 30.5 6t25.5 17l57 57h320q33 0 56.5 23.5T880-640v400q0 33-23.5 56.5T800-160H160Zm0-80h640v-400H447l-80-80H160v480Zm0 0v-480 480Zm400-160v40q0 17 11.5 28.5T600-320q17 0 28.5-11.5T640-360v-40h40q17 0 28.5-11.5T720-440q0-17-11.5-28.5T680-480h-40v-40q0-17-11.5-28.5T600-560q-17 0-28.5 11.5T560-520v40h-40q-17 0-28.5 11.5T480-440q0 17 11.5 28.5T520-400h40Z" />
-                </svg>
-                <span class="text">Appointments</span>
-            </a>
-        </li>
+            <li class="has-submenu">
+                <a href="patients.php">
+                    <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e8eaed">
+                        <path d="M480-480q-66 0-113-47t-47-113q0-66 47-113t113-47q66 0 113 47t47 113q0 66-47 113t-113 47ZM160-240v-32q0-34 17.5-62.5T224-378q62-31 126-46.5T480-440q66 0 130 15.5T736-378q29 15 46.5 43.5T800-272v32q0 33-23.5 56.5T720-160H240q-33 0-56.5-23.5T160-240Zm80 0h480v-32q0-11-5.5-20T700-306q-54-27-109-40.5T480-360q-56 0-111 13.5T260-306q-9 5-14.5 14t-5.5 20v32Zm240-320q33 0 56.5-23.5T560-640q0-33-23.5-56.5T480-720q-33 0-56.5 23.5T400-640q0 33 23.5 56.5T480-560Zm0-80Zm0 400Z" />
+                    </svg>
+                    <span class="text">Registration</span>
+                </a>
+            </li>
+
+            <li class="has-submenu">
+                <a href="addcalls.php">
+                    <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e8eaed">
+                        <path d="M160-160q-33 0-56.5-23.5T80-240v-480q0-33 23.5-56.5T160-800h207q16 0 30.5 6t25.5 17l57 57h320q33 0 56.5 23.5T880-640v400q0 33-23.5 56.5T800-160H160Zm0-80h640v-400H447l-80-80H160v480Zm0 0v-480 480Zm400-160v40q0 17 11.5 28.5T600-320q17 0 28.5-11.5T640-360v-40h40q17 0 28.5-11.5T720-440q0-17-11.5-28.5T680-480h-40v-40q0-17-11.5-28.5T600-560q-17 0-28.5 11.5T560-520v40h-40q-17 0-28.5 11.5T480-440q0 17 11.5 28.5T520-400h40Z" />
+                    </svg>
+                    <span class="text">Appointments</span>
+                </a>
+            </li>
 
 
-        <li class="has-submenu">
-            <a href="#" class="submenu-toggle">
-                <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e8eaed">
-                    <path d="M200-80q-33 0-56.5-23.5T120-160v-560q0-33 23.5-56.5T200-800h40v-40q0-17 11.5-28.5T280-880q17 0 28.5 11.5T320-840v40h320v-40q0-17 11.5-28.5T680-880q17 0 28.5 11.5T720-840v40h40q33 0 56.5 23.5T840-720v560q0 33-23.5 56.5T760-80H200Zm0-80h560v-400H200v400Zm0-480h560v-80H200v80Zm0 0v-80 80Zm280 240q-17 0-28.5-11.5T440-440q0-17 11.5-28.5T480-480q17 0 28.5 11.5T520-440q0 17-11.5 28.5T480-400Zm-160 0q-17 0-28.5-11.5T280-440q0-17 11.5-28.5T320-480q17 0 28.5 11.5T360-440q0 17-11.5 28.5T320-400Zm320 0q-17 0-28.5-11.5T600-440q0-17 11.5-28.5T640-480q17 0 28.5 11.5T680-440q0 17-11.5 28.5T640-400ZM480-240q-17 0-28.5-11.5T440-280q0-17 11.5-28.5T480-320q17 0 28.5 11.5T520-280q0 17-11.5 28.5T480-240Zm-160 0q-17 0-28.5-11.5T280-280q0-17 11.5-28.5T320-320q17 0 28.5 11.5T360-280q0 17-11.5 28.5T320-240Zm320 0q-17 0-28.5-11.5T600-280q0-17 11.5-28.5T640-320q17 0 28.5 11.5T680-280q0 17-11.5 28.5T640-240Z" />
-                </svg>
-                <span class="text">Assessment</span>
-                <i class='bx bx-chevron-down dropdown-icon'></i>
-            </a>
-            <ul class="submenu">
-                <li>
-                    <a href="assesnutrition.php">
-                        <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e8eaed">
-                            <path d="m221-313 142-142q12-12 28-11.5t28 12.5q11 12 11 28t-11 28L250-228q-12 12-28 12t-28-12l-86-86q-11-11-11-28t11-28q11-11 28-11t28 11l57 57Zm0-320 142-142q12-12 28-11.5t28 12.5q11 12 11 28t-11 28L250-548q-12 12-28 12t-28-12l-86-86q-11-11-11-28t11-28q11-11 28-11t28 11l57 57Zm339 353q-17 0-28.5-11.5T520-320q0-17 11.5-28.5T560-360h280q17 0 28.5 11.5T880-320q0 17-11.5 28.5T840-280H560Zm0-320q-17 0-28.5-11.5T520-640q0-17 11.5-28.5T560-680h280q17 0 28.5 11.5T880-640q0 17-11.5 28.5T840-600H560Z" />
-                        </svg>
-
-                        <span class="text">Nutrition</span>
-                    </a>
-                </li>
-                <li>
-                    <a href="assespsycho.php">
-                        <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e8eaed">
-                            <path d="m221-313 142-142q12-12 28-11.5t28 12.5q11 12 11 28t-11 28L250-228q-12 12-28 12t-28-12l-86-86q-11-11-11-28t11-28q11-11 28-11t28 11l57 57Zm0-320 142-142q12-12 28-11.5t28 12.5q11 12 11 28t-11 28L250-548q-12 12-28 12t-28-12l-86-86q-11-11-11-28t11-28q11-11 28-11t28 11l57 57Zm339 353q-17 0-28.5-11.5T520-320q0-17 11.5-28.5T560-360h280q17 0 28.5 11.5T880-320q0 17-11.5 28.5T840-280H560Zm0-320q-17 0-28.5-11.5T520-640q0-17 11.5-28.5T560-680h280q17 0 28.5 11.5T880-640q0 17-11.5 28.5T840-600H560Z" />
-                        </svg>
-
-                        <span class="text">pyschosocial</span>
-                    </a>
-                </li>
-                <li>
-                    <a href="asseschronic.php">
-                        <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e8eaed">
-                            <path d="m221-313 142-142q12-12 28-11.5t28 12.5q11 12 11 28t-11 28L250-228q-12 12-28 12t-28-12l-86-86q-11-11-11-28t11-28q11-11 28-11t28 11l57 57Zm0-320 142-142q12-12 28-11.5t28 12.5q11 12 11 28t-11 28L250-548q-12 12-28 12t-28-12l-86-86q-11-11-11-28t11-28q11-11 28-11t28 11l57 57Zm339 353q-17 0-28.5-11.5T520-320q0-17 11.5-28.5T560-360h280q17 0 28.5 11.5T880-320q0 17-11.5 28.5T840-280H560Zm0-320q-17 0-28.5-11.5T520-640q0-17 11.5-28.5T560-680h280q17 0 28.5 11.5T880-640q0 17-11.5 28.5T840-600H560Z" />
-                        </svg>
-
-                        <span class="text">Chronic</span>
-                    </a>
-                </li>
-                <li>
-                    <a href="assesmeds.php">
-                        <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e8eaed">
-                            <path d="m221-313 142-142q12-12 28-11.5t28 12.5q11 12 11 28t-11 28L250-228q-12 12-28 12t-28-12l-86-86q-11-11-11-28t11-28q11-11 28-11t28 11l57 57Zm0-320 142-142q12-12 28-11.5t28 12.5q11 12 11 28t-11 28L250-548q-12 12-28 12t-28-12l-86-86q-11-11-11-28t11-28q11-11 28-11t28 11l57 57Zm339 353q-17 0-28.5-11.5T520-320q0-17 11.5-28.5T560-360h280q17 0 28.5 11.5T880-320q0 17-11.5 28.5T840-280H560Zm0-320q-17 0-28.5-11.5T520-640q0-17 11.5-28.5T560-680h280q17 0 28.5 11.5T880-640q0 17-11.5 28.5T840-600H560Z" />
-                        </svg>
-
-                        <span class="text">Medication</span>
-                    </a>
-                </li>
-            </ul>
-        </li>
-        <?php if ($user_role == 'admin'): ?>
             <li class="has-submenu">
                 <a href="#" class="submenu-toggle">
-                    <i class='bx bxs-dashboard'></i>
-
-
-                    <span class="text">Settings</span>
+                    <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e8eaed">
+                        <path d="M200-80q-33 0-56.5-23.5T120-160v-560q0-33 23.5-56.5T200-800h40v-40q0-17 11.5-28.5T280-880q17 0 28.5 11.5T320-840v40h320v-40q0-17 11.5-28.5T680-880q17 0 28.5 11.5T720-840v40h40q33 0 56.5 23.5T840-720v560q0 33-23.5 56.5T760-80H200Zm0-80h560v-400H200v400Zm0-480h560v-80H200v80Zm0 0v-80 80Zm280 240q-17 0-28.5-11.5T440-440q0-17 11.5-28.5T480-480q17 0 28.5 11.5T520-440q0 17-11.5 28.5T480-400Zm-160 0q-17 0-28.5-11.5T280-440q0-17 11.5-28.5T320-480q17 0 28.5 11.5T360-440q0 17-11.5 28.5T320-400Zm320 0q-17 0-28.5-11.5T600-440q0-17 11.5-28.5T640-480q17 0 28.5 11.5T680-440q0 17-11.5 28.5T640-400ZM480-240q-17 0-28.5-11.5T440-280q0-17 11.5-28.5T480-320q17 0 28.5 11.5T520-280q0 17-11.5 28.5T480-240Zm-160 0q-17 0-28.5-11.5T280-280q0-17 11.5-28.5T320-320q17 0 28.5 11.5T360-280q0 17-11.5 28.5T320-240Zm320 0q-17 0-28.5-11.5T600-280q0-17 11.5-28.5T640-320q17 0 28.5 11.5T680-280q0 17-11.5 28.5T640-240Z" />
+                    </svg>
+                    <span class="text">Assessment</span>
                     <i class='bx bx-chevron-down dropdown-icon'></i>
                 </a>
                 <ul class="submenu">
                     <li>
-                        <a href="addbranch.php">
+                        <a href="assesnutrition.php">
                             <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e8eaed">
                                 <path d="m221-313 142-142q12-12 28-11.5t28 12.5q11 12 11 28t-11 28L250-228q-12 12-28 12t-28-12l-86-86q-11-11-11-28t11-28q11-11 28-11t28 11l57 57Zm0-320 142-142q12-12 28-11.5t28 12.5q11 12 11 28t-11 28L250-548q-12 12-28 12t-28-12l-86-86q-11-11-11-28t11-28q11-11 28-11t28 11l57 57Zm339 353q-17 0-28.5-11.5T520-320q0-17 11.5-28.5T560-360h280q17 0 28.5 11.5T880-320q0 17-11.5 28.5T840-280H560Zm0-320q-17 0-28.5-11.5T520-640q0-17 11.5-28.5T560-680h280q17 0 28.5 11.5T880-640q0 17-11.5 28.5T840-600H560Z" />
                             </svg>
 
-                            <span class="text">Branch</span>
+                            <span class="text">Nutrition</span>
                         </a>
                     </li>
                     <li>
-                        <a href="addscheme.php">
+                        <a href="assespsycho.php">
                             <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e8eaed">
                                 <path d="m221-313 142-142q12-12 28-11.5t28 12.5q11 12 11 28t-11 28L250-228q-12 12-28 12t-28-12l-86-86q-11-11-11-28t11-28q11-11 28-11t28 11l57 57Zm0-320 142-142q12-12 28-11.5t28 12.5q11 12 11 28t-11 28L250-548q-12 12-28 12t-28-12l-86-86q-11-11-11-28t11-28q11-11 28-11t28 11l57 57Zm339 353q-17 0-28.5-11.5T520-320q0-17 11.5-28.5T560-360h280q17 0 28.5 11.5T880-320q0 17-11.5 28.5T840-280H560Zm0-320q-17 0-28.5-11.5T520-640q0-17 11.5-28.5T560-680h280q17 0 28.5 11.5T880-640q0 17-11.5 28.5T840-600H560Z" />
                             </svg>
 
-                            <span class="text">schemes</span>
+                            <span class="text">pyschosocial</span>
                         </a>
                     </li>
                     <li>
-                        <a href="addroutes.php">
+                        <a href="asseschronic.php">
                             <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e8eaed">
                                 <path d="m221-313 142-142q12-12 28-11.5t28 12.5q11 12 11 28t-11 28L250-228q-12 12-28 12t-28-12l-86-86q-11-11-11-28t11-28q11-11 28-11t28 11l57 57Zm0-320 142-142q12-12 28-11.5t28 12.5q11 12 11 28t-11 28L250-548q-12 12-28 12t-28-12l-86-86q-11-11-11-28t11-28q11-11 28-11t28 11l57 57Zm339 353q-17 0-28.5-11.5T520-320q0-17 11.5-28.5T560-360h280q17 0 28.5 11.5T880-320q0 17-11.5 28.5T840-280H560Zm0-320q-17 0-28.5-11.5T520-640q0-17 11.5-28.5T560-680h280q17 0 28.5 11.5T880-640q0 17-11.5 28.5T840-600H560Z" />
                             </svg>
 
-                            <span class="text">routes</span>
+                            <span class="text">Chronic</span>
                         </a>
                     </li>
                     <li>
-                        <a href="addmedication.php">
+                        <a href="assesmeds.php">
                             <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e8eaed">
                                 <path d="m221-313 142-142q12-12 28-11.5t28 12.5q11 12 11 28t-11 28L250-228q-12 12-28 12t-28-12l-86-86q-11-11-11-28t11-28q11-11 28-11t28 11l57 57Zm0-320 142-142q12-12 28-11.5t28 12.5q11 12 11 28t-11 28L250-548q-12 12-28 12t-28-12l-86-86q-11-11-11-28t11-28q11-11 28-11t28 11l57 57Zm339 353q-17 0-28.5-11.5T520-320q0-17 11.5-28.5T560-360h280q17 0 28.5 11.5T880-320q0 17-11.5 28.5T840-280H560Zm0-320q-17 0-28.5-11.5T520-640q0-17 11.5-28.5T560-680h280q17 0 28.5 11.5T880-640q0 17-11.5 28.5T840-600H560Z" />
                             </svg>
 
-                            <span class="text">Medications</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="addspecialist.php">
-                            <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e8eaed">
-                                <path d="m221-313 142-142q12-12 28-11.5t28 12.5q11 12 11 28t-11 28L250-228q-12 12-28 12t-28-12l-86-86q-11-11-11-28t11-28q11-11 28-11t28 11l57 57Zm0-320 142-142q12-12 28-11.5t28 12.5q11 12 11 28t-11 28L250-548q-12 12-28 12t-28-12l-86-86q-11-11-11-28t11-28q11-11 28-11t28 11l57 57Zm339 353q-17 0-28.5-11.5T520-320q0-17 11.5-28.5T560-360h280q17 0 28.5 11.5T880-320q0 17-11.5 28.5T840-280H560Zm0-320q-17 0-28.5-11.5T520-640q0-17 11.5-28.5T560-680h280q17 0 28.5 11.5T880-640q0 17-11.5 28.5T840-600H560Z" />
-                            </svg>
-
-                            <span class="text">specialists</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="addprocedure.php">
-                            <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e8eaed">
-                                <path d="m221-313 142-142q12-12 28-11.5t28 12.5q11 12 11 28t-11 28L250-228q-12 12-28 12t-28-12l-86-86q-11-11-11-28t11-28q11-11 28-11t28 11l57 57Zm0-320 142-142q12-12 28-11.5t28 12.5q11 12 11 28t-11 28L250-548q-12 12-28 12t-28-12l-86-86q-11-11-11-28t11-28q11-11 28-11t28 11l57 57Zm339 353q-17 0-28.5-11.5T520-320q0-17 11.5-28.5T560-360h280q17 0 28.5 11.5T880-320q0 17-11.5 28.5T840-280H560Zm0-320q-17 0-28.5-11.5T520-640q0-17 11.5-28.5T560-680h280q17 0 28.5 11.5T880-640q0 17-11.5 28.5T840-600H560Z" />
-                            </svg>
-
-                            <span class="text">procedures</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="addcohort.php">
-                            <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e8eaed">
-                                <path d="m221-313 142-142q12-12 28-11.5t28 12.5q11 12 11 28t-11 28L250-228q-12 12-28 12t-28-12l-86-86q-11-11-11-28t11-28q11-11 28-11t28 11l57 57Zm0-320 142-142q12-12 28-11.5t28 12.5q11 12 11 28t-11 28L250-548q-12 12-28 12t-28-12l-86-86q-11-11-11-28t11-28q11-11 28-11t28 11l57 57Zm339 353q-17 0-28.5-11.5T520-320q0-17 11.5-28.5T560-360h280q17 0 28.5 11.5T880-320q0 17-11.5 28.5T840-280H560Zm0-320q-17 0-28.5-11.5T520-640q0-17 11.5-28.5T560-680h280q17 0 28.5 11.5T880-640q0 17-11.5 28.5T840-600H560Z" />
-                            </svg>
-
-                            <span class="text">cohorts</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="adduser.php">
-                            <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e8eaed">
-                                <path d="m221-313 142-142q12-12 28-11.5t28 12.5q11 12 11 28t-11 28L250-228q-12 12-28 12t-28-12l-86-86q-11-11-11-28t11-28q11-11 28-11t28 11l57 57Zm0-320 142-142q12-12 28-11.5t28 12.5q11 12 11 28t-11 28L250-548q-12 12-28 12t-28-12l-86-86q-11-11-11-28t11-28q11-11 28-11t28 11l57 57Zm339 353q-17 0-28.5-11.5T520-320q0-17 11.5-28.5T560-360h280q17 0 28.5 11.5T880-320q0 17-11.5 28.5T840-280H560Zm0-320q-17 0-28.5-11.5T520-640q0-17 11.5-28.5T560-680h280q17 0 28.5 11.5T880-640q0 17-11.5 28.5T840-600H560Z" />
-                            </svg>
-
-                            <span class="text">users</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="adddiagnosis.php"><svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e8eaed">
-                                <path d="m221-313 142-142q12-12 28-11.5t28 12.5q11 12 11 28t-11 28L250-228q-12 12-28 12t-28-12l-86-86q-11-11-11-28t11-28q11-11 28-11t28 11l57 57Zm0-320 142-142q12-12 28-11.5t28 12.5q11 12 11 28t-11 28L250-548q-12 12-28 12t-28-12l-86-86q-11-11-11-28t11-28q11-11 28-11t28 11l57 57Zm339 353q-17 0-28.5-11.5T520-320q0-17 11.5-28.5T560-360h280q17 0 28.5 11.5T880-320q0 17-11.5 28.5T840-280H560Zm0-320q-17 0-28.5-11.5T520-640q0-17 11.5-28.5T560-680h280q17 0 28.5 11.5T880-640q0 17-11.5 28.5T840-600H560Z" />
-                            </svg>
-
-                            <span class="text">diagnosis</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="addcallresults.php"><svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e8eaed">
-                                <path d="m221-313 142-142q12-12 28-11.5t28 12.5q11 12 11 28t-11 28L250-228q-12 12-28 12t-28-12l-86-86q-11-11-11-28t11-28q11-11 28-11t28 11l57 57Zm0-320 142-142q12-12 28-11.5t28 12.5q11 12 11 28t-11 28L250-548q-12 12-28 12t-28-12l-86-86q-11-11-11-28t11-28q11-11 28-11t28 11l57 57Zm339 353q-17 0-28.5-11.5T520-320q0-17 11.5-28.5T560-360h280q17 0 28.5 11.5T880-320q0 17-11.5 28.5T840-280H560Zm0-320q-17 0-28.5-11.5T520-640q0-17 11.5-28.5T560-680h280q17 0 28.5 11.5T880-640q0 17-11.5 28.5T840-600H560Z" />
-                            </svg>
-
-                            <span class="text">Call Results</span>
+                            <span class="text">Medication</span>
                         </a>
                     </li>
                 </ul>
-            <?php endif; ?>
-
             </li>
-            <li class="has-submenu">
-                <a href="summary.php">
-                    <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e8eaed">
-                        <path d="M480-480q-66 0-113-47t-47-113q0-66 47-113t113-47q66 0 113 47t47 113q0 66-47 113t-113 47ZM160-240v-32q0-34 17.5-62.5T224-378q62-31 126-46.5T480-440q66 0 130 15.5T736-378q29 15 46.5 43.5T800-272v32q0 33-23.5 56.5T720-160H240q-33 0-56.5-23.5T160-240Zm80 0h480v-32q0-11-5.5-20T700-306q-54-27-109-40.5T480-360q-56 0-111 13.5T260-306q-9 5-14.5 14t-5.5 20v32Zm240-320q33 0 56.5-23.5T560-640q0-33-23.5-56.5T480-720q-33 0-56.5 23.5T400-640q0 33 23.5 56.5T480-560Zm0-80Zm0 400Z" />
-                    </svg>
-                    <span class="text">Summary</span>
-                </a>
-            </li>
+            <?php if ($user_role == 'admin'): ?>
+                <li class="has-submenu">
+                    <a href="#" class="submenu-toggle">
+                        <i class='bx bxs-dashboard'></i>
+
+
+                        <span class="text">Settings</span>
+                        <i class='bx bx-chevron-down dropdown-icon'></i>
+                    </a>
+                    <ul class="submenu">
+                        <li>
+                            <a href="addbranch.php">
+                                <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e8eaed">
+                                    <path d="m221-313 142-142q12-12 28-11.5t28 12.5q11 12 11 28t-11 28L250-228q-12 12-28 12t-28-12l-86-86q-11-11-11-28t11-28q11-11 28-11t28 11l57 57Zm0-320 142-142q12-12 28-11.5t28 12.5q11 12 11 28t-11 28L250-548q-12 12-28 12t-28-12l-86-86q-11-11-11-28t11-28q11-11 28-11t28 11l57 57Zm339 353q-17 0-28.5-11.5T520-320q0-17 11.5-28.5T560-360h280q17 0 28.5 11.5T880-320q0 17-11.5 28.5T840-280H560Zm0-320q-17 0-28.5-11.5T520-640q0-17 11.5-28.5T560-680h280q17 0 28.5 11.5T880-640q0 17-11.5 28.5T840-600H560Z" />
+                                </svg>
+
+                                <span class="text">Branch</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="addscheme.php">
+                                <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e8eaed">
+                                    <path d="m221-313 142-142q12-12 28-11.5t28 12.5q11 12 11 28t-11 28L250-228q-12 12-28 12t-28-12l-86-86q-11-11-11-28t11-28q11-11 28-11t28 11l57 57Zm0-320 142-142q12-12 28-11.5t28 12.5q11 12 11 28t-11 28L250-548q-12 12-28 12t-28-12l-86-86q-11-11-11-28t11-28q11-11 28-11t28 11l57 57Zm339 353q-17 0-28.5-11.5T520-320q0-17 11.5-28.5T560-360h280q17 0 28.5 11.5T880-320q0 17-11.5 28.5T840-280H560Zm0-320q-17 0-28.5-11.5T520-640q0-17 11.5-28.5T560-680h280q17 0 28.5 11.5T880-640q0 17-11.5 28.5T840-600H560Z" />
+                                </svg>
+
+                                <span class="text">schemes</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="addroutes.php">
+                                <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e8eaed">
+                                    <path d="m221-313 142-142q12-12 28-11.5t28 12.5q11 12 11 28t-11 28L250-228q-12 12-28 12t-28-12l-86-86q-11-11-11-28t11-28q11-11 28-11t28 11l57 57Zm0-320 142-142q12-12 28-11.5t28 12.5q11 12 11 28t-11 28L250-548q-12 12-28 12t-28-12l-86-86q-11-11-11-28t11-28q11-11 28-11t28 11l57 57Zm339 353q-17 0-28.5-11.5T520-320q0-17 11.5-28.5T560-360h280q17 0 28.5 11.5T880-320q0 17-11.5 28.5T840-280H560Zm0-320q-17 0-28.5-11.5T520-640q0-17 11.5-28.5T560-680h280q17 0 28.5 11.5T880-640q0 17-11.5 28.5T840-600H560Z" />
+                                </svg>
+
+                                <span class="text">routes</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="addmedication.php">
+                                <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e8eaed">
+                                    <path d="m221-313 142-142q12-12 28-11.5t28 12.5q11 12 11 28t-11 28L250-228q-12 12-28 12t-28-12l-86-86q-11-11-11-28t11-28q11-11 28-11t28 11l57 57Zm0-320 142-142q12-12 28-11.5t28 12.5q11 12 11 28t-11 28L250-548q-12 12-28 12t-28-12l-86-86q-11-11-11-28t11-28q11-11 28-11t28 11l57 57Zm339 353q-17 0-28.5-11.5T520-320q0-17 11.5-28.5T560-360h280q17 0 28.5 11.5T880-320q0 17-11.5 28.5T840-280H560Zm0-320q-17 0-28.5-11.5T520-640q0-17 11.5-28.5T560-680h280q17 0 28.5 11.5T880-640q0 17-11.5 28.5T840-600H560Z" />
+                                </svg>
+
+                                <span class="text">Medications</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="addspecialist.php">
+                                <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e8eaed">
+                                    <path d="m221-313 142-142q12-12 28-11.5t28 12.5q11 12 11 28t-11 28L250-228q-12 12-28 12t-28-12l-86-86q-11-11-11-28t11-28q11-11 28-11t28 11l57 57Zm0-320 142-142q12-12 28-11.5t28 12.5q11 12 11 28t-11 28L250-548q-12 12-28 12t-28-12l-86-86q-11-11-11-28t11-28q11-11 28-11t28 11l57 57Zm339 353q-17 0-28.5-11.5T520-320q0-17 11.5-28.5T560-360h280q17 0 28.5 11.5T880-320q0 17-11.5 28.5T840-280H560Zm0-320q-17 0-28.5-11.5T520-640q0-17 11.5-28.5T560-680h280q17 0 28.5 11.5T880-640q0 17-11.5 28.5T840-600H560Z" />
+                                </svg>
+
+                                <span class="text">specialists</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="addprocedure.php">
+                                <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e8eaed">
+                                    <path d="m221-313 142-142q12-12 28-11.5t28 12.5q11 12 11 28t-11 28L250-228q-12 12-28 12t-28-12l-86-86q-11-11-11-28t11-28q11-11 28-11t28 11l57 57Zm0-320 142-142q12-12 28-11.5t28 12.5q11 12 11 28t-11 28L250-548q-12 12-28 12t-28-12l-86-86q-11-11-11-28t11-28q11-11 28-11t28 11l57 57Zm339 353q-17 0-28.5-11.5T520-320q0-17 11.5-28.5T560-360h280q17 0 28.5 11.5T880-320q0 17-11.5 28.5T840-280H560Zm0-320q-17 0-28.5-11.5T520-640q0-17 11.5-28.5T560-680h280q17 0 28.5 11.5T880-640q0 17-11.5 28.5T840-600H560Z" />
+                                </svg>
+
+                                <span class="text">procedures</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="addcohort.php">
+                                <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e8eaed">
+                                    <path d="m221-313 142-142q12-12 28-11.5t28 12.5q11 12 11 28t-11 28L250-228q-12 12-28 12t-28-12l-86-86q-11-11-11-28t11-28q11-11 28-11t28 11l57 57Zm0-320 142-142q12-12 28-11.5t28 12.5q11 12 11 28t-11 28L250-548q-12 12-28 12t-28-12l-86-86q-11-11-11-28t11-28q11-11 28-11t28 11l57 57Zm339 353q-17 0-28.5-11.5T520-320q0-17 11.5-28.5T560-360h280q17 0 28.5 11.5T880-320q0 17-11.5 28.5T840-280H560Zm0-320q-17 0-28.5-11.5T520-640q0-17 11.5-28.5T560-680h280q17 0 28.5 11.5T880-640q0 17-11.5 28.5T840-600H560Z" />
+                                </svg>
+
+                                <span class="text">cohorts</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="adduser.php">
+                                <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e8eaed">
+                                    <path d="m221-313 142-142q12-12 28-11.5t28 12.5q11 12 11 28t-11 28L250-228q-12 12-28 12t-28-12l-86-86q-11-11-11-28t11-28q11-11 28-11t28 11l57 57Zm0-320 142-142q12-12 28-11.5t28 12.5q11 12 11 28t-11 28L250-548q-12 12-28 12t-28-12l-86-86q-11-11-11-28t11-28q11-11 28-11t28 11l57 57Zm339 353q-17 0-28.5-11.5T520-320q0-17 11.5-28.5T560-360h280q17 0 28.5 11.5T880-320q0 17-11.5 28.5T840-280H560Zm0-320q-17 0-28.5-11.5T520-640q0-17 11.5-28.5T560-680h280q17 0 28.5 11.5T880-640q0 17-11.5 28.5T840-600H560Z" />
+                                </svg>
+
+                                <span class="text">users</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="adddiagnosis.php"><svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e8eaed">
+                                    <path d="m221-313 142-142q12-12 28-11.5t28 12.5q11 12 11 28t-11 28L250-228q-12 12-28 12t-28-12l-86-86q-11-11-11-28t11-28q11-11 28-11t28 11l57 57Zm0-320 142-142q12-12 28-11.5t28 12.5q11 12 11 28t-11 28L250-548q-12 12-28 12t-28-12l-86-86q-11-11-11-28t11-28q11-11 28-11t28 11l57 57Zm339 353q-17 0-28.5-11.5T520-320q0-17 11.5-28.5T560-360h280q17 0 28.5 11.5T880-320q0 17-11.5 28.5T840-280H560Zm0-320q-17 0-28.5-11.5T520-640q0-17 11.5-28.5T560-680h280q17 0 28.5 11.5T880-640q0 17-11.5 28.5T840-600H560Z" />
+                                </svg>
+
+                                <span class="text">diagnosis</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="addcallresults.php"><svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e8eaed">
+                                    <path d="m221-313 142-142q12-12 28-11.5t28 12.5q11 12 11 28t-11 28L250-228q-12 12-28 12t-28-12l-86-86q-11-11-11-28t11-28q11-11 28-11t28 11l57 57Zm0-320 142-142q12-12 28-11.5t28 12.5q11 12 11 28t-11 28L250-548q-12 12-28 12t-28-12l-86-86q-11-11-11-28t11-28q11-11 28-11t28 11l57 57Zm339 353q-17 0-28.5-11.5T520-320q0-17 11.5-28.5T560-360h280q17 0 28.5 11.5T880-320q0 17-11.5 28.5T840-280H560Zm0-320q-17 0-28.5-11.5T520-640q0-17 11.5-28.5T560-680h280q17 0 28.5 11.5T880-640q0 17-11.5 28.5T840-600H560Z" />
+                                </svg>
+
+                                <span class="text">Call Results</span>
+                            </a>
+                        </li>
+                    </ul>
+                <?php endif; ?>
+
+                </li>
+                <li class="has-submenu">
+                    <a href="summary.php">
+                        <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e8eaed">
+                            <path d="M480-480q-66 0-113-47t-47-113q0-66 47-113t113-47q66 0 113 47t47 113q0 66-47 113t-113 47ZM160-240v-32q0-34 17.5-62.5T224-378q62-31 126-46.5T480-440q66 0 130 15.5T736-378q29 15 46.5 43.5T800-272v32q0 33-23.5 56.5T720-160H240q-33 0-56.5-23.5T160-240Zm80 0h480v-32q0-11-5.5-20T700-306q-54-27-109-40.5T480-360q-56 0-111 13.5T260-306q-9 5-14.5 14t-5.5 20v32Zm240-320q33 0 56.5-23.5T560-640q0-33-23.5-56.5T480-720q-33 0-56.5 23.5T400-640q0 33 23.5 56.5T480-560Zm0-80Zm0 400Z" />
+                        </svg>
+                        <span class="text">Summary</span>
+                    </a>
+                </li>
 
 
 
-    </section>
-    <!-- SIDEBAR -->
+        </section>
+        <!-- SIDEBAR -->
 
-    <!-- Add the following CSS and JavaScript for submenu toggle functionality -->
-    <style>
-        .has-submenu .submenu {
-            display: none;
-            list-style: none;
-            padding-left: 20px;
-        }
+        <!-- Add the following CSS and JavaScript for submenu toggle functionality -->
+        <style>
+            .has-submenu .submenu {
+                display: none;
+                list-style: none;
+                padding-left: 20px;
+            }
 
-        .has-submenu .submenu li a {
-            font-size: 0.9rem;
-        }
+            .has-submenu .submenu li a {
+                font-size: 0.9rem;
+            }
 
-        .has-submenu.active .submenu {
-            display: block;
-        }
+            .has-submenu.active .submenu {
+                display: block;
+            }
 
-        .dropdown-icon {
-            margin-left: auto;
-            transition: transform 0.3s ease;
-        }
+            .dropdown-icon {
+                margin-left: auto;
+                transition: transform 0.3s ease;
+            }
 
-        .has-submenu.active .dropdown-icon {
-            transform: rotate(180deg);
-        }
-    </style>
+            .has-submenu.active .dropdown-icon {
+                transform: rotate(180deg);
+            }
+        </style>
 
-    <script>
-        document.querySelectorAll('.submenu-toggle').forEach(item => {
-            item.addEventListener('click', function(e) {
-                e.preventDefault();
-                const parent = this.parentElement;
-                parent.classList.toggle('active');
+        <script>
+            document.querySelectorAll('.submenu-toggle').forEach(item => {
+                item.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const parent = this.parentElement;
+                    parent.classList.toggle('active');
+                });
             });
-        });
-    </script>
+        </script>
 
 
-    <!-- CONTENT -->
-    <section id="content">
-        <!-- NAVBAR -->
-        <nav>
+        <!-- CONTENT -->
+        <section id="content">
+            <!-- NAVBAR -->
+            <nav>
 
-            <a href="#" class="nav-link">Branch</a>
-            <span class="text">
-                <?php echo htmlspecialchars($branch_name); ?>
-            </span>
-            <form action="#">
-                <div class="form-input">
-
-                </div>
-            </form>
-
-            <a href="#" class="notification">
-                <i class='bx bxs-bell'></i>
-
-            </a>
-            <a href="#" class="profile">
-                <img src="img/people.png">
+                <a href="#" class="nav-link">Branch</a>
                 <span class="text">
-                    <?php echo htmlspecialchars($user_email); ?>
+                    <?php echo htmlspecialchars($branch_name); ?>
                 </span>
-            </a>
-            <div class="logout-container">
+                <form action="#">
+                    <div class="form-input">
 
-                <label>Log Out</label>
-                <label for="switch-mode" class="switch-mode" onclick="logout()"></label>
-            </div>
-
-            <script>
-                function logout() {
-                    // Redirect to the logout page
-                    window.location.href = "login.php";
-                }
-            </script>
-
-            <style>
-                .logout-container {
-                    display: flex;
-                    /* Use flexbox for layout */
-                    align-items: center;
-                    /* Align items vertically */
-                    gap: 15px;
-                    /* Add space between widgets */
-
-                }
-
-                #switch-mode {
-                    display: inline-block;
-                    width: 20px;
-                    height: 20px;
-                    margin-right: 10px;
-                }
-
-                .switch-mode {
-                    cursor: pointer;
-                    font-size: 16px;
-                    color: #333;
-                }
-
-                .switch-mode:hover {
-                    text-decoration: underline;
-                }
-            </style>
-        </nav>
-        <!-- NAVBAR -->
-
-        <!-- MAIN -->
-        <main>
-            <div class="table-data" style="width: 70%;">
-                <div class="order">
-                    <div class="head">
-                        <h3>Users</h3>
-                        <i class='bx bx-search'></i>
-                        <i class='bx bx-filter'></i>
-                        <button type="button" style="border: none; background: none; cursor: pointer;" data-toggle="modal" data-target="#newUserModal" aria-label="Add User">
-                            <i class='bx bx-plus'></i>
-                        </button>
                     </div>
-                    <table id="userTable" class="table table-bordered">
-                        <thead>
-                            <tr>
-                                <th>#</th>
-                                <th>Username</th>
-                                <th>Email</th>
-                                <th>Role</th>
-                                <th>Branch</th>
-                                <th>Cohort</th>
-                                <th>Actions</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <?php
-                            // Fetch user records from the database
-                            $users = $db->display_user();  // Assuming display_users() fetches the users from DB
-                            $rowNumber = 1;
-                            foreach ($users as $user) {
-                            ?>
+                </form>
+
+                <a href="#" class="notification">
+                    <i class='bx bxs-bell'></i>
+
+                </a>
+                <a href="#" class="profile">
+                    <img src="img/people.png">
+                    <span class="text">
+                        <?php echo htmlspecialchars($user_email); ?>
+                    </span>
+                </a>
+                <div class="logout-container">
+
+                    <label>Log Out</label>
+                    <label for="switch-mode" class="switch-mode" onclick="logout()"></label>
+                </div>
+
+                <script>
+                    function logout() {
+                        // Redirect to the logout page
+                        window.location.href = "login.php";
+                    }
+                </script>
+
+                <style>
+                    .logout-container {
+                        display: flex;
+                        /* Use flexbox for layout */
+                        align-items: center;
+                        /* Align items vertically */
+                        gap: 15px;
+                        /* Add space between widgets */
+
+                    }
+
+                    #switch-mode {
+                        display: inline-block;
+                        width: 20px;
+                        height: 20px;
+                        margin-right: 10px;
+                    }
+
+                    .switch-mode {
+                        cursor: pointer;
+                        font-size: 16px;
+                        color: #333;
+                    }
+
+                    .switch-mode:hover {
+                        text-decoration: underline;
+                    }
+                </style>
+            </nav>
+            <!-- NAVBAR -->
+            <main>
+                <div class="table-data" style="width: 70%;">
+                    <div class="order">
+                        <div class="head">
+                            <h3>Users</h3>
+                            <i class='bx bx-search'></i>
+                            <i class='bx bx-filter'></i>
+                            <button type="button" style="border: none; background: none; cursor: pointer;" data-toggle="modal" data-target="#newUserModal" aria-label="Add User">
+                                <i class='bx bx-plus'></i>
+                            </button>
+                        </div>
+                        <table id="userTable" class="table table-bordered">
+                            <thead>
                                 <tr>
-                                    <td><?php echo $rowNumber++; ?></td>
-                                    <td><?php echo htmlspecialchars($user['username']); ?></td>
-                                    <td><?php echo htmlspecialchars($user['email']); ?></td>
-                                    <td><?php echo htmlspecialchars($user['role']); ?></td>
-                                    <td><?php echo htmlspecialchars($user['branch_name']); ?></td>
-                                    <td><?php echo htmlspecialchars($user['cohort_name']); ?></td>
-                                    <td>
-                                        <div class="d-flex justify-content-between">
-                                            <!-- Edit Button -->
-                                            <button type="button" class="btn btn-info" data-toggle="modal" data-target="#editUserModal<?php echo $user['id']; ?>" style="background-color: black; color: white; margin-right: 5px;">Edit</button>
-                                            <!-- Delete Button -->
-                                            <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#deleteUserModal<?php echo $user['id']; ?>" style="background-color: grey; color: white;">Delete</button>
-                                        </div>
-                                    </td>
+                                    <th>#</th>
+                                    <th>Username</th>
+                                    <th>Email</th>
+                                    <th>Role</th>
+                                    <th>Branch</th>
+                                    <th>Cohort</th>
+                                    <th>Actions</th>
                                 </tr>
+                            </thead>
+                            <tbody>
                                 <?php
-                                // Fetch user details using the function
-                                $userDetails = $db->user_details($user['id']);
-                                if ($userDetails) {
-                                    $selectedRole = htmlspecialchars($userDetails['role']);
-                                    $selectedCohort = $userDetails['cohort_id'];
-                                } else {
-                                    $selectedRole = '';
-                                    $selectedCohort = '';
-                                }
+                                // Fetch user records from the database
+                                $users = $db->display_user();  // Assuming display_users() fetches the users from DB
+                                $rowNumber = 1;
+                                foreach ($users as $user) {
                                 ?>
+                                    <tr>
+                                        <td><?php echo $rowNumber++; ?></td>
+                                        <td><?php echo htmlspecialchars($user['username']); ?></td>
+                                        <td><?php echo htmlspecialchars($user['email']); ?></td>
+                                        <td><?php echo htmlspecialchars($user['role']); ?></td>
+                                        <td><?php echo htmlspecialchars($user['branch_name']); ?></td>
+                                        <td><?php echo htmlspecialchars($user['cohort_name']); ?></td>
+                                        <td>
+                                            <div class="d-flex justify-content-between">
+                                                <!-- Edit Button -->
+                                                <button type="button" class="btn btn-info" data-toggle="modal" data-target="#editUserModal<?php echo $user['id']; ?>" style="background-color: black; color: white; margin-right: 5px;">Edit</button>
+                                                <!-- Delete Button -->
+                                                <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#deleteUserModal<?php echo $user['id']; ?>" style="background-color: grey; color: white;">Delete</button>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <?php
+                                    // Fetch user details using the function
+                                    $userDetails = $db->user_details($user['id']);
+                                    if ($userDetails) {
+                                        $selectedRole = htmlspecialchars($userDetails['role']);
+                                        $selectedCohort = $userDetails['cohort_id'];
+                                    } else {
+                                        $selectedRole = '';
+                                        $selectedCohort = '';
+                                    }
+                                    ?>
 
-                                <!-- Modal for editing the patient details -->
-                                <div class="modal fade" id="editUserModal<?php echo $user['id']; ?>" tabindex="-1" aria-hidden="true">
-                                    <div class="modal-dialog modal-lg">
-                                        <div class="modal-content">
-                                            <div class="modal-body">
-                                                <form action="updateuser.php" method="POST">
-                                                    <div class="modal-body">
-                                                        <div class="form-group">
+                                    <!-- Modal for editing the patient details -->
+                                    <div class="modal fade" id="editUserModal<?php echo $user['id']; ?>" tabindex="-1" aria-hidden="true">
+                                        <div class="modal-dialog modal-lg">
+                                            <div class="modal-content">
+                                                <div class="modal-body">
+                                                    <form action="updateuser.php" method="POST">
+                                                        <div class="modal-body">
+                                                            <div class="form-group">
 
-                                                            <label for="username<?php echo $user['id']; ?>">Username</label>
-                                                            <input type="text" class="form-control" id="username<?php echo $user['id']; ?>" name="username" value="<?php echo htmlspecialchars($user['username']); ?>">
-                                                            <input type="hidden" name="user_id" value="<?php echo $user['id']; ?>">
-                                                        </div>
-                                                        <div class="form-group">
-                                                            <label for="email<?php echo $user['id']; ?>">Email</label>
-                                                            <input type="email" class="form-control" id="email<?php echo $user['id']; ?>" name="email" value="<?php echo htmlspecialchars($user['email']); ?>">
-                                                        </div>
-                                                        <div class="form-group">
-                                                            <label for="role<?php echo $user['id']; ?>">Role</label>
-                                                            <select class="form-control" id="role<?php echo $user['id']; ?>" name="role">
-                                                                <option value="admin" <?php echo ($selectedRole === 'admin') ? 'selected' : ''; ?>>Admin</option>
-                                                                <option value="guest" <?php echo ($selectedRole === 'guest') ? 'selected' : ''; ?>>Guest</option>
-                                                                <option value="staff" <?php echo ($selectedRole === 'staff') ? 'selected' : ''; ?>>Staff</option>
-                                                            </select>
-                                                        </div>
+                                                                <label for="username<?php echo $user['id']; ?>">Username</label>
+                                                                <input type="text" class="form-control" id="username<?php echo $user['id']; ?>" name="username" value="<?php echo htmlspecialchars($user['username']); ?>">
+                                                                <input type="hidden" name="user_id" value="<?php echo $user['id']; ?>">
+                                                            </div>
+                                                            <div class="form-group">
+                                                                <label for="email<?php echo $user['id']; ?>">Email</label>
+                                                                <input type="email" class="form-control" id="email<?php echo $user['id']; ?>" name="email" value="<?php echo htmlspecialchars($user['email']); ?>">
+                                                            </div>
+                                                            <div class="form-group">
+                                                                <label for="role<?php echo $user['id']; ?>">Role</label>
+                                                                <select class="form-control" id="role<?php echo $user['id']; ?>" name="role">
+                                                                    <option value="admin" <?php echo ($selectedRole === 'admin') ? 'selected' : ''; ?>>Admin</option>
+                                                                    <option value="guest" <?php echo ($selectedRole === 'guest') ? 'selected' : ''; ?>>Guest</option>
+                                                                    <option value="staff" <?php echo ($selectedRole === 'staff') ? 'selected' : ''; ?>>Staff</option>
+                                                                </select>
+                                                            </div>
 
-                                                        <div class="form-group">
-                                                            <label for="cohort_id<?php echo $user['id']; ?>">Cohort</label>
-                                                            <select class="form-control" id="cohort_id<?php echo $user['id']; ?>" name="cohort_id">
-                                                                <?php
-                                                                // Fetch cohorts from the cohort table
-                                                                $cohorts = $db->display_cohort();
-                                                                foreach ($cohorts as $cohort) {
-                                                                    $selected = $cohort['cohort_id'] == $selectedCohort ? 'selected' : '';
-                                                                    echo "<option value='" . $cohort['cohort_id'] . "' $selected>" . htmlspecialchars($cohort['cohort_name']) . "</option>";
-                                                                }
-                                                                ?>
-                                                            </select>
+                                                            <div class="form-group">
+                                                                <label for="cohort_id<?php echo $user['id']; ?>">Cohort</label>
+                                                                <select class="form-control" id="cohort_id<?php echo $user['id']; ?>" name="cohort_id">
+                                                                    <?php
+                                                                    // Fetch cohorts from the cohort table
+                                                                    $cohorts = $db->display_cohort();
+                                                                    foreach ($cohorts as $cohort) {
+                                                                        $selected = $cohort['cohort_id'] == $selectedCohort ? 'selected' : '';
+                                                                        echo "<option value='" . $cohort['cohort_id'] . "' $selected>" . htmlspecialchars($cohort['cohort_name']) . "</option>";
+                                                                    }
+                                                                    ?>
+                                                                </select>
+                                                            </div>
+                                                            <div class="form-group">
+                                                                <label for="branch_id<?php echo $user['id']; ?>">Branch</label>
+                                                                <select class="form-control" id="branch_id<?php echo $user['id']; ?>" name="branch_id">
+                                                                    <?php
+                                                                    // Fetch branches from the branch table
+                                                                    $branches = $db->display_branch();
+                                                                    foreach ($branches as $branch) {
+                                                                        $selected = $branch['branch_id'] == $user['branch_id'] ? 'selected' : '';
+                                                                        echo "<option value='" . $branch['branch_id'] . "' $selected>" . htmlspecialchars($branch['branch_name']) . "</option>";
+                                                                    }
+                                                                    ?>
+                                                                </select>
+                                                            </div>
                                                         </div>
-                                                        <div class="form-group">
-                                                            <label for="branch_id<?php echo $user['id']; ?>">Branch</label>
-                                                            <select class="form-control" id="branch_id<?php echo $user['id']; ?>" name="branch_id">
-                                                                <?php
-                                                                // Fetch branches from the branch table
-                                                                $branches = $db->display_branch();
-                                                                foreach ($branches as $branch) {
-                                                                    $selected = $branch['branch_id'] == $user['branch_id'] ? 'selected' : '';
-                                                                    echo "<option value='" . $branch['branch_id'] . "' $selected>" . htmlspecialchars($branch['branch_name']) . "</option>";
-                                                                }
-                                                                ?>
-                                                            </select>
+                                                        <div class="modal-footer">
+                                                            <button type="submit" class="btn btn-info" style="background-color: black; color: white;">Submit</button>
+                                                            <button type="button" class="btn btn-default" data-dismiss="modal" style="background-color: grey; color: white;">Close</button>
                                                         </div>
-                                                    </div>
-                                                    <div class="modal-footer">
-                                                        <button type="submit" class="btn btn-info" style="background-color: black; color: white;">Submit</button>
-                                                        <button type="button" class="btn btn-default" data-dismiss="modal" style="background-color: grey; color: white;">Close</button>
-                                                    </div>
-                                                </form>
+                                                    </form>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
+
+                                    <!-- Delete User Modal -->
+                                    <div class="modal fade" id="deleteUserModal<?php echo $user['id']; ?>" tabindex="-1" aria-hidden="true">
+                                        <div class="modal-dialog">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h5 class="modal-title">Delete User</h5>
+                                                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                                </div>
+                                                <div class="modal-body">
+                                                    <p>Are you sure you want to delete this user?</p>
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <a href="deleteuser.php?id=<?php echo $user['id']; ?>" class="btn btn-danger" style="background-color: red; color: white;">Delete</a>
+                                                    <button type="button" class="btn btn-default" data-dismiss="modal" style="background-color: grey; color: white;">Cancel</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                <?php } ?>
+                            </tbody>
+                        </table>
+
+                        <!-- New User Modal -->
+                        <div class="modal fade" id="newUserModal" tabindex="-1" aria-hidden="true">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title">Add New User</h5>
+                                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                    </div>
+                                    <form action="newuser.php" method="POST">
+                                        <div class="modal-body">
+                                            <div class="form-group">
+                                                <label for="new_username">Username</label>
+                                                <input type="text" class="form-control" id="new_username" name="username" required>
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="new_password">Password</label>
+                                                <input type="password" class="form-control" id="new_password" name="password" required>
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="new_email">Email</label>
+                                                <input type="email" class="form-control" id="new_email" name="email" required>
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="role<?php echo $user['id']; ?>">Role</label>
+                                                <select class="form-control" id="role<?php echo $user['id']; ?>" name="role">
+                                                    <option value=""></option>
+                                                    <option value="admin" <?php echo ($user['role'] === 'admin') ? 'selected' : ''; ?>>Admin</option>
+                                                    <option value="Staff" <?php echo ($user['role'] === 'staff') ? 'selected' : ''; ?>>Staff</option>
+                                                    <option value="guest" <?php echo ($user['role'] === 'guest') ? 'selected' : ''; ?>>Guest</option>
+                                                </select>
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="new_cohort_id">Cohort</label>
+                                                <select class="form-control" id="new_cohort_id" name="cohort_id" required>
+                                                    <?php
+                                                    // Fetch cohorts from the cohort table
+                                                    $cohorts = $db->display_cohort();
+                                                    foreach ($cohorts as $cohort) {
+                                                        echo "<option value='" . $cohort['cohort_id'] . "'>" . htmlspecialchars($cohort['cohort_name']) . "</option>";
+                                                    }
+                                                    ?>
+                                                </select>
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="new_branch_id">Branch</label>
+                                                <select class="form-control" id="new_branch_id" name="branch_id" required>
+                                                    <?php
+                                                    // Fetch branches from the branch table
+                                                    $branches = $db->display_branch();
+                                                    foreach ($branches as $branch) {
+                                                        echo "<option value='" . $branch['branch_id'] . "'>" . htmlspecialchars($branch['branch_name']) . "</option>";
+                                                    }
+                                                    ?>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="submit" class="btn btn-info" style="background-color: black; color: white;">Submit</button>
+                                            <button type="button" class="btn btn-default" data-dismiss="modal" style="background-color: grey; color: white;">Close</button>
+                                        </div>
+                                    </form>
                                 </div>
-
-                                <!-- Delete User Modal -->
-                                <div class="modal fade" id="deleteUserModal<?php echo $user['id']; ?>" tabindex="-1" aria-hidden="true">
-                                    <div class="modal-dialog">
-                                        <div class="modal-content">
-                                            <div class="modal-header">
-                                                <h5 class="modal-title">Delete User</h5>
-                                                <button type="button" class="close" data-dismiss="modal">&times;</button>
-                                            </div>
-                                            <div class="modal-body">
-                                                <p>Are you sure you want to delete this user?</p>
-                                            </div>
-                                            <div class="modal-footer">
-                                                <a href="deleteuser.php?id=<?php echo $user['id']; ?>" class="btn btn-danger" style="background-color: red; color: white;">Delete</a>
-                                                <button type="button" class="btn btn-default" data-dismiss="modal" style="background-color: grey; color: white;">Cancel</button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            <?php } ?>
-                        </tbody>
-                    </table>
-
-                    <!-- New User Modal -->
-                    <div class="modal fade" id="newUserModal" tabindex="-1" aria-hidden="true">
-                        <div class="modal-dialog">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <h5 class="modal-title">Add New User</h5>
-                                    <button type="button" class="close" data-dismiss="modal">&times;</button>
-                                </div>
-                                <form action="newuser.php" method="POST">
-                                    <div class="modal-body">
-                                        <div class="form-group">
-                                            <label for="new_username">Username</label>
-                                            <input type="text" class="form-control" id="new_username" name="username" required>
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="new_password">Password</label>
-                                            <input type="password" class="form-control" id="new_password" name="password" required>
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="new_email">Email</label>
-                                            <input type="email" class="form-control" id="new_email" name="email" required>
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="role<?php echo $user['id']; ?>">Role</label>
-                                            <select class="form-control" id="role<?php echo $user['id']; ?>" name="role">
-                                                <option value=""></option>
-                                                <option value="admin" <?php echo ($user['role'] === 'admin') ? 'selected' : ''; ?>>Admin</option>
-                                                <option value="Staff" <?php echo ($user['role'] === 'staff') ? 'selected' : ''; ?>>Staff</option>
-                                                <option value="guest" <?php echo ($user['role'] === 'guest') ? 'selected' : ''; ?>>Guest</option>
-                                            </select>
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="new_cohort_id">Cohort</label>
-                                            <select class="form-control" id="new_cohort_id" name="cohort_id" required>
-                                                <?php
-                                                // Fetch cohorts from the cohort table
-                                                $cohorts = $db->display_cohort();
-                                                foreach ($cohorts as $cohort) {
-                                                    echo "<option value='" . $cohort['cohort_id'] . "'>" . htmlspecialchars($cohort['cohort_name']) . "</option>";
-                                                }
-                                                ?>
-                                            </select>
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="new_branch_id">Branch</label>
-                                            <select class="form-control" id="new_branch_id" name="branch_id" required>
-                                                <?php
-                                                // Fetch branches from the branch table
-                                                $branches = $db->display_branch();
-                                                foreach ($branches as $branch) {
-                                                    echo "<option value='" . $branch['branch_id'] . "'>" . htmlspecialchars($branch['branch_name']) . "</option>";
-                                                }
-                                                ?>
-                                            </select>
-                                        </div>
-                                    </div>
-                                    <div class="modal-footer">
-                                        <button type="submit" class="btn btn-info" style="background-color: black; color: white;">Submit</button>
-                                        <button type="button" class="btn btn-default" data-dismiss="modal" style="background-color: grey; color: white;">Close</button>
-                                    </div>
-                                </form>
                             </div>
                         </div>
                     </div>
-                </div>
-                <script>
-                    $(document).ready(function() {
-                        $('#userTable').DataTable({
-                            "searching": true,
-                            "paging": true,
-                            "ordering": true,
-                            "info": true,
-                            "language": {
-                                "emptyTable": "",
-                                "zeroRecords": ""
-                            },
-                            "pageLength": 5 // Set the number of entries to 5
+                    <script>
+                        $(document).ready(function() {
+                            $('#userTable').DataTable({
+                                "searching": true,
+                                "paging": true,
+                                "ordering": true,
+                                "info": true,
+                                "language": {
+                                    "emptyTable": "",
+                                    "zeroRecords": ""
+                                },
+                                "pageLength": 5 // Set the number of entries to 5
+                            });
                         });
-                    });
-                </script>
+                    </script>
 
 
 
