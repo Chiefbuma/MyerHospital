@@ -38,7 +38,7 @@ $branch_result = $stmt->get_result();
 if ($branch_result && $branch_row = $branch_result->fetch_assoc()) {
     $branch_name = $branch_row['branch_name'];
 } else {
-    $branch_name = "No branch"; // Default if no branch found
+    $branch_name = "Main branch"; // Default if no branch found
 }
 
 
