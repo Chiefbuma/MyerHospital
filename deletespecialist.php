@@ -3,32 +3,38 @@
 require_once 'config.php';
 require_once 'class.php';  // Include database class
 
-if (isset($_GET['id'])) {
+try {
+	if (isset($_GET['id']) && is_numeric($_GET['id'])) {
 
-	// Create a new instance of the db_class
-	$db = new db_class();
+		// Create a new instance of the db_class
+		$db = new db_class();
 
-	$specialistId = $_GET['id'];
+		$specialistId = intval($_GET['id']);  // Ensure the specialist ID is an integer
 
-	// Use prepared statements to prevent SQL injection
-	$sql = "DELETE FROM specialist WHERE specialist_id = ?";
-	$stmt = $db->conn->prepare($sql);
-	$stmt->bind_param("i", $specialistId);
+		// Use prepared statements to prevent SQL injection
+		$sql = "DELETE FROM specialist WHERE specialist_id = ?";
+		$stmt = $db->conn->prepare($sql);
+		$stmt->bind_param("i", $specialistId);
 
-	if ($stmt->execute()) {
-		// Redirect or display a success message
-		echo "<script>alert('Specialist successfully deleted.');</script>";
-		echo "<script>window.location='addspecialist.php';</script>";  // Redirect to the specialist list page
+		if ($stmt->execute()) {
+			// Redirect or display a success message
+			echo "<script>alert('Specialist successfully deleted.');</script>";
+			echo "<script>window.location='addspecialist.php';</script>";  // Redirect to the specialist list page
+		} else {
+			throw new Exception("Error deleting from specialist table: " . $stmt->error);
+		}
+
+		// Close the prepared statement
+		$stmt->close();
 	} else {
-		// Display an error if the query failed
-		echo "Error: " . $stmt->error;
+		throw new Exception("Error: Invalid or missing specialist ID.");
 	}
-
-	// Close the prepared statement
-	$stmt->close();
-} else {
-	echo "Error: Invalid request. Specialist ID not provided.";
+} catch (Exception $e) {
+	// Display the error message
+	echo "Exception: " . $e->getMessage();
+} finally {
+	// Close the database connection
+	if (isset($db->conn)) {
+		$db->conn->close();
+	}
 }
-
-// Close the database connection
-$db->conn->close();

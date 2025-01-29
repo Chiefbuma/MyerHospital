@@ -39,21 +39,19 @@ if (isset($_POST['login'])) {
       } else {
         // Password is incorrect
         $_SESSION['message'] = "Invalid email or Password";
-        echo "<script>alert('password or email is incorrect')</script>";
+        echo "<script>alert('Password or email is incorrect')</script>";
         echo "<script>window.location='login.php'</script>"; // Redirect back to login page
       }
     } else {
       // User not found or invalid login
       $_SESSION['message'] = "Invalid email or Password";
-      echo "<script>alert('failed attempt to log in')</script>";
-      echo "<script>window.location='login.php'</script>"; // Logs to PHP default error log
-
+      echo "<script>alert('Failed attempt to log in')</script>";
+      echo "<script>window.location='login.php'</script>"; // Redirect back to login page
     }
   } catch (Exception $e) {
     // Handle and log exceptions
     $_SESSION['message'] = "An error occurred during login. Please try again later.";
-    echo "<script>alert('failed attempt to log in')</script>"; // Logs the error message
-    echo "<script>window.location='login.php'</script>";
-    // Redirect back to login page
+    echo "<script>alert('Failed attempt to log in')</script>";
+    echo "<script>window.location='login.php'</script>"; // Redirect back to login page
   }
 }

@@ -3,32 +3,38 @@
 require_once 'config.php';
 require_once 'class.php';  // Assuming this contains the db_class definition
 
-if (isset($_GET['id'])) {
+try {
+	if (isset($_GET['id']) && is_numeric($_GET['id'])) {
 
-	// Create a new instance of the db_class
-	$db = new db_class();
+		// Create a new instance of the db_class
+		$db = new db_class();
 
-	$userId = $_GET['id'];  // Get the user ID from the URL parameter
+		$callId = intval($_GET['id']);  // Get the call ID from the URL parameter and ensure it's an integer
 
-	// Use prepared statements to prevent SQL injection
-	$sql = "DELETE FROM calls WHERE call_id = ?";  // Adjust the table name if needed
-	$stmt = $db->conn->prepare($sql);
-	$stmt->bind_param("i", $userId);  // Bind the user ID as an integer
+		// Use prepared statements to prevent SQL injection
+		$sql = "DELETE FROM calls WHERE call_id = ?";
+		$stmt = $db->conn->prepare($sql);
+		$stmt->bind_param("i", $callId);
 
-	if ($stmt->execute()) {
-		// Redirect or display a success message
-		echo "<script>alert('User successfully deleted.');</script>";
-		echo "<script>window.location='addcalls.php';</script>";  // Redirect to the users management page
+		if ($stmt->execute()) {
+			// Redirect or display a success message
+			echo "<script>alert('Call successfully deleted.');</script>";
+			echo "<script>window.location='addcalls.php';</script>";  // Redirect to the calls management page
+		} else {
+			throw new Exception("Error deleting from calls table: " . $stmt->error);
+		}
+
+		// Close the prepared statement
+		$stmt->close();
 	} else {
-		// Display an error if the query failed
-		echo "Error: " . $stmt->error;
+		throw new Exception("Error: Invalid or missing call ID.");
 	}
-
-	// Close the prepared statement
-	$stmt->close();
-} else {
-	echo "Error: User ID not provided.";
+} catch (Exception $e) {
+	// Display the error message
+	echo "Exception: " . $e->getMessage();
+} finally {
+	// Close the database connection
+	if (isset($db->conn)) {
+		$db->conn->close();
+	}
 }
-
-// Close the database connection
-$db->conn->close();

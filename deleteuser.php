@@ -3,32 +3,38 @@
 require_once 'config.php';
 require_once 'class.php';  // Assuming this contains the db_class definition
 
-if (isset($_GET['id'])) {
+try {
+	if (isset($_GET['id']) && is_numeric($_GET['id'])) {
 
-	// Create a new instance of the db_class
-	$db = new db_class();
+		// Create a new instance of the db_class
+		$db = new db_class();
 
-	$userId = $_GET['id'];  // Get the user ID from the URL parameter
+		$userId = intval($_GET['id']);  // Ensure the user ID is an integer
 
-	// Use prepared statements to prevent SQL injection
-	$sql = "DELETE FROM users WHERE id = ?";  // Adjust the table name if needed
-	$stmt = $db->conn->prepare($sql);
-	$stmt->bind_param("i", $userId);  // Bind the user ID as an integer
+		// Use prepared statements to prevent SQL injection
+		$sql = "DELETE FROM users WHERE id = ?";
+		$stmt = $db->conn->prepare($sql);
+		$stmt->bind_param("i", $userId);
 
-	if ($stmt->execute()) {
-		// Redirect or display a success message
-		echo "<script>alert('User successfully deleted.');</script>";
-		echo "<script>window.location='adduser.php';</script>";  // Redirect to the users management page
+		if ($stmt->execute()) {
+			// Redirect or display a success message
+			echo "<script>alert('User successfully deleted.');</script>";
+			echo "<script>window.location='adduser.php';</script>";  // Redirect to the users management page
+		} else {
+			throw new Exception("Error deleting from users table: " . $stmt->error);
+		}
+
+		// Close the prepared statement
+		$stmt->close();
 	} else {
-		// Display an error if the query failed
-		echo "Error: " . $stmt->error;
+		throw new Exception("Error: Invalid or missing user ID.");
 	}
-
-	// Close the prepared statement
-	$stmt->close();
-} else {
-	echo "Error: User ID not provided.";
+} catch (Exception $e) {
+	// Display the error message
+	echo "Exception: " . $e->getMessage();
+} finally {
+	// Close the database connection
+	if (isset($db->conn)) {
+		$db->conn->close();
+	}
 }
-
-// Close the database connection
-$db->conn->close();

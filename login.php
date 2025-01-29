@@ -21,15 +21,14 @@
                 <input type="password" name="password" id="password-input" placeholder="Password" required>
             </div>
             <?php
+            session_start();
             if (isset($_SESSION['message'])) {
-                echo "<center><label class='text-danger'>" . $_SESSION['message'] . "</label></center>";
+                echo "<center><label class='text-danger'>" . htmlspecialchars($_SESSION['message']) . "</label></center>";
                 unset($_SESSION['message']); // Clear message after displaying
             }
             ?>
             <button type="submit" class="btn btn-primary btn-user btn-block" name="login">Login</button>
         </form>
-
-
     </div>
 </body>
 

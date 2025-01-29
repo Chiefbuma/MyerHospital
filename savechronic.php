@@ -2,85 +2,88 @@
 date_default_timezone_set("Etc/GMT+8");
 require_once 'class.php';
 
-if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+try {
+    if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+        $db = new db_class(); // Create an instance of db_class
 
-    $db = new db_class(); // Create an instance of db_class
-    // Collect form data
-    $patient_id = $_POST['patient_id'];
-    $procedure_id = $_POST['procedure'];
-    $scheme_id = $_POST['scheme_id'];
-    $specialty_id = $_POST['specialty'];
-    $refill_date = $_POST['refill_date'];
-    $annual_check_up = isset($_POST['annual_check_up']) ? $_POST['annual_check_up'] : null; // if annual check-up field exists
-    $specialist_review = isset($_POST['specialist_review']) ? $_POST['specialist_review'] : null; // if specialist review field exists
-    $compliance = $_POST['compliance'];
-    $exercise = $_POST['exercise'];
-    $clinical_goals = $_POST['clinical_goals'];
+        // Collect form data
+        $patient_id = $_POST['patient_id'];
+        $procedure_id = $_POST['procedure'];
+        $scheme_id = $_POST['scheme_id'];
+        $specialty_id = $_POST['specialty'];
+        $refill_date = $_POST['refill_date'];
+        $annual_check_up = isset($_POST['annual_check_up']) ? $_POST['annual_check_up'] : null; // if annual check-up field exists
+        $specialist_review = isset($_POST['specialist_review']) ? $_POST['specialist_review'] : null; // if specialist review field exists
+        $compliance = $_POST['compliance'];
+        $exercise = $_POST['exercise'];
+        $clinical_goals = $_POST['clinical_goals'];
+        $vitals_monitoring = $_POST['vitals_monitoring'];
+        $revenue = $_POST['revenue'];
+        $vital_signs_monitor = $_POST['vital_signs_monitor'];
 
-    $vitals_monitoring = $_POST['vitals_monitoring'];
-    $revenue = $_POST['revenue'];
-    $vital_signs_monitor = $_POST['vital_signs_monitor'];
-
-
-
-    // SQL query to fetch the maximum visit date for a specific patient
-    $query = "SELECT MAX(refill_date) AS last_visit_date FROM chronic WHERE patient_id = ?";
-    $stmt = $db->conn->prepare($query);
-    $stmt->bind_param("i", $patient_id);  // Bind the patient_id as an integer
-    $stmt->execute();
-
-    $last_visit = NULL; // Initialize last_visit as NULL in case no record exists
-    $result = $stmt->get_result();
-    if ($result && $row = $result->fetch_assoc()) {
-        // If there's a previous visit, use that date
-        $last_visit = $row['last_visit_date'] ?: NULL; // Handle cases where last_visit_date is NULL
-    }
-
-
-
-    // Prepare SQL query
-    $query = "INSERT INTO chronic (
-        patient_id, procedure_id, scheme_id, speciality_id, refill_date,last_visit, annual_check_up, specialist_review, compliance, exercise, 
-        clinical_goals, vitals_monitoring, revenue, vital_signs_monitor
-    ) VALUES (
-        ?, ?, ?, ?, ?, ?,?,?, ?, ?, ?, ?, ?,?
-    )";
-
-    // Prepare and bind parameters using the $db instance
-    if ($stmt = $db->conn->prepare($query)) {  // Use $db->conn instead of $this->conn
-        $stmt->bind_param(
-            "iiiissssssssis",
-            $patient_id,
-            $procedure_id,
-            $specialty_id,
-            $scheme_id,
-            $refill_date,
-            $last_visit,
-            $annual_check_up,
-            $specialist_review,
-            $compliance,
-            $exercise,
-            $clinical_goals,
-            $vitals_monitoring,
-            $revenue,
-            $vital_signs_monitor
-        );
-
-        // Execute query
-        if ($stmt->execute()) {
-            echo "<script>alert('Patient record added successfully')</script>";
-            echo "<script>window.location='asseschronic.php'</script>";
-        } else {
-            // Error occurred
-            echo "Error: " . $stmt->error;
+        // Validate form data
+        if (empty($patient_id) || empty($procedure_id) || empty($scheme_id) || empty($specialty_id) || empty($refill_date) || empty($compliance) || empty($exercise) || empty($clinical_goals) || empty($vitals_monitoring) || empty($revenue) || empty($vital_signs_monitor)) {
+            throw new Exception("All fields are required.");
         }
 
-        // Close the statement
-        $stmt->close();
-    } else {
-        echo "Error preparing the SQL query.";
-    }
+        // SQL query to fetch the maximum visit date for a specific patient
+        $query = "SELECT MAX(refill_date) AS last_visit_date FROM chronic WHERE patient_id = ?";
+        $stmt = $db->conn->prepare($query);
+        $stmt->bind_param("i", $patient_id);  // Bind the patient_id as an integer
+        $stmt->execute();
 
-    // Close the database connection
-    $db->conn->close();  // Close the database connection using the $db instance
+        $last_visit = NULL; // Initialize last_visit as NULL in case no record exists
+        $result = $stmt->get_result();
+        if ($result && $row = $result->fetch_assoc()) {
+            // If there's a previous visit, use that date
+            $last_visit = $row['last_visit_date'] ?: NULL; // Handle cases where last_visit_date is NULL
+        }
+
+        // Prepare SQL query
+        $query = "INSERT INTO chronic (
+            patient_id, procedure_id, scheme_id, speciality_id, refill_date, last_visit, annual_check_up, specialist_review, compliance, exercise, 
+            clinical_goals, vitals_monitoring, revenue, vital_signs_monitor
+        ) VALUES (
+            ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?
+        )";
+
+        // Prepare and bind parameters using the $db instance
+        if ($stmt = $db->conn->prepare($query)) {
+            $stmt->bind_param(
+                "iiiissssssssis",
+                $patient_id,
+                $procedure_id,
+                $scheme_id,
+                $specialty_id,
+                $refill_date,
+                $last_visit,
+                $annual_check_up,
+                $specialist_review,
+                $compliance,
+                $exercise,
+                $clinical_goals,
+                $vitals_monitoring,
+                $revenue,
+                $vital_signs_monitor
+            );
+
+            // Execute query
+            if ($stmt->execute()) {
+                echo "<script>alert('Patient record added successfully')</script>";
+                echo "<script>window.location='asseschronic.php'</script>";
+            } else {
+                throw new Exception("Error executing query: " . $stmt->error);
+            }
+
+            // Close the statement
+            $stmt->close();
+        } else {
+            throw new Exception("Error preparing the SQL query.");
+        }
+
+        // Close the database connection
+        $db->conn->close();
+    }
+} catch (Exception $e) {
+    echo "<script>alert('Exception: " . htmlspecialchars($e->getMessage()) . "');</script>";
 }

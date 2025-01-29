@@ -1,35 +1,40 @@
 <?php
 
 require_once 'config.php';
+require_once 'class.php';  // Assuming this contains the db_class definition
 
-require_once 'class.php';  // Adj
+try {
+	if (isset($_GET['id']) && is_numeric($_GET['id'])) {
 
-if (isset($_GET['id'])) {
+		// Create a new instance of the db_class
+		$db = new db_class();
 
-	// Create a new instance of the db_class
-	$db = new db_class();
+		$branchId = intval($_GET['id']);  // Ensure the ID is an integer
 
-	$branchId = $_GET['id'];
+		// Use prepared statements to prevent SQL injection
+		$sql = "DELETE FROM psychosocial WHERE id = ?";
+		$stmt = $db->conn->prepare($sql);
+		$stmt->bind_param("i", $branchId);
 
-	// Use prepared statements to prevent SQL injection
-	$sql = "DELETE FROM psychosocial WHERE id = ?";
-	$stmt = $db->conn->prepare($sql);
-	$stmt->bind_param("i", $branchId);
+		if ($stmt->execute()) {
+			// Redirect or display a success message
+			echo "<script>alert('Record successfully deleted.');</script>";
+			echo "<script>window.location='assespsycho.php';</script>";  // Redirect to the list page (adjust the filename as needed)
+		} else {
+			throw new Exception("Error deleting from psychosocial table: " . $stmt->error);
+		}
 
-	if ($stmt->execute()) {
-		// Redirect or display a success message
-		echo "<script>alert('Record successfully deleted.');</script>";
-		echo "<script>window.location='assespsycho.php';</script>";  // Redirect to the branches list page (adjust the filename as needed)
+		// Close the prepared statement
+		$stmt->close();
 	} else {
-		// Display an error if the query failed
-		echo "Error: " . $stmt->error;
+		throw new Exception("Error: Invalid or missing ID.");
 	}
-
-	// Close the prepared statement
-	$stmt->close();
-} else {
-	echo "Error preparing the SQL query.";
+} catch (Exception $e) {
+	// Display the error message
+	echo "Exception: " . $e->getMessage();
+} finally {
+	// Close the database connection
+	if (isset($db->conn)) {
+		$db->conn->close();
+	}
 }
-
-// Close the database connection
-$db->conn->close();
