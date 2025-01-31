@@ -23,7 +23,7 @@
             <?php
             session_start();
             if (isset($_SESSION['message'])) {
-                echo "<center><label class='text-danger'>" . htmlspecialchars($_SESSION['message']) . "</label></center>";
+                echo "<center><label class='text-danger'>" . htmlspecialchars($_SESSION['message'], ENT_QUOTES, 'UTF-8') . "</label></center>";
                 unset($_SESSION['message']); // Clear message after displaying
             }
             ?>
