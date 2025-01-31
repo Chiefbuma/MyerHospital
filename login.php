@@ -18,7 +18,7 @@
             </div>
             <div class="form-group">
                 <label for="password-input">🔒</label>
-                <input type="password" name="password" id="password-input" placeholder="Password" required>
+                <input type="password" name="password" id="password-input" placeholder="Pass" required>
             </div>
             <?php
             session_start();
