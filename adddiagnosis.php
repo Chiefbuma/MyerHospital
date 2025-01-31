@@ -676,39 +676,75 @@ if ($branch_result && $branch_row = $branch_result->fetch_assoc()) {
                                     <form action="newdiagnosis.php" method="POST">
                                         <div class="modal-body">
                                             <div class="rounded-container">
-                                                <label for="new_ICD_10">ICD-10</label>
-                                                <input type="text" class="form-control" id="new_ICD_10" name="icd_10" required>
-
-
                                                 <label for="new_diagnosis_name">Diagnosis Name</label>
-                                                <input type="text" class="form-control" id="new_diagnosis_name" name="diagnosis_name" required>
+                                                <div class="input-group mb-3">
+                                                    <input type="text" class="form-control" id="new_diagnosis_name" name="diagnosis_name" placeholder="Enter diagnosis name" required>
+                                                    <div class="input-group-append">
+                                                        <button type="button" class="btn btn-primary" onclick="fetchDiagnosis()">Search</button>
+                                                    </div>
+                                                </div>
+                                                <select id="diagnosisSuggestions" class="form-control mt-2" onchange="populateICD10()">
+                                                    <option value="">Select a diagnosis</option>
+                                                </select>
+
+                                                <label for="new_ICD_10">ICD-10</label>
+                                                <input type="text" class="form-control" id="new_ICD_10" name="icd_10" readonly required>
                                             </div>
                                         </div>
                                         <div class="modal-footer">
-                                            <div class="col-12 text-center">
-                                                <button type="submit" name="submit" class="btn btn-info" style="background-color: black; color: white;">Submit</button>
-                                                <button type="button" class="btn btn-default" data-dismiss="modal" style="background-color: grey; color: white;">Close</button>
-                                            </div>
+                                            <button type="submit" class="btn btn-info" style="background-color: black; color: white;">Submit</button>
+                                            <button type="button" class="btn btn-default" data-dismiss="modal" style="background-color: grey; color: white;">Close</button>
                                         </div>
                                     </form>
-                                </div>
-                            </div>
-                        </div>
-                        <script>
-                            $(document).ready(function() {
-                                $('#diagnosisTable').DataTable({
-                                    "searching": true,
-                                    "paging": true,
-                                    "ordering": true,
-                                    "info": true,
-                                    "language": {
-                                        "emptyTable": "",
-                                        "zeroRecords": ""
-                                    },
-                                    "pageLength": 5 // Set the number of entries to 5
-                                });
-                            });
-                        </script>
+
+                                    <script>
+                                        function fetchDiagnosis() {
+                                            const diagnosisName = document.getElementById('new_diagnosis_name').value;
+                                            const url = `https://clinicaltables.nlm.nih.gov/api/icd10cm/v3/search?sf=code,name&terms=${encodeURIComponent(diagnosisName)}`;
+
+                                            fetch(url)
+                                                .then(response => response.json())
+                                                .then(data => {
+                                                    const select = document.getElementById('diagnosisSuggestions');
+                                                    select.innerHTML = '<option value="">Select a diagnosis</option>';
+                                                    data[3].forEach(item => {
+                                                        const option = document.createElement('option');
+                                                        option.value = item[0]; // ICD-10 code
+                                                        option.textContent = item[1]; // Diagnosis name
+                                                        select.appendChild(option);
+                                                    });
+                                                    select.style.display = 'block';
+                                                })
+                                                .catch(error => {
+                                                    console.error('Error fetching diagnosis data:', error);
+                                                    alert('Error fetching diagnosis data. Please try again.');
+                                                });
+                                        }
+
+                                        function populateICD10() {
+                                            const select = document.getElementById('diagnosisSuggestions');
+                                            const selectedOption = select.options[select.selectedIndex];
+                                            if (selectedOption.value) {
+                                                document.getElementById('new_ICD_10').value = selectedOption.value;
+                                                document.getElementById('new_diagnosis_name').value = selectedOption.textContent;
+                                            }
+                                        }
+                                    </script>
+                                    <script>
+                                        $(document).ready(function() {
+                                            $('#diagnosisTable').DataTable({
+                                                "searching": true,
+                                                "paging": true,
+                                                "ordering": true,
+                                                "info": true,
+                                                "language": {
+                                                    "emptyTable": "",
+                                                    "zeroRecords": ""
+                                                },
+                                                "pageLength": 5 // Set the number of entries to 5
+                                            });
+                                        });
+                                    </script>
 
 
 

@@ -8,12 +8,11 @@ try {
     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         if (isset($_POST['route_name'], $_POST['address'], $_POST['latitude'], $_POST['longitude'])) {
             $route_name = $_POST['route_name'];
-            $address = $_POST['address'];
             $latitude = $_POST['latitude'];
             $longitude = $_POST['longitude'];
 
             // Validate form data
-            if (empty($route_name) || empty($address) || empty($latitude) || empty($longitude)) {
+            if (empty($route_name)  || empty($latitude) || empty($longitude)) {
                 throw new Exception("All fields are required.");
             }
 
@@ -21,17 +20,17 @@ try {
             $db = new db_class();
 
             // Prepare SQL to insert data into the database
-            $sql = "INSERT INTO routes (route_name, address, latitude, longitude) VALUES (?, ?, ?, ?)";
+            $sql = "INSERT INTO route (route_name, latitude, longitude) VALUES (?, ?, ?)";
 
             // Prepare the statement and bind parameters
             if ($stmt = $db->conn->prepare($sql)) {
-                $stmt->bind_param("ssdd", $route_name, $address, $latitude, $longitude);
+                $stmt->bind_param("sdd", $route_name, $latitude, $longitude);
 
                 // Execute the query
                 if ($stmt->execute()) {
                     // Redirect or display a success message
                     echo "<script>alert('New route added successfully.');</script>";
-                    echo "<script>window.location='addroute.php';</script>";  // Redirect to the branches list page (adjust the filename as needed)
+                    echo "<script>window.location='addroutes.php';</script>";  // Redirect to the branches list page (adjust the filename as needed)
                 } else {
                     throw new Exception("Error executing query: " . $stmt->error);
                 }

@@ -894,7 +894,7 @@ if ($branch_result && $branch_row = $branch_result->fetch_assoc()) {
 
                                     <div class="form-group d-flex">
                                         <label for="age" class="w-50">Age</label>
-                                        <input type="text" class="form-control w-50" id="age" name="age" readonly>
+                                        <input type="number" class="form-control w-50" id="age" name="age" readonly>
                                     </div>
 
                                     <div class="form-group d-flex">

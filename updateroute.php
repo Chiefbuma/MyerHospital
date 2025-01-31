@@ -31,7 +31,7 @@ try {
                 if ($stmt->execute()) {
                     // Redirect or display a success message
                     echo "<script>alert('Route updated successfully.');</script>";
-                    echo "<script>window.location='addroute.php';</script>";  // Redirect to the routes list page
+                    echo "<script>window.location='addroutes.php';</script>";  // Redirect to the routes list page
                 } else {
                     throw new Exception("Error executing query: " . $stmt->error);
                 }

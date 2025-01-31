@@ -22,8 +22,21 @@ try {
         $vital_signs_monitor = $_POST['vital_signs_monitor'];
 
         // Validate form data
-        if (empty($patient_id) || empty($procedure_id) || empty($scheme_id) || empty($specialty_id) || empty($refill_date) || empty($compliance) || empty($exercise) || empty($clinical_goals) || empty($vitals_monitoring) || empty($revenue) || empty($vital_signs_monitor)) {
-            throw new Exception("All fields are required.");
+        $missingFields = [];
+        if (empty($patient_id)) $missingFields[] = 'Patient ID';
+        if (empty($procedure_id)) $missingFields[] = 'Procedure ID';
+        if (empty($scheme_id)) $missingFields[] = 'Scheme ID';
+        if (empty($specialty_id)) $missingFields[] = 'Specialty ID';
+        if (empty($refill_date)) $missingFields[] = 'Refill Date';
+        if (empty($compliance)) $missingFields[] = 'Compliance';
+        if (empty($exercise)) $missingFields[] = 'Exercise';
+        if (empty($clinical_goals)) $missingFields[] = 'Clinical Goals';
+        if (empty($vitals_monitoring)) $missingFields[] = 'Vitals Monitoring';
+        if (empty($revenue)) $missingFields[] = 'Revenue';
+        if (empty($vital_signs_monitor)) $missingFields[] = 'Vital Signs Monitor';
+
+        if (!empty($missingFields)) {
+            throw new Exception("The following fields are required: " . implode(', ', $missingFields));
         }
 
         // SQL query to fetch the maximum visit date for a specific patient
@@ -78,7 +91,7 @@ try {
             // Close the statement
             $stmt->close();
         } else {
-            throw new Exception("Error preparing the SQL query.");
+            throw new Exception("Error preparing the SQL query: " . $db->conn->error);
         }
 
         // Close the database connection

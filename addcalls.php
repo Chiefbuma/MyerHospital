@@ -628,7 +628,6 @@ if ($branch_result && $branch_row = $branch_result->fetch_assoc()) {
                                                                 <div class="col-md-6">
                                                                     <div class="form-group d-flex">
                                                                         <label for="edit_first_name" class="w-50">First Name</label>
-
                                                                         <input type="hidden" name="patient_id" value="<?php echo $fetch['patient_id']; ?>">
                                                                         <input type="hidden" name="call_id" value="<?php echo $fetch['call_id']; ?>"> <!-- Add hidden field for call_id -->
                                                                         <input type="text" class="form-control w-50" id="edit_first_name" name="first_name" value="<?php echo $fetch['firstname']; ?>" readonly>
@@ -639,30 +638,10 @@ if ($branch_result && $branch_row = $branch_result->fetch_assoc()) {
                                                                         <input type="tel" class="form-control w-50" id="edit_phone_no" name="phone_no" value="<?php echo $fetch['phone_no']; ?>" readonly>
                                                                     </div>
 
-
-
-                                                                    <!-- New Revenue Field -->
-
-
-                                                                    <?php
-                                                                    // Fetch all diagnoses using the display_diagnosis function
-                                                                    $diagnoses = $db->display_diagnosis();
-
-                                                                    // Find the diagnosis name that matches the diagnosis_id from the current record
-                                                                    $diagnosis_name = '';
-                                                                    foreach ($diagnoses as $diagnosis) {
-                                                                        if ($diagnosis['diagnosis_id'] == $fetch['diagnosis_id']) {
-                                                                            $diagnosis_name = $diagnosis['diagnosis_name'];  // Get the corresponding diagnosis name
-                                                                            break; // Exit the loop once the matching diagnosis is found
-                                                                        }
-                                                                    }
-                                                                    ?>
-
                                                                     <div class="form-group d-flex">
                                                                         <label for="diagnosis" class="w-50">Diagnosis</label>
-                                                                        <input type="text" class="form-control w-50" id="diagnosis" name="diagnosis_id" value="<?php echo htmlspecialchars($diagnosis_name); ?>" readonly>
+                                                                        <input type="text" class="form-control w-50" id="diagnosis" name="diagnosis_id" value="<?php echo htmlspecialchars($fetch['diagnosis']); ?>" readonly>
                                                                     </div>
-
 
                                                                     <div class="form-group d-flex">
                                                                         <label for="edit_patient_no" class="w-50">Patient No.</label>
@@ -687,22 +666,17 @@ if ($branch_result && $branch_row = $branch_result->fetch_assoc()) {
                                                                         <input type="text" class="form-control w-50" id="edit_age" name="age" value="<?php echo $fetch['age']; ?>" readonly>
                                                                     </div>
 
-
                                                                     <div class="form-group d-flex">
                                                                         <label class="w-50">Status</label>
                                                                         <input type="patient_status" class="form-control w-50" id="edit_patient_status" name="patient_status" value="<?php echo $fetch['patient_status']; ?>" readonly>
-
                                                                     </div>
                                                                 </div>
                                                             </div>
                                                         </div>
 
-
                                                         <!-- Chronic Care Section -->
                                                         <div class="rounded-container">
-
                                                             <div class="row">
-
                                                                 <div class="col-6 form-group d-flex">
                                                                     <label for="call_results" class="w-50">Call Results</label>
                                                                     <select class="form-control" id="call_results" name="call_results" required>
@@ -718,8 +692,6 @@ if ($branch_result && $branch_row = $branch_result->fetch_assoc()) {
                                                                     <input type="date" class="form-control w-50" id="call_date" name="call_date" required>
                                                                 </div>
                                                             </div>
-
-
                                                         </div>
                                                         <div class="modal-footer">
                                                             <div class="col-12 text-center">
@@ -765,9 +737,11 @@ if ($branch_result && $branch_row = $branch_result->fetch_assoc()) {
 
                             <!-- Right-aligned search input box -->
                             <div style="display: flex; justify-content: flex-end; margin-bottom: 5px;">
-                                <form action="#">
-                                    <input type="search" placeholder="Search..." id="searchInput" onkeyup="filterList()">
-                                    <button type="submit" class="search-btn"><i class='bx bx-search'></i></button>
+                                <form action="#" style="display: flex; align-items: center; gap: 5px;">
+                                    <input type="search" placeholder="Search..." id="searchInput" onkeyup="filterList()" style="padding: 10px; border-radius: 5px; border: 1px solid #ccc; width: 200px;">
+                                    <button type="submit" class="search-btn" style="padding: 10px 15px; border-radius: 5px; border: none; background-color: #007bff; color: white; cursor: pointer;">
+                                        <i class='bx bx-search'></i>
+                                    </button>
                                 </form>
                             </div>
 
@@ -776,33 +750,13 @@ if ($branch_result && $branch_row = $branch_result->fetch_assoc()) {
                                 <ul class="todo-list" id="todoList">
                                     <?php
                                     // Fetch patient records from the database
-                                    $calls = $db->display_calls_patient();
-                                    $displayedPatients = []; // Array to track displayed patient IDs
+                                    $calls = $db->display_patient();
+
 
                                     while ($fetch = $calls->fetch_array(MYSQLI_ASSOC)) {
                                         // Check if the patient_id has already been displayed
-                                        if (in_array($fetch['patient_id'], $displayedPatients)) {
-                                            continue; // Skip this record if it has already been displayed
-                                        }
 
-                                        // Add the patient_id to the displayed array
-                                        $displayedPatients[] = $fetch['patient_id'];
 
-                                        // Calculate days since call_date
-                                        $callDate = new DateTime($fetch['call_date']); // Assuming call_date is in 'Y-m-d' format
-                                        $currentDate = new DateTime();
-                                        $daysDifference = $callDate->diff($currentDate)->days;
-
-                                        // Determine the background color based on the ranges
-                                        if ($daysDifference < 28) {
-                                            $bgColor = "background-color: #d4edda;"; // Light green
-                                        } elseif ($daysDifference >= 28 && $daysDifference <= 60) {
-                                            $bgColor = "background-color: #fff3cd;"; // Light yellow
-                                        } elseif ($daysDifference > 60 && $daysDifference <= 90) {
-                                            $bgColor = "background-color: #ffeeba;"; // Light orange
-                                        } else {
-                                            $bgColor = "background-color: #f8d7da;"; // Light red
-                                        }
                                     ?>
                                         <li class="completed" style="<?php echo $bgColor; ?>">
                                             <p>
@@ -816,16 +770,13 @@ if ($branch_result && $branch_row = $branch_result->fetch_assoc()) {
                                             </div>
                                         </li>
 
-                                        <!-- Modal for editing the patient details -->
                                         <div class="modal fade" id="editModal<?php echo htmlspecialchars($fetch['patient_id']); ?>" tabindex="-1" aria-labelledby="editModalLabel<?php echo htmlspecialchars($fetch['patient_id']); ?>" aria-hidden="true">
                                             <div class="modal-dialog modal-lg">
                                                 <div class="modal-content">
                                                     <div class="modal-body">
                                                         <form action="newcall.php" method="POST">
                                                             <div class="modal-body">
-
                                                                 <div class="rounded-container">
-
                                                                     <div class="row">
                                                                         <!-- First Column -->
                                                                         <div class="col-md-6">
@@ -842,10 +793,7 @@ if ($branch_result && $branch_row = $branch_result->fetch_assoc()) {
                                                                                 <input type="tel" class="form-control w-50" id="edit_phone_no" name="phone_no" value="<?php echo $fetch['phone_no']; ?>" readonly>
                                                                             </div>
 
-
-
                                                                             <!-- New Revenue Field -->
-
 
                                                                             <?php
                                                                             // Fetch all diagnoses using the display_diagnosis function
@@ -865,7 +813,6 @@ if ($branch_result && $branch_row = $branch_result->fetch_assoc()) {
                                                                                 <label for="diagnosis" class="w-50">Diagnosis</label>
                                                                                 <input type="text" class="form-control w-50" id="diagnosis" name="diagnosis_id" value="<?php echo htmlspecialchars($diagnosis_name); ?>" readonly>
                                                                             </div>
-
 
                                                                             <div class="form-group d-flex">
                                                                                 <label for="edit_patient_no" class="w-50">Patient No.</label>
@@ -890,22 +837,17 @@ if ($branch_result && $branch_row = $branch_result->fetch_assoc()) {
                                                                                 <input type="text" class="form-control w-50" id="edit_age" name="age" value="<?php echo $fetch['age']; ?>" readonly>
                                                                             </div>
 
-
                                                                             <div class="form-group d-flex">
                                                                                 <label class="w-50">Status</label>
                                                                                 <input type="patient_status" class="form-control w-50" id="edit_patient_status" name="patient_status" value="<?php echo $fetch['patient_status']; ?>" readonly>
-
                                                                             </div>
                                                                         </div>
                                                                     </div>
                                                                 </div>
 
-
                                                                 <!-- Chronic Care Section -->
                                                                 <div class="rounded-container">
-
                                                                     <div class="row">
-
                                                                         <div class="col-6 form-group d-flex">
                                                                             <label for="call_results" class="w-50">Call Results</label>
                                                                             <select class="form-control" id="call_results" name="call_results" required>
@@ -920,8 +862,6 @@ if ($branch_result && $branch_row = $branch_result->fetch_assoc()) {
                                                                             <label for="call_date" class="w-50">Date </label>
                                                                             <input type="date" class="form-control w-50" id="call_date" name="call_date" required>
                                                                         </div>
-
-
                                                                     </div>
                                                                 </div>
 
@@ -945,29 +885,51 @@ if ($branch_result && $branch_row = $branch_result->fetch_assoc()) {
                                     <?php
                                     }
                                     ?>
+                                    <li id="noData" style="display: none; text-align: center;">No data found</li>
                                 </ul>
                             </div>
 
+                            <script>
+                                function filterList() {
+                                    var input, filter, ul, li, p, i, txtValue, found;
+                                    input = document.getElementById('searchInput');
+                                    filter = input.value.toUpperCase();
+                                    ul = document.getElementById("todoList");
+                                    li = ul.getElementsByTagName('li');
+                                    found = false;
 
+                                    for (i = 0; i < li.length; i++) {
+                                        if (li[i].id !== 'noData') { // Skip the "No data found" element
+                                            p = li[i].getElementsByTagName("p")[0];
+                                            txtValue = p.textContent || p.innerText;
+                                            if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                                                li[i].style.display = "";
+                                                found = true;
+                                            } else {
+                                                li[i].style.display = "none";
+                                            }
+                                        }
+                                    }
 
-
-
-                        </div>
-                        <script>
-                            $(document).ready(function() {
-                                $('#patientTable').DataTable({
-                                    "searching": true,
-                                    "paging": true,
-                                    "ordering": true,
-                                    "info": true,
-                                    "language": {
-                                        "emptyTable": "",
-                                        "zeroRecords": ""
-                                    },
-                                    "pageLength": 5 // Set the number of entries to 5
+                                    // Show "No data found" message if no items are found
+                                    document.getElementById('noData').style.display = found ? 'none' : 'block';
+                                }
+                            </script>
+                            <script>
+                                $(document).ready(function() {
+                                    $('#patientTable').DataTable({
+                                        "searching": true,
+                                        "paging": true,
+                                        "ordering": true,
+                                        "info": true,
+                                        "language": {
+                                            "emptyTable": "",
+                                            "zeroRecords": ""
+                                        },
+                                        "pageLength": 5 // Set the number of entries to 5
+                                    });
                                 });
-                            });
-                        </script>
+                            </script>
 
             </main>
             <!-- MAIN -->
