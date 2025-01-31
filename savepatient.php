@@ -25,8 +25,25 @@ try {
         $cohort_id = $_POST['cohort_id']; // Added 'cohort_id' field from the form
 
         // Validate form data
-        if (empty($firstname) || empty($lastname) || empty($dob) || empty($gender) || empty($age) || empty($location) || empty($route_id) || empty($phone_no) || empty($email) || empty($patient_no) || empty($scheme_id) || empty($diagnosis_id) || empty($patient_status) || empty($branch_id) || empty($cohort_id)) {
-            throw new Exception("All fields are required.");
+        $missingFields = [];
+        if (empty($firstname)) $missingFields[] = 'First Name';
+        if (empty($lastname)) $missingFields[] = 'Last Name';
+        if (empty($dob)) $missingFields[] = 'Date of Birth';
+        if (empty($gender)) $missingFields[] = 'Gender';
+        if (empty($age)) $missingFields[] = 'Age';
+        if (empty($location)) $missingFields[] = 'Location';
+        if (empty($route_id)) $missingFields[] = 'Route';
+        if (empty($phone_no)) $missingFields[] = 'Phone Number';
+        if (empty($email)) $missingFields[] = 'Email';
+        if (empty($patient_no)) $missingFields[] = 'Patient Number';
+        if (empty($scheme_id)) $missingFields[] = 'Scheme';
+        if (empty($diagnosis_id)) $missingFields[] = 'Diagnosis';
+        if (empty($patient_status)) $missingFields[] = 'Patient Status';
+        if (empty($branch_id)) $missingFields[] = 'Branch';
+        if (empty($cohort_id)) $missingFields[] = 'Cohort';
+
+        if (!empty($missingFields)) {
+            throw new Exception("The following fields are required: " . implode(', ', $missingFields));
         }
 
         // Insert patient record into the database
@@ -36,4 +53,5 @@ try {
     }
 } catch (Exception $e) {
     echo "<script>alert('Exception: " . htmlspecialchars($e->getMessage()) . "');</script>";
+    echo "<script>window.location='patients.php'</script>";
 }

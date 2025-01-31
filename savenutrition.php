@@ -25,8 +25,26 @@ try {
         $revenue = $_POST['revenue'];
 
         // Validate form data
-        if (empty($patient_id) || empty($scheme_id) || empty($visit_date) || empty($next_review) || empty($muscle_mass) || empty($bone_mass) || empty($weight) || empty($BMI) || empty($subcutaneous_fat) || empty($visceral_fat) || empty($weight_remarks) || empty($physical_activity) || empty($meal_plan_set_up) || empty($nutrition_adherence) || empty($nutrition_assessment_remarks) || empty($revenue)) {
-            throw new Exception("All fields are required.");
+        $missingFields = [];
+        if (empty($patient_id)) $missingFields[] = 'Patient ID';
+        if (empty($scheme_id)) $missingFields[] = 'Scheme ID';
+        if (empty($visit_date)) $missingFields[] = 'Visit Date';
+        if (empty($next_review)) $missingFields[] = 'Next Review';
+        if (empty($muscle_mass)) $missingFields[] = 'Muscle Mass';
+        if (empty($bone_mass)) $missingFields[] = 'Bone Mass';
+        if (empty($weight)) $missingFields[] = 'Weight';
+        if (empty($BMI)) $missingFields[] = 'BMI';
+        if (empty($subcutaneous_fat)) $missingFields[] = 'Subcutaneous Fat';
+        if (empty($visceral_fat)) $missingFields[] = 'Visceral Fat';
+        if (empty($weight_remarks)) $missingFields[] = 'Weight Remarks';
+        if (empty($physical_activity)) $missingFields[] = 'Physical Activity';
+        if (empty($meal_plan_set_up)) $missingFields[] = 'Meal Plan Set Up';
+        if (empty($nutrition_adherence)) $missingFields[] = 'Nutrition Adherence';
+        if (empty($nutrition_assessment_remarks)) $missingFields[] = 'Nutrition Assessment Remarks';
+        if (empty($revenue)) $missingFields[] = 'Revenue';
+
+        if (!empty($missingFields)) {
+            throw new Exception("The following fields are required: " . implode(', ', $missingFields));
         }
 
         // SQL query to fetch the maximum visit date for a specific patient
@@ -94,4 +112,5 @@ try {
     }
 } catch (Exception $e) {
     echo "<script>alert('Exception: " . htmlspecialchars($e->getMessage()) . "');</script>";
+    echo "<script>window.location='assesnutrition.php'</script>";
 }

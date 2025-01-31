@@ -17,8 +17,16 @@ try {
         $visit_date = $_POST['visit_date'];
 
         // Validate form data
-        if (empty($patient_id) || empty($medication_ids) || empty($days_supplied) || empty($no_pills_dispensed) || empty($frequencies) || empty($visit_date)) {
-            throw new Exception("All fields are required.");
+        $missingFields = [];
+        if (empty($patient_id)) $missingFields[] = 'Patient ID';
+        if (empty($medication_ids)) $missingFields[] = 'Medication IDs';
+        if (empty($days_supplied)) $missingFields[] = 'Days Supplied';
+        if (empty($no_pills_dispensed)) $missingFields[] = 'No. Pills Dispensed';
+        if (empty($frequencies)) $missingFields[] = 'Frequencies';
+        if (empty($visit_date)) $missingFields[] = 'Visit Date';
+
+        if (!empty($missingFields)) {
+            throw new Exception("The following fields are required: " . implode(', ', $missingFields));
         }
 
         // Prepare SQL query for insertion

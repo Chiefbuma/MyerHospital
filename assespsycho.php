@@ -609,7 +609,7 @@ if ($branch_result && $branch_row = $branch_result->fetch_assoc()) {
 
                                     <td>
                                         <div class="d-flex justify-content-between">
-                                            <button type="button" class="btn btn-info" data-toggle="modal" data-target="#editModal<?php echo $fetch['id']; ?>" style="background-color: black; color: white;">Edit</button>
+                                            <!--<button type="button" class="btn btn-info" data-toggle="modal" data-target="#editModal<?php echo $fetch['id']; ?>" style="background-color: black; color: white;">Edit</button>-->
 
                                             <!-- Button to trigger modal for delete -->
                                             <button class="btn btn-danger" data-toggle="modal" data-target="#deleteModal<?php echo $fetch['id']; ?>">Delete</button>
@@ -1028,9 +1028,11 @@ if ($branch_result && $branch_row = $branch_result->fetch_assoc()) {
 
                         <!-- Right-aligned search input box -->
                         <div style="display: flex; justify-content: flex-end; margin-bottom: 5px;">
-                            <form action="#">
-                                <input type="search" placeholder="Search..." id="searchInput" onkeyup="filterList()">
-                                <button type="submit" class="search-btn"><i class='bx bx-search'></i></button>
+                            <form action="#" style="display: flex; align-items: center; gap: 5px;">
+                                <input type="search" placeholder="Search..." id="searchInput" onkeyup="filterList()" style="padding: 10px; border-radius: 5px; border: 1px solid #ccc; width: 200px;">
+                                <button type="submit" class="search-btn" style="padding: 10px 15px; border-radius: 5px; border: none; background-color: #007bff; color: white; cursor: pointer;">
+                                    <i class='bx bx-search'></i>
+                                </button>
                             </form>
                         </div>
 
@@ -1115,11 +1117,27 @@ if ($branch_result && $branch_row = $branch_result->fetch_assoc()) {
 
                                                                         <!-- New Revenue Field -->
 
+                                                                        <?php
+                                                                        // Fetch all diagnoses using the display_diagnosis function
+                                                                        $diagnoses = $db->display_diagnosis();
+
+                                                                        // Find the diagnosis name that matches the diagnosis_id from the current record
+                                                                        $diagnosis_name = '';
+                                                                        foreach ($diagnoses as $diagnosis) {
+                                                                            if ($diagnosis['diagnosis_id'] == $fetch['diagnosis_id']) {
+                                                                                $diagnosis_name = $diagnosis['diagnosis_name'];  // Get the corresponding diagnosis name
+                                                                                break; // Exit the loop once the matching diagnosis is found
+                                                                            }
+                                                                        }
+                                                                        ?>
+
+
 
                                                                         <div class="form-group d-flex">
                                                                             <label for="diagnosis" class="w-50">Diagnosis</label>
-                                                                            <input type="text" class="form-control w-50" id="diagnosis" name="diagnosis_id" value="<?php echo $fetch['diagnosis']; ?>" readonly>
+                                                                            <input type="text" class="form-control w-50" id="diagnosis" name="diagnosis_id" value="<?php echo htmlspecialchars($diagnosis_name); ?>" readonly>
                                                                         </div>
+
 
                                                                         <div class="form-group d-flex">
                                                                             <label for="edit_patient_no" class="w-50">Patient No.</label>
@@ -1406,29 +1424,34 @@ if ($branch_result && $branch_row = $branch_result->fetch_assoc()) {
                                 <?php
                                 }
                                 ?>
+                                <li id="noData" style="display: none; text-align: center;">No data found</li>
                             </ul>
                         </div>
 
                         <script>
                             function filterList() {
-                                var input, filter, ul, li, p, i, txtValue;
+                                var input, filter, ul, li, p, i, txtValue, found;
                                 input = document.getElementById('searchInput');
                                 filter = input.value.toUpperCase();
                                 ul = document.getElementById("todoList");
                                 li = ul.getElementsByTagName('li');
+                                found = false;
 
-                                // Loop through all list items and hide those that don't match the search query
                                 for (i = 0; i < li.length; i++) {
-                                    p = li[i].getElementsByTagName("p")[0];
-                                    if (p) {
+                                    if (li[i].id !== 'noData') { // Skip the "No data found" element
+                                        p = li[i].getElementsByTagName("p")[0];
                                         txtValue = p.textContent || p.innerText;
                                         if (txtValue.toUpperCase().indexOf(filter) > -1) {
                                             li[i].style.display = "";
+                                            found = true;
                                         } else {
                                             li[i].style.display = "none";
                                         }
                                     }
                                 }
+
+                                // Show "No data found" message if no items are found
+                                document.getElementById('noData').style.display = found ? 'none' : 'block';
                             }
                         </script>
 

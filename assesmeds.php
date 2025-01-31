@@ -575,45 +575,32 @@ if ($branch_result && $branch_row = $branch_result->fetch_assoc()) {
                         <thead>
                             <tr>
                                 <th></th>
-
                                 <th>Patient Name</th>
-
-                                <th>Assesment</th>
+                                <th>Assessment</th>
                                 <th>Patient Status</th>
                                 <th>Action</th>
-
                             </tr>
                         </thead>
                         <tbody>
                             <?php
-                            // Fetch patient records from the database
                             $visit = $db->asseMedication();
-
                             $rowNumber = 0; // Initialize row number
 
                             while ($fetch = $visit->fetch_array(MYSQLI_ASSOC)) {
                                 // Check if the assessment is not 'Chronic' and add a hidden class to hide the row
                                 $hiddenClass = ($fetch['assessment'] !== 'Medication') ? 'hidden-row' : '';
-
                             ?>
                                 <tr class="<?php echo $hiddenClass; ?>">
-
                                     <td><?php echo $rowNumber++; ?></td>
-
-
                                     <td><?php echo htmlspecialchars($fetch['firstname'] . ' ' . $fetch['lastname']); ?></td>
-
                                     <td><?php echo $fetch['assessment']; ?></td>
-
                                     <td><?php echo htmlspecialchars($fetch['patient_status']); ?></td>
                                     <td>
                                         <div class="d-flex justify-content-between">
                                             <button type="button" class="btn btn-info" data-toggle="modal" data-target="#editModal<?php echo $fetch['medication_use_id']; ?>" style="background-color: black; color: white;">Dispense</button>
-
-                                            <!-- Button to trigger modal for delete -->
                                             <button class="btn btn-danger" data-toggle="modal" data-target="#deleteModal<?php echo $fetch['medication_use_id']; ?>">Delete</button>
-                                            <!-- Modal for Deletion Confirmation -->
                                         </div>
+                                        <!-- Modal for Deletion Confirmation -->
                                         <div class="modal fade" id="deleteModal<?php echo $fetch['medication_use_id']; ?>" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
                                             <div class="modal-dialog">
                                                 <div class="modal-content">
@@ -633,665 +620,202 @@ if ($branch_result && $branch_row = $branch_result->fetch_assoc()) {
                                                 </div>
                                             </div>
                                         </div>
-
-                                    </td>
-
-
-                                    <!-- Add the following CSS to hide rows -->
-                                    <style>
-                                        .hidden-row {
-                                            display: none;
-                                        }
-                                    </style>
-
-                                    <!-- Modal Content -->
-                                    <div class="modal fade" id="neweditModal<?php echo $fetch['patient_id']; ?>" tabindex="-1" aria-labelledby="editModalLabel<?php echo $fetch['patient_id']; ?>" aria-hidden="true">
-                                        <div class="modal-dialog modal-lg">
-                                            <div class="modal-content">
-                                                <div class="modal-header">
-                                                    <button type="button" class="close" data-dismiss="modal">&times;</button>
-                                                </div>
-
-                                                <form action="savechronic.php" method="POST">
+                                        <!-- Modal for Dispensing Medication -->
+                                        <div class="modal fade" id="editModal<?php echo $fetch['medication_use_id']; ?>" tabindex="-1" aria-labelledby="editModalLabel" aria-hidden="true">
+                                            <div class="modal-dialog modal-lg">
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <h5 class="modal-title">Dispense Medication for <?php echo htmlspecialchars($fetch['firstname'] . ' ' . $fetch['lastname']); ?></h5>
+                                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                            <span aria-hidden="true">&times;</span>
+                                                        </button>
+                                                    </div>
                                                     <div class="modal-body">
-                                                        <div class="rounded-container">
-                                                            <!-- Hidden Field -->
-                                                            <input type="hidden" name="patient_id" value="<?php echo $fetch['patient_id']; ?>">
+                                                        <form action="savemedication.php" method="POST">
+                                                            <div class="modal-body">
+                                                                <div class="rounded-container">
 
-                                                            <h5>Patient Bio Details</h5>
-                                                            <div class="row">
-                                                                <!-- First Column -->
-                                                                <div class="col-md-6">
-                                                                    <div class="form-group d-flex">
-                                                                        <label for="edit_first_name" class="w-50">First Name</label>
-                                                                        <input type="text" class="form-control w-50" id="edit_first_name" name="first_name" value="<?php echo $fetch['firstname']; ?>" required>
-                                                                    </div>
+                                                                    <div class="row">
+                                                                        <!-- First Column -->
+                                                                        <div class="col-md-6">
+                                                                            <div class="form-group d-flex">
+                                                                                <label for="edit_first_name" class="w-50">First Name</label>
+                                                                                <input type="hidden" name="patient_id" value="<?php echo $fetch['patient_id']; ?>">
+                                                                                <!-- Hidden Field -->
+                                                                                <input type="hidden" name="patient_id" value="<?php echo $fetch['patient_id']; ?>">
+                                                                                <input type="text" class="form-control w-50" id="edit_first_name" name="first_name" value="<?php echo $fetch['firstname']; ?>" readonly>
+                                                                            </div>
 
-                                                                    <div class="form-group d-flex">
-                                                                        <label for="edit_phone_no" class="w-50">Phone Number</label>
-                                                                        <input type="tel" class="form-control w-50" id="edit_phone_no" name="phone_no" value="<?php echo $fetch['phone_no']; ?>" required>
-                                                                    </div>
-
-                                                                    <div class="form-group d-flex">
-                                                                        <label for="scheme_id" class="w-50">Scheme</label>
-                                                                        <select class="form-control w-50" id="scheme_id" name="scheme_id" required>
-                                                                            <option value="" disabled selected>Select scheme</option>
-                                                                            <?php
-                                                                            $schemes = $db->display_schemes();
-                                                                            if ($schemes !== false) {
-                                                                                foreach ($schemes as $scheme) {
-                                                                                    echo "<option value='{$scheme['scheme_id']}'>{$scheme['scheme_name']} - {$scheme['payment_method']}</option>";
-                                                                                }
-                                                                            }
-                                                                            ?>
-                                                                        </select>
-                                                                    </div>
-                                                                    <div class="form-group d-flex">
-                                                                        <label for="diagnosis" class="w-50">Diagnosis</label>
-                                                                        <input type="text" class="form-control w-50" id="diagnois" name="diagnosis_id" value="<?php echo $fetch['diagnosis']; ?>" required>
-                                                                    </div>
-                                                                    <div class="form-group d-flex">
-                                                                        <label class="w-50">status</label>
-                                                                        <select class="form-control w-50" name="patient_status">
-                                                                            <option value="active">Active</option>
-                                                                            <option value="semi active">Semi Active</option>
-                                                                            <option value="not active">Not Active</option>
-                                                                        </select>
-                                                                    </div>
-                                                                    <div class="form-group d-flex">
-                                                                        <label for="edit_patient_no" class="w-50">Patient No.</label>
-                                                                        <input type="tel" class="form-control w-50" id="edit_patient_no" name="patient_no" value="<?php echo $fetch['patient_no']; ?>" required>
-                                                                    </div>
-
-                                                                </div>
-
-                                                                <!-- Second Column -->
-                                                                <div class="col-md-6">
-                                                                    <div class="form-group d-flex">
-                                                                        <label for="edit_last_name" class="w-50">Last Name</label>
-                                                                        <input type="text" class="form-control w-50" id="edit_last_name" name="last_name" value="<?php echo $fetch['lastname']; ?>" required>
-                                                                    </div>
-                                                                    <div class="orm-group d-flex">
-                                                                        <label for="edit_dob" class="w-50"> Date of Birth</label>
-                                                                        <input type="date" class="form-control" id="edit_dob" name="dob" value="<?php echo $fetch['dob']; ?>" required>
-                                                                    </div>
-
-                                                                    <div class="form-group d-flex">
-                                                                        <label for="edit_age" class="w-50">Age</label>
-                                                                        <input type="text" class="form-control w-50" id="edit_age" name="age" value="<?php echo $fetch['age']; ?>" readonly>
-                                                                    </div>
-                                                                    <div class="orm-group d-flex">
-                                                                        <label for="Payment_method" class="w-50">Payment Method</label>
-                                                                        <select class="form-select" id="Payment_method" name="Payment_method" required>
-                                                                            <option value="" disabled selected>Select Payment Method</option>
-                                                                            <?php
-                                                                            // Fetch payment methods from the database
-                                                                            $payment_methods = $db->display_payment_methods();
-                                                                            if ($payment_methods !== false) {
-                                                                                foreach ($payment_methods as $method) {
-                                                                                    echo "<option value='{$method['scheme']}'>{$method['payment_method']}</option>";
-                                                                                }
-                                                                            } else {
-                                                                                echo "<option value='' disabled>Error fetching payment methods</option>";
-                                                                            }
-                                                                            ?>
-                                                                        </select>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
+                                                                            <div class="form-group d-flex">
+                                                                                <label for="edit_phone_no" class="w-50">Phone Number</label>
+                                                                                <input type="tel" class="form-control w-50" id="edit_phone_no" name="phone_no" value="<?php echo $fetch['phone_no']; ?>" readonly>
+                                                                            </div>
 
 
-                                                        <!-- Medication Fields -->
 
-                                                        <div class="rounded-container">
-                                                            <h5>Medication</h5>
-                                                            <!-- Form Container -->
-                                                            <div class="col-md-16">
-                                                                <div class="container mt-5">
-                                                                    <form id="dynamicForm" action="insert.php" method="POST">
-                                                                        <div id="formContainer">
+                                                                            <!-- New Revenue Field -->
 
-                                                                            <!-- Table headers -->
-                                                                            <div class="row mb-2" style="background-color: grey; color: white; border-radius: 10px; border: 2px solid white;">
-                                                                                <div class="col-md-1" style="border-right: 1px solid white; padding: 5px; text-align: center;">
-                                                                                    <strong>No</strong>
-                                                                                </div>
-                                                                                <div class="col-md-3" style="border-right: 1px solid white; padding: 5px; text-align: center;">
-                                                                                    <strong>Medication</strong>
-                                                                                </div>
-                                                                                <div class="col-md-2" style="border-right: 1px solid white; padding: 5px; text-align: center;">
-                                                                                    <strong>Days</strong>
-                                                                                </div>
-                                                                                <div class="col-md-2" style="border-right: 1px solid white; padding: 5px; text-align: center;">
-                                                                                    <strong>No. Pills</strong>
-                                                                                </div>
-                                                                                <div class="col-md-2" style="border-right: 1px solid white; padding: 5px; text-align: center;">
-                                                                                    <strong>Frequency</strong>
-                                                                                </div>
+
+                                                                            <div class="form-group d-flex">
+                                                                                <label for="diagnosis" class="w-50">Diagnosis</label>
+                                                                                <input type="text" class="form-control w-50" id="diagnosis" name="diagnosis_id" value="<?php echo $fetch['diagnosis']; ?>" readonly>
+                                                                            </div>
+
+                                                                            <div class="form-group d-flex">
+                                                                                <label for="edit_patient_no" class="w-50">Patient No.</label>
+                                                                                <input type="tel" class="form-control w-50" id="edit_patient_no" name="patient_no" value="<?php echo $fetch['patient_no']; ?>" readonly>
+                                                                            </div>
+                                                                        </div>
+
+                                                                        <!-- Second Column -->
+                                                                        <div class="col-md-6">
+                                                                            <div class="form-group d-flex">
+                                                                                <label for="edit_last_name" class="w-50">Last Name</label>
+                                                                                <input type="text" class="form-control w-50" id="edit_last_name" name="last_name" value="<?php echo $fetch['lastname']; ?>" readonly>
+                                                                            </div>
+
+                                                                            <div class="form-group d-flex">
+                                                                                <label for="edit_dob" class="w-50">Date of Birth</label>
+                                                                                <input type="date" class="form-control w-50" id="edit_dob" name="dob" value="<?php echo $fetch['dob']; ?>" readonly>
+                                                                            </div>
+
+                                                                            <div class="form-group d-flex">
+                                                                                <label for="edit_age" class="w-50">Age</label>
+                                                                                <input type="text" class="form-control w-50" id="edit_age" name="age" value="<?php echo $fetch['age']; ?>" readonly>
+                                                                            </div>
+
+
+                                                                            <div class="form-group d-flex">
+                                                                                <label class="w-50">Status</label>
+                                                                                <input type="patient_status" class="form-control w-50" id="edit_patient_status" name="patient_status" value="<?php echo $fetch['patient_status']; ?>" readonly>
 
                                                                             </div>
-                                                                            <!-- For Chronic Care -->
-                                                                            <input type="hidden" name="medication_details" value="1" />
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <!-- Revenue -->
 
-                                                                            <!-- Initial Row -->
-                                                                            <div class="row mb-1 form-group" id="row1">
-                                                                                <div class="col-md-1" style="padding: 5px; text-align: center;">
-                                                                                    <span class="row-number">1</span>
+
+                                                                <div class="rounded-container">
+
+
+                                                                    <form id="medicationForm<?php echo $fetch['medication_use_id']; ?>" action="savemedication.php" method="POST">
+                                                                        <input type="hidden" name="patient_id" value="<?php echo $fetch['patient_id']; ?>">
+                                                                        <div id="formContainer<?php echo $fetch['medication_use_id']; ?>">
+                                                                            <div class="row mb-2">
+                                                                                <div class="col-md-6">
+                                                                                    <div class="row mb-2">
+                                                                                        <div class="col-md-8 text-center"><strong>Medication</strong></div>
+                                                                                        <div class="col-md-4 text-center"><strong>Action</strong></div>
+                                                                                    </div>
+                                                                                    <!-- Initial Row -->
+                                                                                    <div class="row mb-2 form-group medication-row">
+                                                                                        <div class="col-md-8">
+                                                                                            <select name="medication_id[]" class="form-control" required>
+                                                                                                <option value="">Select Medication</option>
+                                                                                                <?php
+                                                                                                // Fetch medications from the database
+                                                                                                $meds = $db->displayMedication();
+                                                                                                if ($meds->num_rows > 0) {
+                                                                                                    while ($row = $meds->fetch_assoc()) {
+                                                                                                        echo '<option value="' . $row['medication_id'] . '">' . htmlspecialchars($row['medication_name']) . '</option>';
+                                                                                                    }
+                                                                                                } else {
+                                                                                                    echo '<option value="">No Medications Found</option>';
+                                                                                                }
+                                                                                                ?>
+                                                                                            </select>
+                                                                                        </div>
+                                                                                        <div class="col-md-4 text-center">
+                                                                                            <button type="button" class="btn btn-success add-field" data-target="#formContainer<?php echo $fetch['medication_use_id']; ?>">+</button>
+                                                                                        </div>
+                                                                                    </div>
                                                                                 </div>
-                                                                                <div class="col-md-3" style="padding: 5px;">
-                                                                                    <select name="medication_id[]" class="form-control select2" required>
-                                                                                        <option value="">Select Medication</option>
-                                                                                        <?php
-                                                                                        // Fetch medications from the database
-                                                                                        $meds = $db->displayMedication();
-                                                                                        if ($meds->num_rows > 0) {
-                                                                                            while ($row = $meds->fetch_assoc()) {
-                                                                                                echo '<option value="' . $row['medication_id'] . '">' . htmlspecialchars($row['medication_name']) . '</option>';
+                                                                                <div class="col-md-6">
+                                                                                    <div style="max-height: 300px; overflow-y: auto; scrollbar-width: none; -ms-overflow-style: none; padding: 1px; border-radius: 5px;">
+                                                                                        <ul class="todo-list" id="todoList">
+                                                                                            <?php
+                                                                                            // Fetch patient records from the database
+                                                                                            $calls = $db->display_calls_patient();
+                                                                                            $rowNumber = 1; // Initialize row number
+
+                                                                                            while ($fetch = $calls->fetch_array(MYSQLI_ASSOC)) {
+                                                                                                // Display the row number along with the patient name
+                                                                                            ?>
+                                                                                                <li class="completed d-flex justify-content-between align-items-center">
+                                                                                                    <p class="mb-0"><?php echo $rowNumber . ". " . htmlspecialchars($fetch['firstname'] . ' ' . $fetch['lastname']) ?></p>
+                                                                                                    <button type="button" class="btn btn-link text-danger p-0 delete-item" data-id="<?php echo $fetch['id']; ?>">
+                                                                                                        <i class="fa fa-trash"></i>
+                                                                                                    </button>
+                                                                                                </li>
+                                                                                            <?php
+                                                                                                $rowNumber++; // Increment row number after each iteration
                                                                                             }
-                                                                                        } else {
-                                                                                            echo '<option value="">No Medications Found</option>';
-                                                                                        }
-                                                                                        ?>
-                                                                                    </select>
-                                                                                </div>
+                                                                                            ?>
 
-                                                                                <div class="col-md-2" style="padding: 5px;">
-                                                                                    <input type="number" name="days_supplied[]" class="form-control" required>
-                                                                                </div>
-                                                                                <div class="col-md-2" style="padding: 5px;">
-                                                                                    <input type="number" name="no_pills_dispensed[]" class="form-control" required>
-                                                                                </div>
-                                                                                <div class="col-md-2" style="padding: 5px;">
-                                                                                    <select name="frequency[]" class="form-control-sm custom-select" required>
-                                                                                        <option value="OD">OD</option>
-                                                                                        <option value="BD">BD </option>
-                                                                                        <option value="TDS">TDS</option>
-                                                                                        <option value="QID">QID</option>
-                                                                                        <option value="PRN">PRN</option>
-                                                                                        <option value="Weekly">Weekly</option>
-                                                                                    </select>
-                                                                                </div>
-                                                                                <div class="col-md-2" style="padding: 5px; text-align: center;">
-                                                                                    <button type="button" class="btn btn-success add-field">+</button>
+                                                                                        </ul>
+                                                                                    </div>
                                                                                 </div>
                                                                             </div>
                                                                         </div>
-                                                                        <div class="modal-footer">
-                                                                            <div class="col-12 text-center">
-                                                                                <!-- Submit Button -->
-                                                                                <button type="submit" name="submit" class="btn btn-info btn-large" style="background-color: black; color: white;">
-                                                                                    Submit
-                                                                                </button>
-
-                                                                                <!-- Close Button -->
-                                                                                <button type="button" class="btn btn-default" data-dismiss="modal" style="background-color: grey; color: white;">
-                                                                                    Close
-                                                                                </button>
-                                                                            </div>
+                                                                        <div class="text-center">
+                                                                            <button type="submit" class="btn btn-primary">Submit</button>
                                                                         </div>
-
                                                                     </form>
                                                                 </div>
                                                             </div>
-                                                        </div>
                                                     </div>
-
-                                                    <!-- Script for Dynamic Fields -->
-                                                    <script>
-                                                        $(document).ready(function() {
-                                                            let rowCounter = 1; // Initial row number
-
-                                                            // Add new input fields dynamically when the "Add" button is clicked
-                                                            $(document).off('click', '.add-field').on('click', '.add-field', function() {
-                                                                rowCounter++; // Increment the row number for each new row
-
-                                                                // Create new field set
-                                                                const newField = `
-                                                                    <div class="row mb-2 form-group" id="row${rowCounter}">
-                                                                        <div class="col-md-1" style="padding: 5px; text-align: center;">
-                                                                            <span class="row-number">${rowCounter}</span>
-                                                                        </div>
-                                                                        <div class="col-md-3" style="padding: 5px;">
-                                                                            <select name="medication_id[]" class="form-control select2" required>
-                                                                                <option value="">Select Medication</option>
-                                                                                <?php
-                                                                                // Fetch medications from the database
-                                                                                $meds = $db->displayMedication();
-                                                                                if ($meds->num_rows > 0) {
-                                                                                    while ($row = $meds->fetch_assoc()) {
-                                                                                        echo '<option value="' . $row['medication_id'] . '">' . htmlspecialchars($row['medication_name']) . '</option>';
-                                                                                    }
-                                                                                } else {
-                                                                                    echo '<option value="">No Medications Found</option>';
-                                                                                }
-                                                                                ?>
-                                                                            </select>
-                                                                        </div>
-                                                                        <div class="col-md-2" style="padding: 5px;">
-                                                                            <input type="number" name="days_supplied[]" class="form-control"  required>
-                                                                        </div>
-                                                                        <div class="col-md-2" style="padding: 5px;">
-                                                                            <input type="number" name="no_pills_dispensed[]" class="form-control"  required>
-                                                                        </div>
-                                                                    <div class="col-md-2" style="padding: 5px;">
-                                                                            <select name="frequency[]" class="form-control-sm custom-select"  required>
-                                                                                <option value="OD">OD</option>
-                                                                                <option value="BD">BD</option>
-                                                                                <option value="TDS">TDS</option>
-                                                                                <option value="QID">QID</option>
-                                                                                <option value="PRN">PRN</option>
-                                                                                <option value="Weekly">Weekly</option>
-                                                                            </select>
-                                                                        </div>
-                                                                        <div class="col-md-2" style="padding: 5px; text-align: center;">
-                                                                            <button type="button" class="btn btn-danger remove-field">-</button>
-                                                                        </div>
-                                                                    </div>
-                                                                `;
-                                                                // Append the new fields to the form container
-                                                                $('#formContainer').append(newField);
-                                                            });
-
-                                                            // Remove input fields dynamically when the "Remove" button is clicked
-                                                            $(document).off('click', '.remove-field').on('click', '.remove-field', function() {
-                                                                $(this).closest('.form-group').remove();
-                                                                rowCounter--; // Decrement row number on removal
-                                                            });
-                                                        });
-                                                    </script>
-                                            </div>
-                                            </form>
-                                        </div>
-                                    </div>
+                                                </div>
+                                    </td>
+                                </tr>
+                            <?php } ?>
+                        </tbody>
+                    </table>
                 </div>
 
-            <?php } ?>
-            </tbody>
-            </table>
-            </div>
+                <!-- Script for Dynamic Fields -->
+                <script>
+                    $(document).ready(function() {
+                        // Add new input fields dynamically when the "Add" button is clicked
+                        $(document).on('click', '.add-field', function() {
+                            let target = $(this).data('target');
+                            let newField = $(target + ' .medication-row:first').clone();
 
-            <script>
-                $(document).ready(function() {
-                    $('#patientTable').DataTable({
-                        "searching": true,
-                        "paging": true,
-                        "ordering": true,
-                        "info": true,
-                        "language": {
-                            "emptyTable": "",
-                            "zeroRecords": ""
-                        },
-                        "pageLength": 5 // Set the number of entries to 5
+                            // Clear selected values
+                            newField.find('select').val('');
+
+                            // Change the Add button to a Remove button
+                            newField.find('.add-field')
+                                .removeClass('btn-success add-field')
+                                .addClass('btn-danger remove-field')
+                                .text('-');
+
+                            // Append the new fields to the form container
+                            $(target).append(newField);
+                        });
+
+                        // Remove input fields dynamically when the "Remove" button is clicked
+                        $(document).on('click', '.remove-field', function() {
+                            $(this).closest('.medication-row').remove();
+                        });
                     });
-                });
-            </script>
+                </script>
 
-
-            <div class="todo">
-                <div class="todo">
-                    <div class="head">
-                        <h3>Assesment List</h3>
-
-                    </div>
-
-                    <!-- Right-aligned search input box -->
-                    <div style="display: flex; justify-content: flex-end; margin-bottom: 5px;">
-                        <form action="#">
-                            <input type="search" placeholder="Search..." id="searchInput" onkeyup="filterList()">
-                            <button type="submit" class="search-btn"><i class='bx bx-search'></i></button>
-                        </form>
-                    </div>
-
-
-                    <div style="max-height: 300px; overflow-y: auto; scrollbar-width: none; -ms-overflow-style: none; padding: 15px; border-radius: 5px;">
-                        <ul class="todo-list" id="todoList">
-                            <?php
-                            // Fetch patient records from the database
-                            $calls = $db->display_calls_patient();
-                            $displayedPatients = []; // Array to track displayed patient IDs
-
-                            while ($fetch = $calls->fetch_array(MYSQLI_ASSOC)) {
-                                // Check if the patient_id has already been displayed
-                                if (in_array($fetch['patient_id'], $displayedPatients)) {
-                                    continue; // Skip this record if it has already been displayed
-                                }
-
-                                // Add the patient_id to the displayed array
-                                $displayedPatients[] = $fetch['patient_id'];
-
-                                // Calculate days since call_date
-                                $callDate = new DateTime($fetch['call_date']); // Assuming call_date is in 'Y-m-d' format
-                                $currentDate = new DateTime();
-                                $daysDifference = $callDate->diff($currentDate)->days;
-
-                                // Determine the background color based on the ranges
-                                if ($daysDifference < 28) {
-                                    $bgColor = "background-color: #d4edda;"; // Light green
-                                } elseif ($daysDifference >= 28 && $daysDifference <= 60) {
-                                    $bgColor = "background-color: #fff3cd;"; // Light yellow
-                                } elseif ($daysDifference > 60 && $daysDifference <= 90) {
-                                    $bgColor = "background-color: #ffeeba;"; // Light orange
-                                } else {
-                                    $bgColor = "background-color: #f8d7da;"; // Light red
-                                }
-                            ?>
-                                <li class="completed" style="<?php echo $bgColor; ?>">
-                                    <p>
-                                        <strong>Patient:</strong> <?php echo htmlspecialchars($fetch['firstname'] . ' ' . $fetch['lastname']) ?> <br>
-                                        <strong>Phone:</strong> <?php echo htmlspecialchars($fetch['phone_no']); ?> <br>
-                                        <strong>Patient No:</strong> <?php echo htmlspecialchars($fetch['patient_no']); ?> <br>
-
-                                    <div class="d-flex gap-2">
-                                        <!-- Button to trigger the modal -->
-                                        <button class="btn btn-dark" data-bs-toggle="modal" data-bs-target="#editModal<?php echo htmlspecialchars($fetch['patient_id']); ?>">Asses</button>
-                                    </div>
-                                </li>
-
-                                <!-- Modal for editing the patient details -->
-                                <div class="modal fade" id="editModal<?php echo htmlspecialchars($fetch['patient_id']); ?>" tabindex="-1" aria-labelledby="editModalLabel<?php echo htmlspecialchars($fetch['patient_id']); ?>" aria-hidden="true">
-                                    <div class="modal-dialog modal-lg">
-                                        <div class="modal-content">
-                                            <div class="modal-header">
-                                                <h5 class="modal-title" id="editModalLabel<?php echo htmlspecialchars($fetch['patient_id']); ?>">Edit Patient Details</h5>
-                                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                            </div>
-                                            <div class="modal-body">
-                                                <form action="savemedication.php" method="POST">
-                                                    <div class="modal-body">
-                                                        <div class="rounded-container">
-
-                                                            <div class="row">
-                                                                <!-- First Column -->
-                                                                <div class="col-md-6">
-                                                                    <div class="form-group d-flex">
-                                                                        <label for="edit_first_name" class="w-50">First Name</label>
-                                                                        <input type="hidden" name="patient_id" value="<?php echo $fetch['patient_id']; ?>">
-                                                                        <!-- Hidden Field -->
-                                                                        <input type="hidden" name="patient_id" value="<?php echo $fetch['patient_id']; ?>">
-                                                                        <input type="text" class="form-control w-50" id="edit_first_name" name="first_name" value="<?php echo $fetch['firstname']; ?>" readonly>
-                                                                    </div>
-
-                                                                    <div class="form-group d-flex">
-                                                                        <label for="edit_phone_no" class="w-50">Phone Number</label>
-                                                                        <input type="tel" class="form-control w-50" id="edit_phone_no" name="phone_no" value="<?php echo $fetch['phone_no']; ?>" readonly>
-                                                                    </div>
-
-
-
-                                                                    <!-- New Revenue Field -->
-
-
-                                                                    <div class="form-group d-flex">
-                                                                        <label for="diagnosis" class="w-50">Diagnosis</label>
-                                                                        <input type="text" class="form-control w-50" id="diagnosis" name="diagnosis_id" value="<?php echo $fetch['diagnosis']; ?>" readonly>
-                                                                    </div>
-
-                                                                    <div class="form-group d-flex">
-                                                                        <label for="edit_patient_no" class="w-50">Patient No.</label>
-                                                                        <input type="tel" class="form-control w-50" id="edit_patient_no" name="patient_no" value="<?php echo $fetch['patient_no']; ?>" readonly>
-                                                                    </div>
-                                                                </div>
-
-                                                                <!-- Second Column -->
-                                                                <div class="col-md-6">
-                                                                    <div class="form-group d-flex">
-                                                                        <label for="edit_last_name" class="w-50">Last Name</label>
-                                                                        <input type="text" class="form-control w-50" id="edit_last_name" name="last_name" value="<?php echo $fetch['lastname']; ?>" readonly>
-                                                                    </div>
-
-                                                                    <div class="form-group d-flex">
-                                                                        <label for="edit_dob" class="w-50">Date of Birth</label>
-                                                                        <input type="date" class="form-control w-50" id="edit_dob" name="dob" value="<?php echo $fetch['dob']; ?>" readonly>
-                                                                    </div>
-
-                                                                    <div class="form-group d-flex">
-                                                                        <label for="edit_age" class="w-50">Age</label>
-                                                                        <input type="text" class="form-control w-50" id="edit_age" name="age" value="<?php echo $fetch['age']; ?>" readonly>
-                                                                    </div>
-
-
-                                                                    <div class="form-group d-flex">
-                                                                        <label class="w-50">Status</label>
-                                                                        <input type="patient_status" class="form-control w-50" id="edit_patient_status" name="patient_status" value="<?php echo $fetch['patient_status']; ?>" readonly>
-
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                        <!-- Revenue -->
-
-
-                                                        <div class="rounded-container">
-                                                            <div class="row">
-                                                                <!-- First Column - Revenue -->
-                                                                <div class="col-md-6">
-                                                                    <div class="form-group d-flex">
-                                                                        <label for="scheme_id" class="w-50">Scheme</label>
-                                                                        <select class="form-control w-50" id="scheme_id" name="scheme_id" required>
-                                                                            <option value=""></option>
-                                                                            <?php
-                                                                            $schemes = $db->display_schemes();
-                                                                            if ($schemes !== false) {
-                                                                                foreach ($schemes as $scheme) {
-                                                                                    echo "<option value='{$scheme['scheme_id']}'>{$scheme['scheme_name']} - {$scheme['payment_method']}</option>";
-                                                                                }
-                                                                            }
-                                                                            ?>
-                                                                        </select>
-                                                                    </div>
-
-
-                                                                    <!-- Third Column - Payment Method -->
-
-
-                                                                    <div class="form-group d-flex">
-                                                                        <label for="revenue" class="w-50">Revenue</label>
-                                                                        <input type="number" class="form-control w-50" id="revenue" name="revenue" required>
-                                                                    </div>
-                                                                    <div class="form-group d-flex">
-                                                                        <label for="visit_date" class="w-50">Visit Date</label>
-                                                                        <input type="date" class="form-control w-50" id="visit_date" name="visit_date" required>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-
-
-                                                        <!-- Medication Fields -->
-
-                                                        <div class="rounded-container">
-                                                            <!-- Form Container -->
-                                                            <div class="col-md-16">
-
-                                                                <form id="dynamicForm" action="insert.php" method="POST">
-                                                                    <div id="formContainer">
-
-                                                                        <!-- Table headers -->
-                                                                        <div class="row mb-2" style="background-color: grey; color: white; border-radius: 10px; border: 2px solid white;">
-                                                                            <div class="col-md-1" style="border-right: 1px solid white; padding: 5px; text-align: center;">
-                                                                                <strong>No</strong>
-                                                                            </div>
-                                                                            <div class="col-md-3" style="border-right: 1px solid white; padding: 5px; text-align: center;">
-                                                                                <strong>Medication</strong>
-                                                                            </div>
-                                                                            <div class="col-md-2" style="border-right: 1px solid white; padding: 5px; text-align: center;">
-                                                                                <strong>Days</strong>
-                                                                            </div>
-                                                                            <div class="col-md-2" style="border-right: 1px solid white; padding: 5px; text-align: center;">
-                                                                                <strong>No. Pills</strong>
-                                                                            </div>
-                                                                            <div class="col-md-2" style="border-right: 1px solid white; padding: 5px; text-align: center;">
-                                                                                <strong>Frequency</strong>
-                                                                            </div>
-
-                                                                        </div>
-                                                                        <!-- For Chronic Care -->
-                                                                        <input type="hidden" name="medication_details" value="1" />
-
-                                                                        <!-- Initial Row -->
-                                                                        <div class="row mb-1 form-group" id="row1">
-                                                                            <div class="col-md-1" style="padding: 5px; text-align: center;">
-                                                                                <span class="row-number">1</span>
-                                                                            </div>
-                                                                            <div class="col-md-3" style="padding: 5px;">
-                                                                                <select name="medication_id[]" class="form-control select2" required>
-                                                                                    <option value="">Select Medication</option>
-                                                                                    <?php
-                                                                                    // Fetch medications from the database
-                                                                                    $meds = $db->displayMedication();
-                                                                                    if ($meds->num_rows > 0) {
-                                                                                        while ($row = $meds->fetch_assoc()) {
-                                                                                            echo '<option value="' . $row['medication_id'] . '">' . htmlspecialchars($row['medication_name']) . '</option>';
-                                                                                        }
-                                                                                    } else {
-                                                                                        echo '<option value="">No Medications Found</option>';
-                                                                                    }
-                                                                                    ?>
-                                                                                </select>
-                                                                            </div>
-
-                                                                            <div class="col-md-2" style="padding: 5px;">
-                                                                                <input type="number" name="days_supplied[]" class="form-control" required>
-                                                                            </div>
-                                                                            <div class="col-md-2" style="padding: 5px;">
-                                                                                <input type="number" name="no_pills_dispensed[]" class="form-control" required>
-                                                                            </div>
-                                                                            <div class="col-md-2" style="padding: 5px;">
-                                                                                <select name="frequency[]" class="form-control-sm custom-select" required>
-                                                                                    <option value="OD">OD</option>
-                                                                                    <option value="BD">BD </option>
-                                                                                    <option value="TDS">TDS</option>
-                                                                                    <option value="QID">QID</option>
-                                                                                    <option value="PRN">PRN</option>
-                                                                                    <option value="Weekly">Weekly</option>
-                                                                                </select>
-                                                                            </div>
-                                                                            <div class="col-md-2" style="padding: 5px; text-align: center;">
-                                                                                <button type="button" class="btn btn-success add-field">+</button>
-                                                                            </div>
-                                                                        </div>
-                                                                    </div>
-
-                                                                    <div class="modal-footer">
-                                                                        <div class="col-12 text-center">
-                                                                            <!-- Submit Button -->
-                                                                            <button type="submit" name="submit" class="btn btn-info btn-large" style="background-color: black; color: white;">
-                                                                                Submit
-                                                                            </button>
-
-                                                                            <!-- Close Form Button -->
-                                                                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                                                                        </div>
-                                                                    </div>
-
-
-                                                                </form>
-
-
-                                                            </div>
-                                                        </div>
-
-                                                    </div>
-
-                                                    <!-- Script for Dynamic Fields -->
-                                                    <script>
-                                                        $(document).ready(function() {
-                                                            let rowCounter = 1; // Initial row number
-
-                                                            // Add new input fields dynamically when the "Add" button is clicked
-                                                            $(document).off('click', '.add-field').on('click', '.add-field', function() {
-                                                                rowCounter++; // Increment the row number for each new row
-
-                                                                // Create new field set
-                                                                const newField = `
-                                                                    <div class="row mb-2 form-group" id="row${rowCounter}">
-                                                                        <div class="col-md-1" style="padding: 5px; text-align: center;">
-                                                                            <span class="row-number">${rowCounter}</span>
-                                                                        </div>
-                                                                        <div class="col-md-3" style="padding: 5px;">
-                                                                            <select name="medication_id[]" class="form-control select2" required>
-                                                                                <option value="">Select Medication</option>
-                                                                                <?php
-                                                                                // Fetch medications from the database
-                                                                                $meds = $db->displayMedication();
-                                                                                if ($meds->num_rows > 0) {
-                                                                                    while ($row = $meds->fetch_assoc()) {
-                                                                                        echo '<option value="' . $row['medication_id'] . '">' . htmlspecialchars($row['medication_name']) . '</option>';
-                                                                                    }
-                                                                                } else {
-                                                                                    echo '<option value="">No Medications Found</option>';
-                                                                                }
-                                                                                ?>
-                                                                            </select>
-                                                                        </div>
-                                                                        <div class="col-md-2" style="padding: 5px;">
-                                                                            <input type="number" name="days_supplied[]" class="form-control"  required>
-                                                                        </div>
-                                                                        <div class="col-md-2" style="padding: 5px;">
-                                                                            <input type="number" name="no_pills_dispensed[]" class="form-control"  required>
-                                                                        </div>
-                                                                    <div class="col-md-2" style="padding: 5px;">
-                                                                            <select name="frequency[]" class="form-control-sm custom-select"  required>
-                                                                                <option value="OD">OD</option>
-                                                                                <option value="BD">BD</option>
-                                                                                <option value="TDS">TDS</option>
-                                                                                <option value="QID">QID</option>
-                                                                                <option value="PRN">PRN</option>
-                                                                                <option value="Weekly">Weekly</option>
-                                                                            </select>
-                                                                        </div>
-                                                                        <div class="col-md-2" style="padding: 5px; text-align: center;">
-                                                                            <button type="button" class="btn btn-danger remove-field">-</button>
-                                                                        </div>
-                                                                    </div>
-                                                                `;
-                                                                // Append the new fields to the form container
-                                                                $('#formContainer').append(newField);
-                                                            });
-
-                                                            // Remove input fields dynamically when the "Remove" button is clicked
-                                                            $(document).off('click', '.remove-field').on('click', '.remove-field', function() {
-                                                                $(this).closest('.form-group').remove();
-                                                                rowCounter--; // Decrement row number on removal
-                                                            });
-                                                        });
-                                                    </script>
-
-                                                </form>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            <?php
-                            }
-                            ?>
-                        </ul>
-                    </div>
-
-                    <script>
-                        function filterList() {
-                            var input, filter, ul, li, p, i, txtValue;
-                            input = document.getElementById('searchInput');
-                            filter = input.value.toUpperCase();
-                            ul = document.getElementById("todoList");
-                            li = ul.getElementsByTagName('li');
-
-                            // Loop through all list items and hide those that don't match the search query
-                            for (i = 0; i < li.length; i++) {
-                                p = li[i].getElementsByTagName("p")[0];
-                                if (p) {
-                                    txtValue = p.textContent || p.innerText;
-                                    if (txtValue.toUpperCase().indexOf(filter) > -1) {
-                                        li[i].style.display = "";
-                                    } else {
-                                        li[i].style.display = "none";
-                                    }
-                                }
-                            }
-                        }
-                    </script>
-
+                <script>
+                    $(document).ready(function() {
+                        $('#patientTable').DataTable({
+                            "searching": true,
+                            "paging": true,
+                            "ordering": true,
+                            "info": true,
+                            "language": {
+                                "emptyTable": "",
+                                "zeroRecords": ""
+                            },
+                            "pageLength": 5 // Set the number of entries to 5
+                        });
+                    });
+                </script>
 
 
 

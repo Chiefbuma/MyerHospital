@@ -29,6 +29,34 @@ try {
         $revenue = $_POST['revenue']; // Additional assessment remarks
         $scheme_id = $_POST['scheme_id']; // Additional assessment remarks
 
+        // Validate form data
+        $missingFields = [];
+        if (empty($patient_id)) $missingFields[] = 'Patient ID';
+        if (empty($visit_date)) $missingFields[] = 'Visit Date';
+        if (empty($next_review)) $missingFields[] = 'Next Review';
+        if (empty($educational_level)) $missingFields[] = 'Educational Level';
+        if (empty($career_business)) $missingFields[] = 'Career/Business';
+        if (empty($marital_status)) $missingFields[] = 'Marital Status';
+        if (empty($relationship_status)) $missingFields[] = 'Relationship Status';
+        if (empty($primary_relationship_status)) $missingFields[] = 'Primary Relationship Status';
+        if (empty($ability_to_enjoy_leisure_activities)) $missingFields[] = 'Ability to Enjoy Leisure Activities';
+        if (empty($spirituality)) $missingFields[] = 'Spirituality';
+        if (empty($level_of_self_esteem)) $missingFields[] = 'Level of Self-Esteem';
+        if (empty($sex_life)) $missingFields[] = 'Sex Life';
+        if (empty($ability_to_cope_recover_disappointments)) $missingFields[] = 'Ability to Cope and Recover from Disappointments';
+        if (empty($rate_of_personal_development_growth)) $missingFields[] = 'Rate of Personal Development/Growth';
+        if (empty($achievement_of_balance_in_life)) $missingFields[] = 'Achievement of Balance in Life';
+        if (empty($social_support_system)) $missingFields[] = 'Social Support System';
+        if (empty($substance_use)) $missingFields[] = 'Substance Use';
+        if (empty($substance_used)) $missingFields[] = 'Substance Used';
+        if (empty($assessment_remarks)) $missingFields[] = 'Assessment Remarks';
+        if (empty($revenue)) $missingFields[] = 'Revenue';
+        if (empty($scheme_id)) $missingFields[] = 'Scheme ID';
+
+        if (!empty($missingFields)) {
+            throw new Exception("The following fields are required: " . implode(', ', $missingFields));
+        }
+
         // SQL query to fetch the maximum visit date for a specific patient
         $query = "SELECT MAX(visit_date) AS last_visit_date FROM psychosocial WHERE patient_id = ?";
         $stmt = $db->conn->prepare($query);

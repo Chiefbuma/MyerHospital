@@ -20,7 +20,7 @@ try {
 		if ($stmt->execute()) {
 			// Redirect or display a success message
 			echo "<script>alert('Route deleted successfully.');</script>";
-			echo "<script>window.location='addroute.php';</script>";  // Redirect to the routes list page (adjust the filename as needed)
+			echo "<script>window.location='addroutes.php';</script>";  // Redirect to the routes list page (adjust the filename as needed)
 		} else {
 			throw new Exception("Error deleting from route table: " . $stmt->error);
 		}

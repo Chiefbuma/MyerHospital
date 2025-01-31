@@ -1262,6 +1262,47 @@ class db_class extends db_connect
 		}
 	}
 
+
+	public function displa_patient()
+	{
+		try {
+			// Assuming $this->conn is your mysqli connection
+			$query = "
+        SELECT 
+            patient_id,
+            firstname,
+            lastname,
+            dob,
+            gender,
+            age,
+            location,
+            phone_no,
+            patient_no,
+            email,
+            diagnosis,
+            patient_status,
+            cohort_id,
+            branch_id,
+            diagnosis_id,
+            scheme_id,
+            route_id
+        FROM 
+            patient
+        ";
+
+			$result = $this->conn->query($query);  // Execute the query and get the result
+
+			if ($result === false) {
+				throw new Exception("Error in query: " . $this->conn->error);  // Handle query errors
+			}
+
+			return $result;  // Return the result as a mysqli_result object
+		} catch (Exception $e) {
+			echo "<script>alert('Exception: " . htmlspecialchars($e->getMessage()) . "');</script>";
+			return false;
+		}
+	}
+
 	public function visitsummary()
 	{
 		try {
