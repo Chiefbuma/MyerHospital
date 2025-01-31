@@ -10,7 +10,7 @@
 
 <body>
     <div class="wrapper">
-        <h1>Login</h1>
+        <h1>Sign in</h1>
         <form method="POST" class="user" action="loginuser.php">
             <div class="form-group">
                 <label for="email-input">@</label>
