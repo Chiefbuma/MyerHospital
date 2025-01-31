@@ -10,7 +10,7 @@
 
 <body>
     <div class="wrapper">
-        <h1>Sign in</h1>
+        <h1>Login</h1>
         <form method="POST" class="user" action="loginuser.php">
             <div class="form-group">
                 <label for="email-input">@</label>
@@ -18,12 +18,12 @@
             </div>
             <div class="form-group">
                 <label for="password-input">🔒</label>
-                <input type="password" name="password" id="password-input" placeholder="Pass" required>
+                <input type="password" name="password" id="password-input" placeholder="Password" required>
             </div>
             <?php
             session_start();
             if (isset($_SESSION['message'])) {
-                echo "<center><label class='text-danger'>" . htmlspecialchars($_SESSION['message'], ENT_QUOTES, 'UTF-8') . "</label></center>";
+                echo "<script>alert('" . htmlspecialchars($_SESSION['message'], ENT_QUOTES, 'UTF-8') . "');</script>";
                 unset($_SESSION['message']); // Clear message after displaying
             }
             ?>
