@@ -98,7 +98,7 @@ if ($branch_result && $branch_row = $branch_result->fetch_assoc()) {
 
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Monthly Reports</title>
+
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
@@ -258,488 +258,496 @@ if ($branch_result && $branch_row = $branch_result->fetch_assoc()) {
 </head>
 
 <body>
-    <div class="wrapper">
 
-        <script src="script.js"></script>
+    <script src="script.js"></script>
 
-        <!-- SIDEBAR -->
-        <section id="sidebar">
-            <h1></h1>
-            <h1></h1>
-            <h1></h1>
+    <!-- SIDEBAR -->
+    <section id="sidebar">
+        <h1></h1>
+        <h1></h1>
+        <h1></h1>
 
-            <a href="#" class="brand">
-                <i class='bx bxs-smile'></i>
+        <a href="#" class="brand">
+            <i class='bx bxs-smile'></i>
 
+        </a>
+
+        <li class="has-submenu">
+            <a href="patients.php">
+                <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e8eaed">
+                    <path d="M480-480q-66 0-113-47t-47-113q0-66 47-113t113-47q66 0 113 47t47 113q0 66-47 113t-113 47ZM160-240v-32q0-34 17.5-62.5T224-378q62-31 126-46.5T480-440q66 0 130 15.5T736-378q29 15 46.5 43.5T800-272v32q0 33-23.5 56.5T720-160H240q-33 0-56.5-23.5T160-240Zm80 0h480v-32q0-11-5.5-20T700-306q-54-27-109-40.5T480-360q-56 0-111 13.5T260-306q-9 5-14.5 14t-5.5 20v32Zm240-320q33 0 56.5-23.5T560-640q0-33-23.5-56.5T480-720q-33 0-56.5 23.5T400-640q0 33 23.5 56.5T480-560Zm0-80Zm0 400Z" />
+                </svg>
+                <span class="text">Registration</span>
             </a>
+        </li>
 
-            <li class="has-submenu">
-                <a href="patients.php">
-                    <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e8eaed">
-                        <path d="M480-480q-66 0-113-47t-47-113q0-66 47-113t113-47q66 0 113 47t47 113q0 66-47 113t-113 47ZM160-240v-32q0-34 17.5-62.5T224-378q62-31 126-46.5T480-440q66 0 130 15.5T736-378q29 15 46.5 43.5T800-272v32q0 33-23.5 56.5T720-160H240q-33 0-56.5-23.5T160-240Zm80 0h480v-32q0-11-5.5-20T700-306q-54-27-109-40.5T480-360q-56 0-111 13.5T260-306q-9 5-14.5 14t-5.5 20v32Zm240-320q33 0 56.5-23.5T560-640q0-33-23.5-56.5T480-720q-33 0-56.5 23.5T400-640q0 33 23.5 56.5T480-560Zm0-80Zm0 400Z" />
-                    </svg>
-                    <span class="text">Registration</span>
-                </a>
-            </li>
-
-            <li class="has-submenu">
-                <a href="addcalls.php">
-                    <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e8eaed">
-                        <path d="M160-160q-33 0-56.5-23.5T80-240v-480q0-33 23.5-56.5T160-800h207q16 0 30.5 6t25.5 17l57 57h320q33 0 56.5 23.5T880-640v400q0 33-23.5 56.5T800-160H160Zm0-80h640v-400H447l-80-80H160v480Zm0 0v-480 480Zm400-160v40q0 17 11.5 28.5T600-320q17 0 28.5-11.5T640-360v-40h40q17 0 28.5-11.5T720-440q0-17-11.5-28.5T680-480h-40v-40q0-17-11.5-28.5T600-560q-17 0-28.5 11.5T560-520v40h-40q-17 0-28.5 11.5T480-440q0 17 11.5 28.5T520-400h40Z" />
-                    </svg>
-                    <span class="text">Appointments</span>
-                </a>
-            </li>
+        <li class="has-submenu">
+            <a href="addcalls.php">
+                <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e8eaed">
+                    <path d="M160-160q-33 0-56.5-23.5T80-240v-480q0-33 23.5-56.5T160-800h207q16 0 30.5 6t25.5 17l57 57h320q33 0 56.5 23.5T880-640v400q0 33-23.5 56.5T800-160H160Zm0-80h640v-400H447l-80-80H160v480Zm0 0v-480 480Zm400-160v40q0 17 11.5 28.5T600-320q17 0 28.5-11.5T640-360v-40h40q17 0 28.5-11.5T720-440q0-17-11.5-28.5T680-480h-40v-40q0-17-11.5-28.5T600-560q-17 0-28.5 11.5T560-520v40h-40q-17 0-28.5 11.5T480-440q0 17 11.5 28.5T520-400h40Z" />
+                </svg>
+                <span class="text">Appointments</span>
+            </a>
+        </li>
 
 
+        <li class="has-submenu">
+            <a href="#" class="submenu-toggle">
+                <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e8eaed">
+                    <path d="M200-80q-33 0-56.5-23.5T120-160v-560q0-33 23.5-56.5T200-800h40v-40q0-17 11.5-28.5T280-880q17 0 28.5 11.5T320-840v40h320v-40q0-17 11.5-28.5T680-880q17 0 28.5 11.5T720-840v40h40q33 0 56.5 23.5T840-720v560q0 33-23.5 56.5T760-80H200Zm0-80h560v-400H200v400Zm0-480h560v-80H200v80Zm0 0v-80 80Zm280 240q-17 0-28.5-11.5T440-440q0-17 11.5-28.5T480-480q17 0 28.5 11.5T520-440q0 17-11.5 28.5T480-400Zm-160 0q-17 0-28.5-11.5T280-440q0-17 11.5-28.5T320-480q17 0 28.5 11.5T360-440q0 17-11.5 28.5T320-400Zm320 0q-17 0-28.5-11.5T600-440q0-17 11.5-28.5T640-480q17 0 28.5 11.5T680-440q0 17-11.5 28.5T640-400ZM480-240q-17 0-28.5-11.5T440-280q0-17 11.5-28.5T480-320q17 0 28.5 11.5T520-280q0 17-11.5 28.5T480-240Zm-160 0q-17 0-28.5-11.5T280-280q0-17 11.5-28.5T320-320q17 0 28.5 11.5T360-280q0 17-11.5 28.5T320-240Zm320 0q-17 0-28.5-11.5T600-280q0-17 11.5-28.5T640-320q17 0 28.5 11.5T680-280q0 17-11.5 28.5T640-240Z" />
+                </svg>
+                <span class="text">Assessment</span>
+                <i class='bx bx-chevron-down dropdown-icon'></i>
+            </a>
+            <ul class="submenu">
+                <li>
+                    <a href="assesnutrition.php">
+                        <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e8eaed">
+                            <path d="m221-313 142-142q12-12 28-11.5t28 12.5q11 12 11 28t-11 28L250-228q-12 12-28 12t-28-12l-86-86q-11-11-11-28t11-28q11-11 28-11t28 11l57 57Zm0-320 142-142q12-12 28-11.5t28 12.5q11 12 11 28t-11 28L250-548q-12 12-28 12t-28-12l-86-86q-11-11-11-28t11-28q11-11 28-11t28 11l57 57Zm339 353q-17 0-28.5-11.5T520-320q0-17 11.5-28.5T560-360h280q17 0 28.5 11.5T880-320q0 17-11.5 28.5T840-280H560Zm0-320q-17 0-28.5-11.5T520-640q0-17 11.5-28.5T560-680h280q17 0 28.5 11.5T880-640q0 17-11.5 28.5T840-600H560Z" />
+                        </svg>
+
+                        <span class="text">Nutrition</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="assespsycho.php">
+                        <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e8eaed">
+                            <path d="m221-313 142-142q12-12 28-11.5t28 12.5q11 12 11 28t-11 28L250-228q-12 12-28 12t-28-12l-86-86q-11-11-11-28t11-28q11-11 28-11t28 11l57 57Zm0-320 142-142q12-12 28-11.5t28 12.5q11 12 11 28t-11 28L250-548q-12 12-28 12t-28-12l-86-86q-11-11-11-28t11-28q11-11 28-11t28 11l57 57Zm339 353q-17 0-28.5-11.5T520-320q0-17 11.5-28.5T560-360h280q17 0 28.5 11.5T880-320q0 17-11.5 28.5T840-280H560Zm0-320q-17 0-28.5-11.5T520-640q0-17 11.5-28.5T560-680h280q17 0 28.5 11.5T880-640q0 17-11.5 28.5T840-600H560Z" />
+                        </svg>
+
+                        <span class="text">pyschosocial</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="asseschronic.php">
+                        <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e8eaed">
+                            <path d="m221-313 142-142q12-12 28-11.5t28 12.5q11 12 11 28t-11 28L250-228q-12 12-28 12t-28-12l-86-86q-11-11-11-28t11-28q11-11 28-11t28 11l57 57Zm0-320 142-142q12-12 28-11.5t28 12.5q11 12 11 28t-11 28L250-548q-12 12-28 12t-28-12l-86-86q-11-11-11-28t11-28q11-11 28-11t28 11l57 57Zm339 353q-17 0-28.5-11.5T520-320q0-17 11.5-28.5T560-360h280q17 0 28.5 11.5T880-320q0 17-11.5 28.5T840-280H560Zm0-320q-17 0-28.5-11.5T520-640q0-17 11.5-28.5T560-680h280q17 0 28.5 11.5T880-640q0 17-11.5 28.5T840-600H560Z" />
+                        </svg>
+
+                        <span class="text">Chronic</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="assesphysiotherapy.php">
+                        <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e8eaed">
+                            <path d="m221-313 142-142q12-12 28-11.5t28 12.5q11 12 11 28t-11 28L250-228q-12 12-28 12t-28-12l-86-86q-11-11-11-28t11-28q11-11 28-11t28 11l57 57Zm0-320 142-142q12-12 28-11.5t28 12.5q11 12 11 28t-11 28L250-548q-12 12-28 12t-28-12l-86-86q-11-11-11-28t11-28q11-11 28-11t28 11l57 57Zm339 353q-17 0-28.5-11.5T520-320q0-17 11.5-28.5T560-360h280q17 0 28.5 11.5T880-320q0 17-11.5 28.5T840-280H560Zm0-320q-17 0-28.5-11.5T520-640q0-17 11.5-28.5T560-680h280q17 0 28.5 11.5T880-640q0 17-11.5 28.5T840-600H560Z" />
+                        </svg>
+
+                        <span class="text">Pysiotherapy</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="assesmeds.php">
+                        <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e8eaed">
+                            <path d="m221-313 142-142q12-12 28-11.5t28 12.5q11 12 11 28t-11 28L250-228q-12 12-28 12t-28-12l-86-86q-11-11-11-28t11-28q11-11 28-11t28 11l57 57Zm0-320 142-142q12-12 28-11.5t28 12.5q11 12 11 28t-11 28L250-548q-12 12-28 12t-28-12l-86-86q-11-11-11-28t11-28q11-11 28-11t28 11l57 57Zm339 353q-17 0-28.5-11.5T520-320q0-17 11.5-28.5T560-360h280q17 0 28.5 11.5T880-320q0 17-11.5 28.5T840-280H560Zm0-320q-17 0-28.5-11.5T520-640q0-17 11.5-28.5T560-680h280q17 0 28.5 11.5T880-640q0 17-11.5 28.5T840-600H560Z" />
+                        </svg>
+
+                        <span class="text">Medication</span>
+                    </a>
+                </li>
+            </ul>
+        </li>
+        <?php if ($user_role == 'admin'): ?>
             <li class="has-submenu">
                 <a href="#" class="submenu-toggle">
-                    <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e8eaed">
-                        <path d="M200-80q-33 0-56.5-23.5T120-160v-560q0-33 23.5-56.5T200-800h40v-40q0-17 11.5-28.5T280-880q17 0 28.5 11.5T320-840v40h320v-40q0-17 11.5-28.5T680-880q17 0 28.5 11.5T720-840v40h40q33 0 56.5 23.5T840-720v560q0 33-23.5 56.5T760-80H200Zm0-80h560v-400H200v400Zm0-480h560v-80H200v80Zm0 0v-80 80Zm280 240q-17 0-28.5-11.5T440-440q0-17 11.5-28.5T480-480q17 0 28.5 11.5T520-440q0 17-11.5 28.5T480-400Zm-160 0q-17 0-28.5-11.5T280-440q0-17 11.5-28.5T320-480q17 0 28.5 11.5T360-440q0 17-11.5 28.5T320-400Zm320 0q-17 0-28.5-11.5T600-440q0-17 11.5-28.5T640-480q17 0 28.5 11.5T680-440q0 17-11.5 28.5T640-400ZM480-240q-17 0-28.5-11.5T440-280q0-17 11.5-28.5T480-320q17 0 28.5 11.5T520-280q0 17-11.5 28.5T480-240Zm-160 0q-17 0-28.5-11.5T280-280q0-17 11.5-28.5T320-320q17 0 28.5 11.5T360-280q0 17-11.5 28.5T320-240Zm320 0q-17 0-28.5-11.5T600-280q0-17 11.5-28.5T640-320q17 0 28.5 11.5T680-280q0 17-11.5 28.5T640-240Z" />
-                    </svg>
-                    <span class="text">Assessment</span>
+                    <i class='bx bxs-dashboard'></i>
+
+
+                    <span class="text">Settings</span>
                     <i class='bx bx-chevron-down dropdown-icon'></i>
                 </a>
                 <ul class="submenu">
                     <li>
-                        <a href="assesnutrition.php">
+                        <a href="addbranch.php">
                             <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e8eaed">
                                 <path d="m221-313 142-142q12-12 28-11.5t28 12.5q11 12 11 28t-11 28L250-228q-12 12-28 12t-28-12l-86-86q-11-11-11-28t11-28q11-11 28-11t28 11l57 57Zm0-320 142-142q12-12 28-11.5t28 12.5q11 12 11 28t-11 28L250-548q-12 12-28 12t-28-12l-86-86q-11-11-11-28t11-28q11-11 28-11t28 11l57 57Zm339 353q-17 0-28.5-11.5T520-320q0-17 11.5-28.5T560-360h280q17 0 28.5 11.5T880-320q0 17-11.5 28.5T840-280H560Zm0-320q-17 0-28.5-11.5T520-640q0-17 11.5-28.5T560-680h280q17 0 28.5 11.5T880-640q0 17-11.5 28.5T840-600H560Z" />
                             </svg>
 
-                            <span class="text">Nutrition</span>
+                            <span class="text">Branch</span>
                         </a>
                     </li>
                     <li>
-                        <a href="assespsycho.php">
+                        <a href="addscheme.php">
                             <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e8eaed">
                                 <path d="m221-313 142-142q12-12 28-11.5t28 12.5q11 12 11 28t-11 28L250-228q-12 12-28 12t-28-12l-86-86q-11-11-11-28t11-28q11-11 28-11t28 11l57 57Zm0-320 142-142q12-12 28-11.5t28 12.5q11 12 11 28t-11 28L250-548q-12 12-28 12t-28-12l-86-86q-11-11-11-28t11-28q11-11 28-11t28 11l57 57Zm339 353q-17 0-28.5-11.5T520-320q0-17 11.5-28.5T560-360h280q17 0 28.5 11.5T880-320q0 17-11.5 28.5T840-280H560Zm0-320q-17 0-28.5-11.5T520-640q0-17 11.5-28.5T560-680h280q17 0 28.5 11.5T880-640q0 17-11.5 28.5T840-600H560Z" />
                             </svg>
 
-                            <span class="text">pyschosocial</span>
+                            <span class="text">schemes</span>
                         </a>
                     </li>
                     <li>
-                        <a href="asseschronic.php">
+                        <a href="addroutes.php">
                             <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e8eaed">
                                 <path d="m221-313 142-142q12-12 28-11.5t28 12.5q11 12 11 28t-11 28L250-228q-12 12-28 12t-28-12l-86-86q-11-11-11-28t11-28q11-11 28-11t28 11l57 57Zm0-320 142-142q12-12 28-11.5t28 12.5q11 12 11 28t-11 28L250-548q-12 12-28 12t-28-12l-86-86q-11-11-11-28t11-28q11-11 28-11t28 11l57 57Zm339 353q-17 0-28.5-11.5T520-320q0-17 11.5-28.5T560-360h280q17 0 28.5 11.5T880-320q0 17-11.5 28.5T840-280H560Zm0-320q-17 0-28.5-11.5T520-640q0-17 11.5-28.5T560-680h280q17 0 28.5 11.5T880-640q0 17-11.5 28.5T840-600H560Z" />
                             </svg>
 
-                            <span class="text">Chronic</span>
+                            <span class="text">routes</span>
                         </a>
                     </li>
                     <li>
-                        <a href="assesmeds.php">
+                        <a href="addmedication.php">
                             <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e8eaed">
                                 <path d="m221-313 142-142q12-12 28-11.5t28 12.5q11 12 11 28t-11 28L250-228q-12 12-28 12t-28-12l-86-86q-11-11-11-28t11-28q11-11 28-11t28 11l57 57Zm0-320 142-142q12-12 28-11.5t28 12.5q11 12 11 28t-11 28L250-548q-12 12-28 12t-28-12l-86-86q-11-11-11-28t11-28q11-11 28-11t28 11l57 57Zm339 353q-17 0-28.5-11.5T520-320q0-17 11.5-28.5T560-360h280q17 0 28.5 11.5T880-320q0 17-11.5 28.5T840-280H560Zm0-320q-17 0-28.5-11.5T520-640q0-17 11.5-28.5T560-680h280q17 0 28.5 11.5T880-640q0 17-11.5 28.5T840-600H560Z" />
                             </svg>
 
-                            <span class="text">Medication</span>
+                            <span class="text">Medications</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="addspecialist.php">
+                            <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e8eaed">
+                                <path d="m221-313 142-142q12-12 28-11.5t28 12.5q11 12 11 28t-11 28L250-228q-12 12-28 12t-28-12l-86-86q-11-11-11-28t11-28q11-11 28-11t28 11l57 57Zm0-320 142-142q12-12 28-11.5t28 12.5q11 12 11 28t-11 28L250-548q-12 12-28 12t-28-12l-86-86q-11-11-11-28t11-28q11-11 28-11t28 11l57 57Zm339 353q-17 0-28.5-11.5T520-320q0-17 11.5-28.5T560-360h280q17 0 28.5 11.5T880-320q0 17-11.5 28.5T840-280H560Zm0-320q-17 0-28.5-11.5T520-640q0-17 11.5-28.5T560-680h280q17 0 28.5 11.5T880-640q0 17-11.5 28.5T840-600H560Z" />
+                            </svg>
+
+                            <span class="text">specialists</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="addprocedure.php">
+                            <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e8eaed">
+                                <path d="m221-313 142-142q12-12 28-11.5t28 12.5q11 12 11 28t-11 28L250-228q-12 12-28 12t-28-12l-86-86q-11-11-11-28t11-28q11-11 28-11t28 11l57 57Zm0-320 142-142q12-12 28-11.5t28 12.5q11 12 11 28t-11 28L250-548q-12 12-28 12t-28-12l-86-86q-11-11-11-28t11-28q11-11 28-11t28 11l57 57Zm339 353q-17 0-28.5-11.5T520-320q0-17 11.5-28.5T560-360h280q17 0 28.5 11.5T880-320q0 17-11.5 28.5T840-280H560Zm0-320q-17 0-28.5-11.5T520-640q0-17 11.5-28.5T560-680h280q17 0 28.5 11.5T880-640q0 17-11.5 28.5T840-600H560Z" />
+                            </svg>
+
+                            <span class="text">procedures</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="addcohort.php">
+                            <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e8eaed">
+                                <path d="m221-313 142-142q12-12 28-11.5t28 12.5q11 12 11 28t-11 28L250-228q-12 12-28 12t-28-12l-86-86q-11-11-11-28t11-28q11-11 28-11t28 11l57 57Zm0-320 142-142q12-12 28-11.5t28 12.5q11 12 11 28t-11 28L250-548q-12 12-28 12t-28-12l-86-86q-11-11-11-28t11-28q11-11 28-11t28 11l57 57Zm339 353q-17 0-28.5-11.5T520-320q0-17 11.5-28.5T560-360h280q17 0 28.5 11.5T880-320q0 17-11.5 28.5T840-280H560Zm0-320q-17 0-28.5-11.5T520-640q0-17 11.5-28.5T560-680h280q17 0 28.5 11.5T880-640q0 17-11.5 28.5T840-600H560Z" />
+                            </svg>
+
+                            <span class="text">cohorts</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="adduser.php">
+                            <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e8eaed">
+                                <path d="m221-313 142-142q12-12 28-11.5t28 12.5q11 12 11 28t-11 28L250-228q-12 12-28 12t-28-12l-86-86q-11-11-11-28t11-28q11-11 28-11t28 11l57 57Zm0-320 142-142q12-12 28-11.5t28 12.5q11 12 11 28t-11 28L250-548q-12 12-28 12t-28-12l-86-86q-11-11-11-28t11-28q11-11 28-11t28 11l57 57Zm339 353q-17 0-28.5-11.5T520-320q0-17 11.5-28.5T560-360h280q17 0 28.5 11.5T880-320q0 17-11.5 28.5T840-280H560Zm0-320q-17 0-28.5-11.5T520-640q0-17 11.5-28.5T560-680h280q17 0 28.5 11.5T880-640q0 17-11.5 28.5T840-600H560Z" />
+                            </svg>
+
+                            <span class="text">users</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="adddiagnosis.php"><svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e8eaed">
+                                <path d="m221-313 142-142q12-12 28-11.5t28 12.5q11 12 11 28t-11 28L250-228q-12 12-28 12t-28-12l-86-86q-11-11-11-28t11-28q11-11 28-11t28 11l57 57Zm0-320 142-142q12-12 28-11.5t28 12.5q11 12 11 28t-11 28L250-548q-12 12-28 12t-28-12l-86-86q-11-11-11-28t11-28q11-11 28-11t28 11l57 57Zm339 353q-17 0-28.5-11.5T520-320q0-17 11.5-28.5T560-360h280q17 0 28.5 11.5T880-320q0 17-11.5 28.5T840-280H560Zm0-320q-17 0-28.5-11.5T520-640q0-17 11.5-28.5T560-680h280q17 0 28.5 11.5T880-640q0 17-11.5 28.5T840-600H560Z" />
+                            </svg>
+
+                            <span class="text">diagnosis</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="addcallresults.php"><svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e8eaed">
+                                <path d="m221-313 142-142q12-12 28-11.5t28 12.5q11 12 11 28t-11 28L250-228q-12 12-28 12t-28-12l-86-86q-11-11-11-28t11-28q11-11 28-11t28 11l57 57Zm0-320 142-142q12-12 28-11.5t28 12.5q11 12 11 28t-11 28L250-548q-12 12-28 12t-28-12l-86-86q-11-11-11-28t11-28q11-11 28-11t28 11l57 57Zm339 353q-17 0-28.5-11.5T520-320q0-17 11.5-28.5T560-360h280q17 0 28.5 11.5T880-320q0 17-11.5 28.5T840-280H560Zm0-320q-17 0-28.5-11.5T520-640q0-17 11.5-28.5T560-680h280q17 0 28.5 11.5T880-640q0 17-11.5 28.5T840-600H560Z" />
+                            </svg>
+
+                            <span class="text">Call Results</span>
                         </a>
                     </li>
                 </ul>
+            <?php endif; ?>
+
             </li>
-            <?php if ($user_role == 'admin'): ?>
-                <li class="has-submenu">
-                    <a href="#" class="submenu-toggle">
-                        <i class='bx bxs-dashboard'></i>
-
-
-                        <span class="text">Settings</span>
-                        <i class='bx bx-chevron-down dropdown-icon'></i>
-                    </a>
-                    <ul class="submenu">
-                        <li>
-                            <a href="addbranch.php">
-                                <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e8eaed">
-                                    <path d="m221-313 142-142q12-12 28-11.5t28 12.5q11 12 11 28t-11 28L250-228q-12 12-28 12t-28-12l-86-86q-11-11-11-28t11-28q11-11 28-11t28 11l57 57Zm0-320 142-142q12-12 28-11.5t28 12.5q11 12 11 28t-11 28L250-548q-12 12-28 12t-28-12l-86-86q-11-11-11-28t11-28q11-11 28-11t28 11l57 57Zm339 353q-17 0-28.5-11.5T520-320q0-17 11.5-28.5T560-360h280q17 0 28.5 11.5T880-320q0 17-11.5 28.5T840-280H560Zm0-320q-17 0-28.5-11.5T520-640q0-17 11.5-28.5T560-680h280q17 0 28.5 11.5T880-640q0 17-11.5 28.5T840-600H560Z" />
-                                </svg>
-
-                                <span class="text">Branch</span>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="addscheme.php">
-                                <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e8eaed">
-                                    <path d="m221-313 142-142q12-12 28-11.5t28 12.5q11 12 11 28t-11 28L250-228q-12 12-28 12t-28-12l-86-86q-11-11-11-28t11-28q11-11 28-11t28 11l57 57Zm0-320 142-142q12-12 28-11.5t28 12.5q11 12 11 28t-11 28L250-548q-12 12-28 12t-28-12l-86-86q-11-11-11-28t11-28q11-11 28-11t28 11l57 57Zm339 353q-17 0-28.5-11.5T520-320q0-17 11.5-28.5T560-360h280q17 0 28.5 11.5T880-320q0 17-11.5 28.5T840-280H560Zm0-320q-17 0-28.5-11.5T520-640q0-17 11.5-28.5T560-680h280q17 0 28.5 11.5T880-640q0 17-11.5 28.5T840-600H560Z" />
-                                </svg>
-
-                                <span class="text">schemes</span>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="addroutes.php">
-                                <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e8eaed">
-                                    <path d="m221-313 142-142q12-12 28-11.5t28 12.5q11 12 11 28t-11 28L250-228q-12 12-28 12t-28-12l-86-86q-11-11-11-28t11-28q11-11 28-11t28 11l57 57Zm0-320 142-142q12-12 28-11.5t28 12.5q11 12 11 28t-11 28L250-548q-12 12-28 12t-28-12l-86-86q-11-11-11-28t11-28q11-11 28-11t28 11l57 57Zm339 353q-17 0-28.5-11.5T520-320q0-17 11.5-28.5T560-360h280q17 0 28.5 11.5T880-320q0 17-11.5 28.5T840-280H560Zm0-320q-17 0-28.5-11.5T520-640q0-17 11.5-28.5T560-680h280q17 0 28.5 11.5T880-640q0 17-11.5 28.5T840-600H560Z" />
-                                </svg>
-
-                                <span class="text">routes</span>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="addmedication.php">
-                                <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e8eaed">
-                                    <path d="m221-313 142-142q12-12 28-11.5t28 12.5q11 12 11 28t-11 28L250-228q-12 12-28 12t-28-12l-86-86q-11-11-11-28t11-28q11-11 28-11t28 11l57 57Zm0-320 142-142q12-12 28-11.5t28 12.5q11 12 11 28t-11 28L250-548q-12 12-28 12t-28-12l-86-86q-11-11-11-28t11-28q11-11 28-11t28 11l57 57Zm339 353q-17 0-28.5-11.5T520-320q0-17 11.5-28.5T560-360h280q17 0 28.5 11.5T880-320q0 17-11.5 28.5T840-280H560Zm0-320q-17 0-28.5-11.5T520-640q0-17 11.5-28.5T560-680h280q17 0 28.5 11.5T880-640q0 17-11.5 28.5T840-600H560Z" />
-                                </svg>
-
-                                <span class="text">Medications</span>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="addspecialist.php">
-                                <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e8eaed">
-                                    <path d="m221-313 142-142q12-12 28-11.5t28 12.5q11 12 11 28t-11 28L250-228q-12 12-28 12t-28-12l-86-86q-11-11-11-28t11-28q11-11 28-11t28 11l57 57Zm0-320 142-142q12-12 28-11.5t28 12.5q11 12 11 28t-11 28L250-548q-12 12-28 12t-28-12l-86-86q-11-11-11-28t11-28q11-11 28-11t28 11l57 57Zm339 353q-17 0-28.5-11.5T520-320q0-17 11.5-28.5T560-360h280q17 0 28.5 11.5T880-320q0 17-11.5 28.5T840-280H560Zm0-320q-17 0-28.5-11.5T520-640q0-17 11.5-28.5T560-680h280q17 0 28.5 11.5T880-640q0 17-11.5 28.5T840-600H560Z" />
-                                </svg>
-
-                                <span class="text">specialists</span>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="addprocedure.php">
-                                <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e8eaed">
-                                    <path d="m221-313 142-142q12-12 28-11.5t28 12.5q11 12 11 28t-11 28L250-228q-12 12-28 12t-28-12l-86-86q-11-11-11-28t11-28q11-11 28-11t28 11l57 57Zm0-320 142-142q12-12 28-11.5t28 12.5q11 12 11 28t-11 28L250-548q-12 12-28 12t-28-12l-86-86q-11-11-11-28t11-28q11-11 28-11t28 11l57 57Zm339 353q-17 0-28.5-11.5T520-320q0-17 11.5-28.5T560-360h280q17 0 28.5 11.5T880-320q0 17-11.5 28.5T840-280H560Zm0-320q-17 0-28.5-11.5T520-640q0-17 11.5-28.5T560-680h280q17 0 28.5 11.5T880-640q0 17-11.5 28.5T840-600H560Z" />
-                                </svg>
-
-                                <span class="text">procedures</span>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="addcohort.php">
-                                <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e8eaed">
-                                    <path d="m221-313 142-142q12-12 28-11.5t28 12.5q11 12 11 28t-11 28L250-228q-12 12-28 12t-28-12l-86-86q-11-11-11-28t11-28q11-11 28-11t28 11l57 57Zm0-320 142-142q12-12 28-11.5t28 12.5q11 12 11 28t-11 28L250-548q-12 12-28 12t-28-12l-86-86q-11-11-11-28t11-28q11-11 28-11t28 11l57 57Zm339 353q-17 0-28.5-11.5T520-320q0-17 11.5-28.5T560-360h280q17 0 28.5 11.5T880-320q0 17-11.5 28.5T840-280H560Zm0-320q-17 0-28.5-11.5T520-640q0-17 11.5-28.5T560-680h280q17 0 28.5 11.5T880-640q0 17-11.5 28.5T840-600H560Z" />
-                                </svg>
-
-                                <span class="text">cohorts</span>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="adduser.php">
-                                <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e8eaed">
-                                    <path d="m221-313 142-142q12-12 28-11.5t28 12.5q11 12 11 28t-11 28L250-228q-12 12-28 12t-28-12l-86-86q-11-11-11-28t11-28q11-11 28-11t28 11l57 57Zm0-320 142-142q12-12 28-11.5t28 12.5q11 12 11 28t-11 28L250-548q-12 12-28 12t-28-12l-86-86q-11-11-11-28t11-28q11-11 28-11t28 11l57 57Zm339 353q-17 0-28.5-11.5T520-320q0-17 11.5-28.5T560-360h280q17 0 28.5 11.5T880-320q0 17-11.5 28.5T840-280H560Zm0-320q-17 0-28.5-11.5T520-640q0-17 11.5-28.5T560-680h280q17 0 28.5 11.5T880-640q0 17-11.5 28.5T840-600H560Z" />
-                                </svg>
-
-                                <span class="text">users</span>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="adddiagnosis.php"><svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e8eaed">
-                                    <path d="m221-313 142-142q12-12 28-11.5t28 12.5q11 12 11 28t-11 28L250-228q-12 12-28 12t-28-12l-86-86q-11-11-11-28t11-28q11-11 28-11t28 11l57 57Zm0-320 142-142q12-12 28-11.5t28 12.5q11 12 11 28t-11 28L250-548q-12 12-28 12t-28-12l-86-86q-11-11-11-28t11-28q11-11 28-11t28 11l57 57Zm339 353q-17 0-28.5-11.5T520-320q0-17 11.5-28.5T560-360h280q17 0 28.5 11.5T880-320q0 17-11.5 28.5T840-280H560Zm0-320q-17 0-28.5-11.5T520-640q0-17 11.5-28.5T560-680h280q17 0 28.5 11.5T880-640q0 17-11.5 28.5T840-600H560Z" />
-                                </svg>
-
-                                <span class="text">diagnosis</span>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="addcallresults.php"><svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e8eaed">
-                                    <path d="m221-313 142-142q12-12 28-11.5t28 12.5q11 12 11 28t-11 28L250-228q-12 12-28 12t-28-12l-86-86q-11-11-11-28t11-28q11-11 28-11t28 11l57 57Zm0-320 142-142q12-12 28-11.5t28 12.5q11 12 11 28t-11 28L250-548q-12 12-28 12t-28-12l-86-86q-11-11-11-28t11-28q11-11 28-11t28 11l57 57Zm339 353q-17 0-28.5-11.5T520-320q0-17 11.5-28.5T560-360h280q17 0 28.5 11.5T880-320q0 17-11.5 28.5T840-280H560Zm0-320q-17 0-28.5-11.5T520-640q0-17 11.5-28.5T560-680h280q17 0 28.5 11.5T880-640q0 17-11.5 28.5T840-600H560Z" />
-                                </svg>
-
-                                <span class="text">Call Results</span>
-                            </a>
-                        </li>
-                    </ul>
-                <?php endif; ?>
-
-                </li>
-                <li class="has-submenu">
-                    <a href="summary.php">
-                        <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e8eaed">
-                            <path d="M480-480q-66 0-113-47t-47-113q0-66 47-113t113-47q66 0 113 47t47 113q0 66-47 113t-113 47ZM160-240v-32q0-34 17.5-62.5T224-378q62-31 126-46.5T480-440q66 0 130 15.5T736-378q29 15 46.5 43.5T800-272v32q0 33-23.5 56.5T720-160H240q-33 0-56.5-23.5T160-240Zm80 0h480v-32q0-11-5.5-20T700-306q-54-27-109-40.5T480-360q-56 0-111 13.5T260-306q-9 5-14.5 14t-5.5 20v32Zm240-320q33 0 56.5-23.5T560-640q0-33-23.5-56.5T480-720q-33 0-56.5 23.5T400-640q0 33 23.5 56.5T480-560Zm0-80Zm0 400Z" />
-                        </svg>
-                        <span class="text">Summary</span>
-                    </a>
-                </li>
+            <li class="has-submenu">
+                <a href="summary.php">
+                    <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e8eaed">
+                        <path d="M480-480q-66 0-113-47t-47-113q0-66 47-113t113-47q66 0 113 47t47 113q0 66-47 113t-113 47ZM160-240v-32q0-34 17.5-62.5T224-378q62-31 126-46.5T480-440q66 0 130 15.5T736-378q29 15 46.5 43.5T800-272v32q0 33-23.5 56.5T720-160H240q-33 0-56.5-23.5T160-240Zm80 0h480v-32q0-11-5.5-20T700-306q-54-27-109-40.5T480-360q-56 0-111 13.5T260-306q-9 5-14.5 14t-5.5 20v32Zm240-320q33 0 56.5-23.5T560-640q0-33-23.5-56.5T480-720q-33 0-56.5 23.5T400-640q0 33 23.5 56.5T480-560Zm0-80Zm0 400Z" />
+                    </svg>
+                    <span class="text">Summary</span>
+                </a>
+            </li>
 
 
 
-        </section>
-        <!-- SIDEBAR -->
+    </section>
+    <!-- SIDEBAR -->
 
-        <!-- Add the following CSS and JavaScript for submenu toggle functionality -->
-        <style>
-            .has-submenu .submenu {
-                display: none;
-                list-style: none;
-                padding-left: 20px;
-            }
+    <!-- Add the following CSS and JavaScript for submenu toggle functionality -->
+    <style>
+        .has-submenu .submenu {
+            display: none;
+            list-style: none;
+            padding-left: 20px;
+        }
 
-            .has-submenu .submenu li a {
-                font-size: 0.9rem;
-            }
+        .has-submenu .submenu li a {
+            font-size: 0.9rem;
+        }
 
-            .has-submenu.active .submenu {
-                display: block;
-            }
+        .has-submenu.active .submenu {
+            display: block;
+        }
 
-            .dropdown-icon {
-                margin-left: auto;
-                transition: transform 0.3s ease;
-            }
+        .dropdown-icon {
+            margin-left: auto;
+            transition: transform 0.3s ease;
+        }
 
-            .has-submenu.active .dropdown-icon {
-                transform: rotate(180deg);
-            }
-        </style>
+        .has-submenu.active .dropdown-icon {
+            transform: rotate(180deg);
+        }
+    </style>
 
-        <script>
-            document.querySelectorAll('.submenu-toggle').forEach(item => {
-                item.addEventListener('click', function(e) {
-                    e.preventDefault();
-                    const parent = this.parentElement;
-                    parent.classList.toggle('active');
-                });
+    <script>
+        document.querySelectorAll('.submenu-toggle').forEach(item => {
+            item.addEventListener('click', function(e) {
+                e.preventDefault();
+                const parent = this.parentElement;
+                parent.classList.toggle('active');
             });
-        </script>
+        });
+    </script>
 
 
-        <!-- CONTENT -->
-        <section id="content">
-            <!-- NAVBAR -->
-            <nav>
+    <!-- CONTENT -->
+    <section id="content">
+        <!-- NAVBAR -->
+        <nav>
 
-                <a href="#" class="nav-link">Branch</a>
-                <span class="text">
-                    <?php echo htmlspecialchars($branch_name); ?>
-                </span>
-                <form action="#">
-                    <div class="form-input">
+            <a href="#" class="nav-link">Branch</a>
+            <span class="text">
+                <?php echo htmlspecialchars($branch_name); ?>
+            </span>
+            <form action="#">
+                <div class="form-input">
 
-                    </div>
-                </form>
-
-                <a href="#" class="notification">
-                    <i class='bx bxs-bell'></i>
-
-                </a>
-                <a href="#" class="profile">
-                    <img src="img/people.png">
-                    <span class="text">
-                        <?php echo htmlspecialchars($user_email); ?>
-                    </span>
-                </a>
-                <div class="logout-container">
-
-                    <label>Log Out</label>
-                    <label for="switch-mode" class="switch-mode" onclick="logout()"></label>
                 </div>
+            </form>
 
-                <script>
-                    function logout() {
-                        // Redirect to the logout page
-                        window.location.href = "login.php";
-                    }
-                </script>
+            <a href="#" class="notification">
+                <i class='bx bxs-bell'></i>
 
-                <style>
-                    .logout-container {
-                        display: flex;
-                        /* Use flexbox for layout */
-                        align-items: center;
-                        /* Align items vertically */
-                        gap: 15px;
-                        /* Add space between widgets */
+            </a>
+            <a href="#" class="profile">
+                <img src="img/people.png">
+                <span class="text">
+                    <?php echo htmlspecialchars($user_email); ?>
+                </span>
+            </a>
+            <div class="logout-container">
 
-                    }
+                <label>Log Out</label>
+                <label for="switch-mode" class="switch-mode" onclick="logout()"></label>
+            </div>
 
-                    #switch-mode {
-                        display: inline-block;
-                        width: 20px;
-                        height: 20px;
-                        margin-right: 10px;
-                    }
+            <script>
+                function logout() {
+                    // Redirect to the logout page
+                    window.location.href = "login.php";
+                }
+            </script>
 
-                    .switch-mode {
-                        cursor: pointer;
-                        font-size: 16px;
-                        color: #333;
-                    }
+            <style>
+                .logout-container {
+                    display: flex;
+                    /* Use flexbox for layout */
+                    align-items: center;
+                    /* Align items vertically */
+                    gap: 15px;
+                    /* Add space between widgets */
 
-                    .switch-mode:hover {
-                        text-decoration: underline;
-                    }
-                </style>
-            </nav>
-            <!-- NAVBAR -->
-            <main>
-                <div class="table-data" style="width: 60%;">
-                    <div class="order">
-                        <div class="head">
-                            <h3>Schemes</h3>
-                            <i class='bx bx-search'></i>
-                            <i class='bx bx-filter'></i>
-                            <button type="button" style="border: none; background: none; cursor: pointer;" data-toggle="modal" data-target="#newSchemeModal" aria-label="Add Scheme">
-                                <i class='bx bx-plus'></i>
-                            </button>
-                        </div>
-                        <table id="schemeTable" class="table table-bordered">
-                            <thead>
+                }
+
+                #switch-mode {
+                    display: inline-block;
+                    width: 20px;
+                    height: 20px;
+                    margin-right: 10px;
+                }
+
+                .switch-mode {
+                    cursor: pointer;
+                    font-size: 16px;
+                    color: #333;
+                }
+
+                .switch-mode:hover {
+                    text-decoration: underline;
+                }
+            </style>
+        </nav>
+        <!-- NAVBAR -->
+        <main>
+            <div class="table-data" style="width: 60%;">
+                <div class="order">
+                    <div class="head">
+                        <h3>Schemes</h3>
+                        <i class='bx bx-search'></i>
+                        <i class='bx bx-filter'></i>
+                        <button type="button" style="border: none; background: none; cursor: pointer;" data-toggle="modal" data-target="#newSchemeModal" aria-label="Add Scheme">
+                            <i class='bx bx-plus'></i>
+                        </button>
+                    </div>
+                    <table id="schemeTable" class="table table-bordered">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Scheme Name</th>
+                                <th>Payment Method</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <?php
+                            // Fetch scheme records from the database
+                            $schemes = $db->display_schemes();
+                            $rowNumber = 1; // Initialize row number
+                            foreach ($schemes as $scheme) {
+                            ?>
                                 <tr>
-                                    <th>#</th>
-                                    <th>Scheme Name</th>
-                                    <th>Payment Method</th>
-                                    <th>Actions</th>
+                                    <td><?php echo $rowNumber++; ?></td>
+                                    <td><?php echo htmlspecialchars($scheme['scheme_name']); ?></td>
+                                    <td><?php echo htmlspecialchars($scheme['payment_method']); ?></td>
+                                    <td>
+                                        <div class="d-flex justify-content-between">
+                                            <button type="button" class="btn btn-info" data-toggle="modal" data-target="#editSchemeModal<?php echo $scheme['scheme_id']; ?>" style="background-color: black; color: white;">Edit</button>
+                                            <button class="btn btn-danger" data-toggle="modal" data-target="#deleteSchemeModal<?php echo $scheme['scheme_id']; ?>">Delete</button>
+                                        </div>
+                                    </td>
                                 </tr>
-                            </thead>
-                            <tbody>
-                                <?php
-                                // Fetch scheme records from the database
-                                $schemes = $db->display_schemes();
-                                $rowNumber = 1; // Initialize row number
-                                foreach ($schemes as $scheme) {
-                                ?>
-                                    <tr>
-                                        <td><?php echo $rowNumber++; ?></td>
-                                        <td><?php echo htmlspecialchars($scheme['scheme_name']); ?></td>
-                                        <td><?php echo htmlspecialchars($scheme['payment_method']); ?></td>
-                                        <td>
-                                            <div class="d-flex justify-content-between">
-                                                <button type="button" class="btn btn-info" data-toggle="modal" data-target="#editSchemeModal<?php echo $scheme['scheme_id']; ?>" style="background-color: black; color: white;">Edit</button>
-                                                <button class="btn btn-danger" data-toggle="modal" data-target="#deleteSchemeModal<?php echo $scheme['scheme_id']; ?>">Delete</button>
-                                            </div>
-                                        </td>
-                                    </tr>
 
-                                    <!-- Edit Modal -->
-                                    <div class="modal fade" id="editSchemeModal<?php echo $scheme['scheme_id']; ?>" tabindex="-1" aria-hidden="true">
-                                        <div class="modal-dialog modal-lg">
-                                            <div class="modal-content">
-                                                <div class="modal-header">
-                                                    <button type="button" class="close" data-dismiss="modal">&times;</button>
-                                                </div>
-                                                <form action="updatescheme.php" method="POST">
-                                                    <div class="modal-body">
-                                                        <div class="rounded-container">
-                                                            <input type="hidden" name="scheme_id" value="<?php echo $scheme['scheme_id']; ?>">
-                                                            <h5>Edit Scheme Details</h5>
-                                                            <div class="row">
-                                                                <div class="col-md-6">
-                                                                    <div class="form-group d-flex">
-                                                                        <label for="scheme_name<?php echo $scheme['scheme_id']; ?>">Scheme Name</label>
-                                                                        <input type="text" class="form-control" id="scheme_name<?php echo $scheme['scheme_id']; ?>" name="scheme_name" value="<?php echo htmlspecialchars($scheme['scheme_name']); ?>" required>
-                                                                    </div>
-                                                                </div>
-                                                                <div class="col-md-6">
-                                                                    <div class="form-group d-flex">
-                                                                        <label for="payment_method<?php echo $scheme['scheme_id']; ?>">Payment Method</label>
-                                                                        <input type="text" class="form-control" id="payment_method<?php echo $scheme['scheme_id']; ?>" name="payment_method" value="<?php echo htmlspecialchars($scheme['payment_method']); ?>" required>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                            <div class="modal-footer">
-                                                                <div class="col-12 text-center">
-                                                                    <input type="submit" name="update" class="btn btn-info btn-large" value="Submit" style="background-color: black; color: white;">
-                                                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </form>
+                                <!-- Edit Modal -->
+                                <div class="modal fade" id="editSchemeModal<?php echo $scheme['scheme_id']; ?>" tabindex="-1" aria-hidden="true">
+                                    <div class="modal-dialog modal-lg">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <button type="button" class="close" data-dismiss="modal">&times;</button>
                                             </div>
-                                        </div>
-                                    </div>
-
-                                    <!-- Delete Scheme Modal -->
-                                    <div class="modal fade" id="deleteSchemeModal<?php echo $scheme['scheme_id']; ?>" tabindex="-1" aria-hidden="true">
-                                        <div class="modal-dialog">
-                                            <div class="modal-content">
-                                                <div class="modal-header">
-                                                    <h5 class="modal-title">Delete Scheme</h5>
-                                                    <button type="button" class="close" data-dismiss="modal">&times;</button>
-                                                </div>
+                                            <form action="updatescheme.php" method="POST">
                                                 <div class="modal-body">
-                                                    <p>Are you sure you want to delete this scheme?</p>
-                                                </div>
-                                                <div class="modal-footer">
-                                                    <a href="deletescheme.php?id=<?php echo $scheme['scheme_id']; ?>" class="btn btn-danger" style="background-color: red; color: white;">Delete</a>
-                                                    <button type="button" class="btn btn-default" data-dismiss="modal" style="background-color: grey; color: white;">Cancel</button>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                <?php } ?>
-                            </tbody>
-                        </table>
-
-                        <div class="modal fade" id="newSchemeModal" tabindex="-1" aria-hidden="true">
-                            <div class="modal-dialog modal-lg">
-                                <div class="modal-content">
-                                    <div class="modal-header">
-                                        <button type="button" class="close" data-dismiss="modal">&times;</button>
-                                    </div>
-                                    <form action="newscheme.php" method="POST">
-                                        <div class="modal-body">
-                                            <div class="rounded-container">
-                                                <input type="hidden" name="scheme_id" value="<?php echo $scheme['scheme_id']; ?>">
-                                                <h5>Edit Scheme Details</h5>
-                                                <div class="row">
-                                                    <div class="col-md-6">
-                                                        <div class="form-group d-flex">
-                                                            <label for="scheme_name<?php echo $scheme['scheme_id']; ?>">Scheme Name</label>
-                                                            <input type="text" class="form-control" id="scheme_name<?php echo $scheme['scheme_id']; ?>" name="scheme_name" required>
+                                                    <div class="rounded-container">
+                                                        <input type="hidden" name="scheme_id" value="<?php echo $scheme['scheme_id']; ?>">
+                                                        <h5>Edit Scheme Details</h5>
+                                                        <div class="row">
+                                                            <div class="col-md-6">
+                                                                <div class="form-group d-flex">
+                                                                    <label for="scheme_name<?php echo $scheme['scheme_id']; ?>">Scheme Name</label>
+                                                                    <input type="text" class="form-control" id="scheme_name<?php echo $scheme['scheme_id']; ?>" name="scheme_name" value="<?php echo htmlspecialchars($scheme['scheme_name']); ?>" required>
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-md-6">
+                                                                <div class="form-group d-flex">
+                                                                    <label for="payment_method<?php echo $scheme['scheme_id']; ?>">Payment Method</label>
+                                                                    <input type="text" class="form-control" id="payment_method<?php echo $scheme['scheme_id']; ?>" name="payment_method" value="<?php echo htmlspecialchars($scheme['payment_method']); ?>" required>
+                                                                </div>
+                                                            </div>
                                                         </div>
-                                                    </div>
-                                                    <div class="col-md-6">
-                                                        <div class="form-group d-flex">
-                                                            <label for="payment_method<?php echo $scheme['scheme_id']; ?>">Payment Method</label>
-                                                            <input type="text" class="form-control" id="payment_method<?php echo $scheme['scheme_id']; ?>" name="payment_method" required>
+                                                        <div class="modal-footer">
+                                                            <div class="col-12 text-center">
+                                                                <input type="submit" name="update" class="btn btn-info btn-large" value="Submit" style="background-color: black; color: white;">
+                                                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                                                            </div>
                                                         </div>
                                                     </div>
                                                 </div>
-                                                <div class="modal-footer">
-                                                    <div class="col-12 text-center">
-                                                        <input type="submit" name="update" class="btn btn-info btn-large" value="Submit" style="background-color: black; color: white;">
-                                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Delete Scheme Modal -->
+                                <div class="modal fade" id="deleteSchemeModal<?php echo $scheme['scheme_id']; ?>" tabindex="-1" aria-hidden="true">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title">Delete Scheme</h5>
+                                                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                            </div>
+                                            <div class="modal-body">
+                                                <p>Are you sure you want to delete this scheme?</p>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <a href="deletescheme.php?id=<?php echo $scheme['scheme_id']; ?>" class="btn btn-danger" style="background-color: red; color: white;">Delete</a>
+                                                <button type="button" class="btn btn-default" data-dismiss="modal" style="background-color: grey; color: white;">Cancel</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            <?php } ?>
+                        </tbody>
+                    </table>
+
+                    <div class="modal fade" id="newSchemeModal" tabindex="-1" aria-hidden="true">
+                        <div class="modal-dialog modal-lg">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                </div>
+                                <form action="newscheme.php" method="POST">
+                                    <div class="modal-body">
+                                        <div class="rounded-container">
+                                            <input type="hidden" name="scheme_id" value="<?php echo $scheme['scheme_id']; ?>">
+                                            <h5>Edit Scheme Details</h5>
+                                            <div class="row">
+                                                <div class="col-md-6">
+                                                    <div class="form-group d-flex">
+                                                        <label for="scheme_name<?php echo $scheme['scheme_id']; ?>">Scheme Name</label>
+                                                        <input type="text" class="form-control" id="scheme_name<?php echo $scheme['scheme_id']; ?>" name="scheme_name" required>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <div class="form-group d-flex">
+                                                        <label for="payment_method<?php echo $scheme['scheme_id']; ?>">Payment Method</label>
+                                                        <input type="text" class="form-control" id="payment_method<?php echo $scheme['scheme_id']; ?>" name="payment_method" required>
                                                     </div>
                                                 </div>
                                             </div>
+                                            <div class="modal-footer">
+                                                <div class="col-12 text-center">
+                                                    <input type="submit" name="update" class="btn btn-info btn-large" value="Submit" style="background-color: black; color: white;">
+                                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                                                </div>
+                                            </div>
                                         </div>
-                                    </form>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- New Scheme Modal -->
-                        <div class="modal fade" id="newSchemeModal" tabindex="-1" aria-hidden="true">
-                            <div class="modal-dialog">
-                                <div class="modal-content">
-                                    <div class="modal-header">
-                                        <h5 class="modal-title">Add New Scheme</h5>
-                                        <button type="button" class="close" data-dismiss="modal">&times;</button>
                                     </div>
-                                    <form action="newscheme.php" method="POST">
-                                        <div class="modal-body">
-                                            <div class="form-group">
-                                                <label for="new_scheme_name">Scheme Name</label>
-                                                <input type="text" class="form-control" id="new_scheme_name" name="scheme_name" required>
-                                            </div>
-                                            <div class="form-group">
-                                                <label for="new_payment_method">Payment Method</label>
-                                                <input type="text" class="form-control" id="new_payment_method" name="payment_method" required>
-                                            </div>
-                                        </div>
-                                        <div class="modal-footer">
-                                            <button type="submit" class="btn btn-info" style="background-color: black; color: white;">Submit</button>
-                                            <button type="button" class="btn btn-default" data-dismiss="modal" style="background-color: grey; color: white;">Close</button>
-                                        </div>
-                                    </form>
-                                </div>
+                                </form>
                             </div>
                         </div>
-                        <script>
-                            $(document).ready(function() {
-                                $('#schemeTable').DataTable({
-                                    "searching": true,
-                                    "paging": true,
-                                    "ordering": true,
-                                    "info": true,
-                                    "language": {
-                                        "emptyTable": "",
-                                        "zeroRecords": ""
-                                    },
-                                    "pageLength": 5 // Set the number of entries to 5
-                                });
+                    </div>
+
+                    <!-- New Scheme Modal -->
+                    <div class="modal fade" id="newSchemeModal" tabindex="-1" aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title">Add New Scheme</h5>
+                                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                </div>
+                                <form action="newscheme.php" method="POST">
+                                    <div class="modal-body">
+                                        <div class="form-group">
+                                            <label for="new_scheme_name">Scheme Name</label>
+                                            <input type="text" class="form-control" id="new_scheme_name" name="scheme_name" required>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="new_payment_method">Payment Method</label>
+                                            <input type="text" class="form-control" id="new_payment_method" name="payment_method" required>
+                                        </div>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="submit" class="btn btn-info" style="background-color: black; color: white;">Submit</button>
+                                        <button type="button" class="btn btn-default" data-dismiss="modal" style="background-color: grey; color: white;">Close</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                    <script>
+                        $(document).ready(function() {
+                            $('#schemeTable').DataTable({
+                                "searching": true,
+                                "paging": true,
+                                "ordering": true,
+                                "info": true,
+                                "language": {
+                                    "emptyTable": "",
+                                    "zeroRecords": ""
+                                },
+                                "pageLength": 5 // Set the number of entries to 5
                             });
-                        </script>
+                        });
+                    </script>
 
 
 </body>

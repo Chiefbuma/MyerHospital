@@ -110,6 +110,48 @@ class db_class extends db_connect
 		}
 	}
 
+	public function getMedicationByPatientId($patient_id)
+	{
+		try {
+			// Prepare the SQL query to fetch medication_use records based on patient_id
+			$query = $this->conn->prepare("SELECT * FROM `medication_use` WHERE `patient_id` = ?");
+			$query->bind_param("i", $patient_id); // Bind patient_id as an integer
+
+			if ($query->execute()) {
+				$result = $query->get_result();
+
+				// Check if records exist
+				if ($result->num_rows > 0) {
+					$medications = [];
+
+					while ($row = $result->fetch_assoc()) {
+						$medications[] = $row;
+					}
+
+					return array(
+						'medications' => $medications,
+						'count' => count($medications)
+					);
+				} else {
+					// No records found
+					return array(
+						'medications' => [],
+						'count' => 0
+					);
+				}
+			} else {
+				throw new Exception("Error executing query: " . $query->error);
+			}
+		} catch (Exception $e) {
+			echo "<script>alert('Exception: " . htmlspecialchars($e->getMessage()) . "');</script>";
+			return array(
+				'medications' => [],
+				'count' => 0
+			);
+		}
+	}
+
+
 
 	public function user_acc($user_id)
 	{
@@ -1217,16 +1259,15 @@ class db_class extends db_connect
 		try {
 			$query = $this->conn->prepare("
             SELECT 
-                patient.*,               -- Select all columns from the patient table
-                nutrition.*,             -- Select all columns from the nutrition table
-                medication_use.*,        -- Select all columns from the medication_use table
-                psychosocial.*,          -- Select all columns from the psychosocial table
-                chronic.*,               -- Select all columns from the chronic table
-                branch.*,                -- Select all columns from the branch table
-                calls.*,                 -- Select all columns from the calls table
-                chronic.refill_date,     -- Display chronic refill date
-                psychosocial.next_review, -- Display psychosocial next review date
-                -- Add the assessment column
+                patient.*,               
+                nutrition.*,             
+                medication_use.*,        
+                psychosocial.*,          
+                chronic.*,               
+                branch.*,                
+                calls.*,                 
+                chronic.refill_date,     
+                psychosocial.next_review, 
                 CASE
                     WHEN chronic.patient_id IS NOT NULL THEN 'Chronic'
                     WHEN nutrition.patient_id IS NOT NULL THEN 'Nutrition'
@@ -1251,14 +1292,61 @@ class db_class extends db_connect
         ");
 
 			if ($query->execute()) {
-				$result = $query->get_result(); // Fetch the result set
-				return $result;
+				$result = $query->get_result();
+
+				// Convert result to array if needed
+				return $result ? $result : [];
 			} else {
 				throw new Exception("Error executing query: " . $query->error);
 			}
 		} catch (Exception $e) {
 			echo "<script>alert('Exception: " . htmlspecialchars($e->getMessage()) . "');</script>";
-			return false;
+			return [];
+		}
+	}
+	public function display_calls_med()
+	{
+		try {
+			$query = $this->conn->prepare("
+            SELECT 
+                patient.*,             
+                medication_use.*,   
+                calls.*,     
+                CASE
+                    WHEN medication_use.patient_id IS NOT NULL THEN 'Medication'
+                    ELSE 'Unknown'
+                END AS assessment
+            FROM 
+                patient
+            INNER JOIN 
+                calls ON patient.patient_id = calls.patient_id
+            LEFT JOIN 
+                medication_use ON patient.patient_id = medication_use.patient_id
+        ");
+
+			if (!$query) {
+				throw new Exception("Query preparation failed: " . $this->conn->error);
+			}
+
+			if ($query->execute()) {
+				$result = $query->get_result();
+
+				if ($result === false) {
+					throw new Exception("Error fetching result: " . $query->error);
+				}
+
+				$data = [];
+				while ($row = $result->fetch_assoc()) {
+					$data[] = $row;
+				}
+
+				return $data; // Return as an array
+			} else {
+				throw new Exception("Error executing query: " . $query->error);
+			}
+		} catch (Exception $e) {
+			echo "<script>alert('Exception: " . htmlspecialchars($e->getMessage()) . "');</script>";
+			return [];
 		}
 	}
 
@@ -1464,6 +1552,51 @@ class db_class extends db_connect
 		}
 	}
 
+	public function AssessPhysiotherapy()
+	{
+		try {
+			$query = $this->conn->prepare("
+            SELECT 
+                patient.patient_id,       -- Patient ID
+                patient.scheme_id,        -- Scheme ID
+                physiotherapy.visit_date, -- Visit date from physiotherapy
+                patient.*,                -- Select all columns from the patient table
+                physiotherapy.*,          -- Select all columns from the physiotherapy table
+                physiotherapy.progress,   -- Display progress from physiotherapy
+                CASE
+                    WHEN physiotherapy.patient_id IS NOT NULL THEN 'Physiotherapy'
+                    ELSE 'Unknown'
+                END AS assessment
+            FROM 
+                patient
+            LEFT JOIN 
+                physiotherapy ON patient.patient_id = physiotherapy.patient_id
+            LEFT JOIN 
+                calls ON patient.patient_id = calls.patient_id
+            GROUP BY 
+                patient.patient_id, 
+                patient.scheme_id, 
+                physiotherapy.visit_date
+        ");
+
+			if ($query === false) {
+				throw new Exception("Error preparing query: " . $this->conn->error);
+			}
+
+			if ($query->execute()) {
+				$result = $query->get_result(); // Fetch the result set
+				return $result;
+			} else {
+				throw new Exception("Error executing query: " . $query->error);
+			}
+		} catch (Exception $e) {
+			error_log($e->getMessage());
+			echo "<script>alert('Exception: " . htmlspecialchars($e->getMessage()) . "');</script>";
+			return false;
+		}
+	}
+
+
 	public function AssesNutrition()
 	{
 		try {
@@ -1513,6 +1646,7 @@ class db_class extends db_connect
                     WHEN medication_use.patient_id IS NOT NULL THEN 'Medication'
                     ELSE 'Unknown'
                 END AS assessment
+
             FROM 
                 patient
             LEFT JOIN 
@@ -1526,6 +1660,43 @@ class db_class extends db_connect
 			if ($query === false) {
 				throw new Exception("Error preparing query: " . $this->conn->error);
 			}
+
+			if ($query->execute()) {
+				$result = $query->get_result(); // Fetch the result set
+				return $result;
+			} else {
+				throw new Exception("Error executing query: " . $query->error);
+			}
+		} catch (Exception $e) {
+			error_log($e->getMessage());
+			echo "<script>alert('Exception: " . htmlspecialchars($e->getMessage()) . "');</script>";
+			return false;
+		}
+	}
+
+
+
+
+	public function getMedicationUseByPatientId($patient_id)
+	{
+		try {
+			$query = $this->conn->prepare("
+            SELECT 
+                mu.*, 
+                m.item_name 
+            FROM 
+                medication_use mu
+            JOIN 
+                medication m ON m.medication_id = mu.medication_id
+            WHERE 
+                mu.patient_id = ?
+        ");
+
+			if ($query === false) {
+				throw new Exception("Error preparing query: " . $this->conn->error);
+			}
+
+			$query->bind_param("i", $patient_id);  // Bind the patient_id parameter
 
 			if ($query->execute()) {
 				$result = $query->get_result(); // Fetch the result set
@@ -1896,6 +2067,7 @@ class db_class extends db_connect
 			return false;
 		}
 	}
+
 
 	function displayProcedures()
 	{
