@@ -11,31 +11,31 @@ try {
 
         if (
             isset(
-                $_POST['medication_name'],
-                $_POST['molecule_name'],
-                $_POST['brand_name'],
-                $_POST['type_of_brand'],
-                $_POST['formulation']
+                $_POST['item_name'],        // Corresponds to item_name in the form
+                $_POST['formulation'],      // Corresponds to formulation in the form
+                $_POST['category'],         // Corresponds to category in the form
+                $_POST['brand'],            // Corresponds to brand in the form
+                $_POST['formulation']       // Corresponds to formulation in the form
             )
         ) {
-            $medication_name = $_POST['medication_name'];
-            $molecule_name = $_POST['molecule_name'];
-            $brand_name = $_POST['brand_name'];
-            $type_of_brand = $_POST['type_of_brand'];
+            // Retrieve form data
+            $item_name = $_POST['item_name'];
             $formulation = $_POST['formulation'];
+            $category = $_POST['category'];
+            $brand = $_POST['brand'];
 
             // Validate form data
-            if (empty($medication_name) || empty($molecule_name) || empty($brand_name) || empty($type_of_brand) || empty($formulation)) {
+            if (empty($item_name) || empty($formulation) || empty($category) || empty($brand)) {
                 throw new Exception("All fields are required.");
             }
 
             // Prepare SQL to insert data into the database
-            $sql = "INSERT INTO medication (medication_name, molecule_name, brand_name, type_of_brand, formulation) 
-                    VALUES (?, ?, ?, ?, ?)";
+            $sql = "INSERT INTO medication (item_name, formulation, category, brand) 
+                    VALUES (?, ?, ?, ?)";
 
             // Prepare the statement and bind parameters
             if ($stmt = $db->conn->prepare($sql)) {
-                $stmt->bind_param("sssss", $medication_name, $molecule_name, $brand_name, $type_of_brand, $formulation);
+                $stmt->bind_param("ssss", $item_name, $formulation, $category, $brand);
 
                 // Execute the query
                 if ($stmt->execute()) {
@@ -44,15 +44,18 @@ try {
                     echo "<script>window.location='addmedication.php';</script>"; // Redirect to the medication list page
                 } else {
                     throw new Exception("Error executing query: " . $stmt->error);
+                    echo "<script>window.location='addmedication.php';</script>"; // Redirect to the medication list page
                 }
 
                 // Close the prepared statement
                 $stmt->close();
             } else {
                 throw new Exception("Error preparing the SQL query.");
+                echo "<script>window.location='addmedication.php';</script>"; // Redirect to the medication list page
             }
         } else {
             throw new Exception("Error: Missing required fields.");
+            echo "<script>window.location='addmedication.php';</script>"; // Redirect to the medication list page
         }
 
         // Close the database connection
@@ -60,4 +63,5 @@ try {
     }
 } catch (Exception $e) {
     echo "<script>alert('Exception: " . htmlspecialchars($e->getMessage()) . "');</script>";
+    echo "<script>window.location='addmedication.php';</script>"; // Redirect to the medication list page
 }

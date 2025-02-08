@@ -768,7 +768,6 @@ if ($branch_result && $branch_row = $branch_result->fetch_assoc()) {
                                                 </div>
                                                 <div class="modal-body">
 
-
                                                     <form id="medicationForm<?php echo $fetch['patient_id']; ?>" method="POST">
                                                         <input type="hidden" name="patient_id" value="<?php echo $fetch['patient_id']; ?>">
                                                         <div class="rounded-container">

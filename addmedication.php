@@ -583,12 +583,13 @@ if ($branch_result && $branch_row = $branch_result->fetch_assoc()) {
                     <table id="patientTable" class="table table-bordered">
                         <thead>
                             <tr>
+
                                 <th>#</th>
                                 <th>Medication Name</th>
-                                <th>Molecule Name</th>
-                                <th>Brand Name</th>
-                                <th>Type</th>
+                                <th>Composition</th>
+                                <th>Brand</th>
                                 <th>Formulation</th>
+                                <th>Category</th>
                                 <th>Actions</th>
                             </tr>
                         </thead>
@@ -600,12 +601,13 @@ if ($branch_result && $branch_row = $branch_result->fetch_assoc()) {
                             foreach ($medications as $fetch) {
                             ?>
                                 <tr>
+
                                     <td><?php echo $rowNumber++; ?></td>
-                                    <td><?php echo htmlspecialchars($fetch['medication_name']); ?></td>
-                                    <td><?php echo htmlspecialchars($fetch['molecule_name']); ?></td>
-                                    <td><?php echo htmlspecialchars($fetch['brand_name']); ?></td>
-                                    <td><?php echo htmlspecialchars($fetch['type_of_brand']); ?></td>
+                                    <td><?php echo htmlspecialchars($fetch['item_name']); ?></td>
+                                    <td><?php echo htmlspecialchars($fetch['composition']); ?></td>
+                                    <td><?php echo htmlspecialchars($fetch['brand']); ?></td>
                                     <td><?php echo htmlspecialchars($fetch['formulation']); ?></td>
+                                    <td><?php echo htmlspecialchars($fetch['category']); ?></td>
                                     <td>
                                         <div class="d-flex justify-content-between">
                                             <button type="button" class="btn btn-info" data-toggle="modal" data-target="#editModal<?php echo $fetch['medication_id']; ?>" style="background-color: black; color: white;">Edit</button>
@@ -648,26 +650,26 @@ if ($branch_result && $branch_row = $branch_result->fetch_assoc()) {
                                                         <div class="row">
                                                             <div class="col-md-6">
                                                                 <div class="form-group d-flex">
-                                                                    <label for="medication_name<?php echo $fetch['medication_id']; ?>">Medication Name</label>
+                                                                    <label for="item_name<?php echo $fetch['medication_id']; ?>">Medication Name</label>
                                                                     <input
                                                                         type="text"
                                                                         class="form-control"
-                                                                        id="medication_name<?php echo $fetch['medication_id']; ?>"
-                                                                        name="medication_name"
-                                                                        value="<?php echo htmlspecialchars($fetch['medication_name']); ?>"
+                                                                        id="item_name<?php echo $fetch['medication_id']; ?>"
+                                                                        name="item_name"
+                                                                        value="<?php echo htmlspecialchars($fetch['item_name']); ?>"
                                                                         required>
                                                                 </div>
                                                             </div>
                                                             <div class="col-md-6">
                                                                 <div class="form-group d-flex">
-                                                                    <label for="type_of_brand<?php echo $fetch['medication_id']; ?>">Type of Brand</label>
+                                                                    <label for="brand<?php echo $fetch['medication_id']; ?>">Brand</label>
                                                                     <select
                                                                         class="form-control"
-                                                                        id="type_of_brand<?php echo $fetch['medication_id']; ?>"
-                                                                        name="type_of_brand"
+                                                                        id="brand<?php echo $fetch['medication_id']; ?>"
+                                                                        name="brand"
                                                                         required>
-                                                                        <option value="<?php echo htmlspecialchars($fetch['type_of_brand']); ?>" selected>
-                                                                            <?php echo htmlspecialchars($fetch['type_of_brand']); ?>
+                                                                        <option value="<?php echo htmlspecialchars($fetch['brand']); ?>" selected>
+                                                                            <?php echo htmlspecialchars($fetch['brand']); ?>
                                                                         </option>
                                                                         <!-- Add additional options below -->
                                                                         <option value="original">Original</option>
@@ -695,6 +697,26 @@ if ($branch_result && $branch_row = $branch_result->fetch_assoc()) {
                                                                 </select>
                                                             </div>
 
+                                                            <div class="col-md-6">
+                                                                <label for="category<?php echo $fetch['medication_id']; ?>">Category</label>
+                                                                <select
+                                                                    class="form-control"
+                                                                    id="category<?php echo $fetch['medication_id']; ?>"
+                                                                    name="category"
+                                                                    required>
+                                                                    <option value="<?php echo htmlspecialchars($fetch['category']); ?>" selected>
+                                                                        <?php echo htmlspecialchars($fetch['category']); ?>
+                                                                    </option>
+                                                                    <!-- Add additional options below -->
+                                                                    <option value="Diabetes Care">Diabetes Care</option>
+                                                                    <option value="Oncology Drugs">Oncology Drugs</option>
+                                                                    <option value="Cardiovascular">Cardiovascular</option>
+                                                                    <option value="Men's Health">Men's Health</option>
+                                                                    <option value="Post-Transplant Medications">Post-Transplant Medications</option>
+                                                                    <option value="Renal">Renal</option>
+                                                                </select>
+                                                            </div>
+
                                                             <div class="modal-footer">
                                                                 <div class="col-12 text-center">
                                                                     <input type="submit" name="update" class="btn btn-info btn-large" value="Submit" style="background-color: black; color: white;">
@@ -718,24 +740,34 @@ if ($branch_result && $branch_row = $branch_result->fetch_assoc()) {
                                 <div class="modal-header">
                                     <h5 class="modal-title">Add New Medication</h5>
                                     <button type="button" class="close" data-dismiss="modal">&times;</button>
+
                                 </div>
                                 <form action="newmedication.php" method="POST">
                                     <div class="modal-body">
                                         <div class="form-group">
-                                            <label for="medication_name">Medication Name</label>
-                                            <input type="text" class="form-control" id="medication_name" name="medication_name" required>
+                                            <label for="medication_name">Item Name</label>
+                                            <input type="text" class="form-control" id="item_name" name="item_name" required>
                                         </div>
                                         <div class="form-group">
-                                            <label for="molecule_name">Molecule Name</label>
-                                            <input type="text" class="form-control" id="molecule_name" name="molecule_name" required>
+                                            <label for="molecule_name">Composition</label>
+                                            <input type="text" class="form-control" id="formulation" name="formulation" required>
                                         </div>
                                         <div class="form-group">
-                                            <label for="brand_name">Brand Name</label>
-                                            <input type="text" class="form-control" id="brand_name" name="brand_name" required>
+                                            <label for="category">Category</label>
+                                            <select class="form-control" id="category" name="category" required>
+                                                <option value=""></option>
+                                                <option value="Diabetes Care">Diabetes Care</option>
+                                                <option value="Oncology Drugs">Oncology Drugs</option>
+                                                <option value="Cardiovascular">Cardiovascular</option>
+                                                <option value="Men's Health">Men's Health</option>
+                                                <option value="Post-Transplant Medications">Post-Transplant Medications</option>
+                                                <option value="Renal">Renal</option>
+                                            </select>
                                         </div>
+
                                         <div class="form-group">
-                                            <label for="type_of_brand">Type of Brand</label>
-                                            <select class="form-control" id="type_of_brand" name="type_of_brand" required>
+                                            <label for="type_of_brand">Brand</label>
+                                            <select class="form-control" id="brand" name="brand" required>
                                                 <option value="original">Original</option>
                                                 <option value="generic">Generic</option>
                                             </select>

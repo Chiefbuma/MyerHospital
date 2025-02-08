@@ -7,14 +7,11 @@ require_once 'class.php';
 
 $db = new db_class();
 
-
-
 // Get the logged-in user's ID
 $user_id = $_SESSION['user_id'];
 
 // Fetch the role and cohort
 $query = "SELECT branch_id,email, role,cohort_id FROM users WHERE id = '$user_id'";
-
 
 $result = $db->conn->query($query);
 
