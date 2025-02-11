@@ -9,6 +9,28 @@ $db = new db_class();
 
 
 
+
+
+// Set the timeout period in seconds (5 minutes = 300 seconds)
+$timeout_duration = 10;
+
+// Check if 'user_id' session is set and if the timeout period has passed
+if (isset($_SESSION['user_id'])) {
+    // If the session variable 'last_activity' is set, check the time elapsed
+    if (isset($_SESSION['last_activity']) && (time() - $_SESSION['last_activity']) > $timeout_duration) {
+        // If the session has been inactive for more than 5 minutes, destroy the session and redirect
+        session_unset();     // Remove all session variables
+        session_destroy();   // Destroy the session
+        header('Location: login.php');
+        exit;
+    }
+    // Update the last activity time
+    $_SESSION['last_activity'] = time();
+} else {
+    // Redirect to login page if the user is not logged in
+    header('Location: login.php');
+    exit;
+}
 // Get the logged-in user's ID
 $user_id = $_SESSION['user_id'];
 
@@ -711,7 +733,7 @@ if ($branch_result && $branch_row = $branch_result->fetch_assoc()) {
 
                                                                     <div class="form-group d-flex">
                                                                         <label for="edit_age_<?php echo $fetch['patient_id']; ?>" class="w-50">Age</label>
-                                                                        <input type="text" class="form-control w-50" id="edit_age_<?php echo $fetch['patient_id']; ?>" name="age" value="<?php echo $fetch['age']; ?>" readonly>
+                                                                        <input type="text" class="form-control w-50" id="edit_age_<?php echo $fetch['patient_id']; ?>" name="age" value="<?php echo $fetch['age']; ?>" readonly required>
                                                                     </div>
                                                                     <div class="form-group d-flex">
                                                                         <label for="edit_phone_no_<?php echo $fetch['patient_id']; ?>" class="w-50">Phone Number</label>
