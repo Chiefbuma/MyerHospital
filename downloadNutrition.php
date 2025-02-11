@@ -204,5 +204,5 @@ try {
 		throw new Exception("Please provide a valid date range.");
 	}
 } catch (Exception $e) {
-	echo "<script>alert('Exception: " . htmlspecialchars($e->getMessage()) . "');</script>";
+	echo "<script>alert('Exception: " . htmlspecialchars($e->getMessage()) . "'); window.location.href = 'summary.php';</script>";
 }

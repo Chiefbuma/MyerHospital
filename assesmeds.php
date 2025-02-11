@@ -1,43 +1,15 @@
 <?php
 
+date_default_timezone_set("Etc/GMT+8");
 
-// Include database connection file
-include('config.php');
+
 require_once 'class.php';
 
+require_once 'auth.php';
+// This will check the session, regenerate the session ID, and handle session timeout
+
+
 $db = new db_class();
-
-
-// Set timeout duration (5 minutes)
-$timeout_duration = 300;
-
-// Check if user is logged in
-if (!isset($_SESSION['user_id'])) {
-    header("Location: login.php");
-    exit();
-}
-
-// Check for session hijacking (User-Agent mismatch)
-if ($_SESSION['user_agent'] !== $_SERVER['HTTP_USER_AGENT']) {
-    session_unset();
-    session_destroy();
-    header("Location: login.php");
-    exit();
-}
-
-// Check for inactivity timeout
-if (isset($_SESSION['last_activity']) && (time() - $_SESSION['last_activity']) > $timeout_duration) {
-    session_unset();
-    session_destroy();
-    header("Location: login.php");
-    exit();
-}
-
-// Update last activity timestamp
-$_SESSION['last_activity'] = time();
-
-
-
 
 try {
     if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['medication_id'])) {
@@ -80,50 +52,6 @@ try {
     // Handle exception silently
 }
 
-
-
-
-date_default_timezone_set("Etc/GMT+8");
-
-session_start();
-
-require_once 'class.php';
-
-$db = new db_class();
-
-
-
-// Get the logged-in user's ID
-$user_id = $_SESSION['user_id'];
-
-// Fetch the role and cohort
-$query = "SELECT branch_id,email, role,cohort_id FROM users WHERE id = '$user_id'";
-
-
-$result = $db->conn->query($query);
-
-if ($result && $row = mysqli_fetch_assoc($result)) {
-    $user_location = $row['branch_id'];
-    $user_role = $row['role'];
-    $user_cohort = $row['cohort_id'];
-    $user_email = $row['email'];
-} else {
-    echo "Error fetching location_id: " . mysqli_error($con);
-    exit;
-}
-
-// Query to fetch branch name based on branch_id
-$branch_query = "SELECT branch_name FROM branch WHERE branch_id = ?";
-$stmt = $db->conn->prepare($branch_query);
-$stmt->bind_param("i", $user_location);
-$stmt->execute();
-$branch_result = $stmt->get_result();
-
-if ($branch_result && $branch_row = $branch_result->fetch_assoc()) {
-    $branch_name = $branch_row['branch_name'];
-} else {
-    $branch_name = "Main branch"; // Default if no branch found
-}
 
 
 
