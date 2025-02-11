@@ -9,7 +9,7 @@ $db = new db_class();
 
 
 // Set the timeout period in seconds (5 minutes = 300 seconds)
-$timeout_duration = 10;
+$timeout_duration = 600;
 
 // Check if 'user_id' session is set and if the timeout period has passed
 if (isset($_SESSION['user_id'])) {
@@ -28,7 +28,6 @@ if (isset($_SESSION['user_id'])) {
     header('Location: login.php');
     exit;
 }
-
 
 
 // Get the logged-in user's ID
